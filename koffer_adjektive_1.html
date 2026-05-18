@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Der chaotische Koffer</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #ede6d8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 16px 60px;
+}
+h1 { font-size: 2rem; font-weight: 800; color: #2d1f0e; text-align: center; margin-bottom: 4px; }
+.subtitle { color: #7a5c3a; font-size: 0.95rem; text-align: center; margin-bottom: 28px; }
+
+.koffer-wrapper {
+  position: relative;
+  width: 600px;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.koffer-svg { width: 100%; filter: drop-shadow(0 8px 28px rgba(0,0,0,0.2)); }
+
+.items-overlay {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.item-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: all;
+  cursor: pointer;
+  border: 3px solid #e8d9c0;
+  background: white;
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.item-btn:hover { transform: translate(-50%,-50%) scale(1.18); box-shadow: 0 6px 18px rgba(0,0,0,0.25); border-color: #c05a1f; }
+.item-btn.selected { border-color: #c05a1f; background: #fff5ef; transform: translate(-50%,-50%) scale(1.1); }
+.item-btn.seen { border-color: #a8c880; }
+.item-btn.seen.selected { border-color: #c05a1f; }
+
+.counter {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 20px; max-width: 600px;
+}
+.counter-dot { width: 10px; height: 10px; border-radius: 50%; background: #d4c5ae; transition: background 0.3s; }
+.counter-dot.done { background: #c05a1f; }
+
+.aufgabe-card {
+  width: 600px; max-width: 100%;
+  background: white; border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+  min-height: 190px;
+}
+.aufgabe-card.empty {
+  display: flex; align-items: center; justify-content: center;
+  color: #bba98a; font-size: 1rem; text-align: center;
+  flex-direction: column; gap: 10px;
+}
+.aufgabe-card.empty .hint-icon { font-size: 2rem; }
+
+.item-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 18px; padding-bottom: 16px;
+  border-bottom: 2px dashed #ede6d8;
+}
+.item-emoji-big { font-size: 2.5rem; line-height: 1; }
+.item-name { font-size: 1.2rem; font-weight: 800; color: #2d1f0e; margin-bottom: 4px; }
+.item-genus {
+  font-size: 0.76rem; color: #9a7a58; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  background: #f5ede0; padding: 3px 10px; border-radius: 20px;
+  display: inline-block;
+}
+.aufgabe-label {
+  font-size: 0.73rem; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #c05a1f; margin-bottom: 8px;
+}
+.aufgabe-text {
+  font-size: 0.97rem; color: #3d2a12; line-height: 1.7;
+  background: #fdf8f3; border-left: 4px solid #e8c99a;
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 16px;
+}
+.beispiel { font-size: 0.88rem; color: #7a5c3a; font-style: italic; margin-top: 8px; }
+.beispiel strong { color: #c05a1f; font-style: normal; font-weight: 700; }
+
+.b2-box { background: #1e1408; border-radius: 12px; padding: 14px 18px; }
+.b2-label {
+  font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+  color: #c05a1f; font-weight: 800; margin-bottom: 8px;
+}
+.b2-fragen { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.b2-fragen li { font-size: 0.87rem; color: #c9b89a; display: flex; gap: 10px; line-height: 1.4; }
+.b2-fragen .num { color: #c05a1f; font-weight: 800; flex-shrink: 0; }
+
+@keyframes floatAnim {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -6px; }
+}
+@media(max-width:640px){
+  h1 { font-size: 1.5rem; }
+  .aufgabe-card { padding: 18px 16px; }
+  .item-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<h1>🧳 Der chaotische Koffer</h1>
+<p class="subtitle">Klick auf einen Gegenstand und beschreibe ihn!</p>
+
+<div class="koffer-wrapper">
+  <svg class="koffer-svg" viewBox="0 0 600 370" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="300" cy="362" rx="240" ry="10" fill="#00000015"/>
+    <rect x="28" y="104" width="544" height="248" rx="32" fill="#7a4520"/>
+    <rect x="28" y="104" width="544" height="22" rx="16" fill="#8f5530"/>
+    <rect x="28" y="330" width="544" height="22" rx="16" fill="#8f5530"/>
+    <rect x="28" y="104" width="34" height="34" rx="8" fill="#d4a840"/>
+    <rect x="538" y="104" width="34" height="34" rx="8" fill="#d4a840"/>
+    <rect x="28" y="318" width="34" height="34" rx="8" fill="#d4a840"/>
+    <rect x="538" y="318" width="34" height="34" rx="8" fill="#d4a840"/>
+    <rect x="28" y="218" width="544" height="18" fill="#8f5530"/>
+    <rect x="148" y="104" width="26" height="248" rx="8" fill="#5a3010"/>
+    <rect x="426" y="104" width="26" height="248" rx="8" fill="#5a3010"/>
+    <rect x="244" y="208" width="112" height="38" rx="10" fill="#d4a840"/>
+    <rect x="262" y="194" width="76" height="24" rx="12" fill="none" stroke="#d4a840" stroke-width="11"/>
+    <circle cx="300" cy="226" r="8" fill="#8a6820"/>
+    <rect x="212" y="74" width="176" height="36" rx="12" fill="#5a3010"/>
+    <path d="M232 74 Q232 36 300 36 Q368 36 368 74" fill="none" stroke="#9a6030" stroke-width="18" stroke-linecap="round"/>
+    <path d="M232 74 Q232 44 300 44 Q368 44 368 74" fill="none" stroke="#c08048" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="212" cy="93" r="7" fill="#d4a840"/>
+    <circle cx="388" cy="93" r="7" fill="#d4a840"/>
+    <rect x="232" y="248" width="136" height="52" rx="7" fill="#f5e8c0" stroke="#d4a840" stroke-width="2"/>
+    <text x="300" y="273" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#7a5c3a">CHAOTISCHER</text>
+    <text x="300" y="289" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#7a5c3a">KOFFER</text>
+  </svg>
+  <div class="items-overlay" id="overlay"></div>
+</div>
+
+<div class="counter" id="counter"></div>
+
+<div class="aufgabe-card empty" id="aufgabeCard">
+  <div class="hint-icon">☝️</div>
+  <div>Klick auf einen Gegenstand im Koffer!</div>
+</div>
+
+<script>
+const items = [
+  { emoji:'👔', name:'das Hemd', genus:'Neutrum',
+    aufgabe:'Beschreibe das Hemd mit einem unbestimmten Artikel im Nominativ.',
+    beispiel:'<strong>ein zerknittertes Hemd</strong> — Das ist ein zerknittertes Hemd.',
+    pos:{left:'19%',top:'36%'} },
+  { emoji:'🧥', name:'die Jacke', genus:'Feminin',
+    aufgabe:'Beschreibe die Jacke mit dem bestimmten Artikel und zwei Adjektiven.',
+    beispiel:'<strong>die elegante schwarze Jacke</strong> — Er trägt die elegante schwarze Jacke.',
+    pos:{left:'79%',top:'33%'} },
+  { emoji:'👟', name:'die Schuhe', genus:'Plural',
+    aufgabe:'Beschreibe die Schuhe mit der Verneinung <em>kein-</em>.',
+    beispiel:'<strong>keine sauberen Schuhe</strong> — Es gibt keine sauberen Schuhe.',
+    pos:{left:'50%',top:'77%'} },
+  { emoji:'☂️', name:'der Regenschirm', genus:'Maskulin',
+    aufgabe:'Benutze den Regenschirm mit der Präposition <em>mit</em> im Dativ.',
+    beispiel:'<strong>mit einem kaputten Regenschirm</strong> — Er kommt mit einem kaputten Regenschirm.',
+    pos:{left:'84%',top:'65%'} },
+  { emoji:'🧣', name:'der Schal', genus:'Maskulin',
+    aufgabe:'Beschreibe den Schal mit einem unbestimmten Artikel im Akkusativ.',
+    beispiel:'<strong>einen bunten Schal</strong> — Ich packe einen bunten Schal ein.',
+    pos:{left:'16%',top:'65%'} },
+  { emoji:'📚', name:'das Buch', genus:'Neutrum',
+    aufgabe:'Beschreibe das Buch im Genitiv.',
+    beispiel:'<strong>eines alten Buches</strong> — Der Einband eines alten Buches ist beschädigt.',
+    pos:{left:'33%',top:'44%'} },
+  { emoji:'💼', name:'die Handtasche', genus:'Feminin',
+    aufgabe:'Beschreibe die Handtasche im Dativ mit dem bestimmten Artikel.',
+    beispiel:'<strong>in der kleinen Handtasche</strong> — In der kleinen Handtasche ist kein Platz.',
+    pos:{left:'66%',top:'46%'} },
+  { emoji:'🎩', name:'der Hut', genus:'Maskulin',
+    aufgabe:'Beschreibe den Hut mit dem bestimmten Artikel im Akkusativ.',
+    beispiel:'<strong>den alten schwarzen Hut</strong> — Er vergisst den alten schwarzen Hut.',
+    pos:{left:'74%',top:'72%'} },
+  { emoji:'📷', name:'die Kamera', genus:'Feminin',
+    aufgabe:'Beschreibe die Kamera mit einem unbestimmten Artikel im Nominativ.',
+    beispiel:'<strong>eine teure Kamera</strong> — Das ist eine teure Kamera.',
+    pos:{left:'41%',top:'35%'} },
+  { emoji:'🪥', name:'die Zahnbürste', genus:'Feminin',
+    aufgabe:'Benutze die Präposition <em>ohne</em> mit der Zahnbürste im Akkusativ.',
+    beispiel:'<strong>ohne eine neue Zahnbürste</strong> — Er reist ohne eine neue Zahnbürste.',
+    pos:{left:'58%',top:'35%'} },
+  { emoji:'🧢', name:'die Mütze', genus:'Feminin',
+    aufgabe:'Bilde einen Genitiv-Ausdruck mit der Mütze.',
+    beispiel:'<strong>die Farbe der roten Mütze</strong> — Die Farbe der roten Mütze gefällt mir.',
+    pos:{left:'22%',top:'53%'} },
+  { emoji:'🧸', name:'der Teddybär', genus:'Maskulin',
+    aufgabe:'Beschreibe den Teddybär mit einem unbestimmten Artikel im Dativ.',
+    beispiel:'<strong>mit einem alten Teddybär</strong> — Sie schläft mit einem alten Teddybär.',
+    pos:{left:'78%',top:'53%'} },
+  { emoji:'💊', name:'die Tabletten', genus:'Plural',
+    aufgabe:'Beschreibe die Tabletten mit dem bestimmten Artikel im Plural.',
+    beispiel:'<strong>die wichtigen Tabletten</strong> — Er braucht die wichtigen Tabletten.',
+    pos:{left:'36%',top:'64%'} },
+  { emoji:'🗺️', name:'die Landkarte', genus:'Feminin',
+    aufgabe:'Beschreibe die Landkarte mit einem Adjektiv im Akkusativ.',
+    beispiel:'<strong>eine alte Landkarte</strong> — Er findet eine alte zerknitterte Landkarte.',
+    pos:{left:'64%',top:'64%'} },
+  { emoji:'🔦', name:'die Taschenlampe', genus:'Feminin',
+    aufgabe:'Benutze die Präposition <em>wegen</em> mit der Taschenlampe im Genitiv.',
+    beispiel:'<strong>wegen der kaputten Taschenlampe</strong> — Wegen der kaputten Taschenlampe sieht er nichts.',
+    pos:{left:'50%',top:'55%'} },
+  { emoji:'🧴', name:'das Shampoo', genus:'Neutrum',
+    aufgabe:'Beschreibe das Shampoo ohne Artikel.',
+    beispiel:'<strong>billiges Shampoo</strong> — Er benutzt billiges Shampoo.',
+    pos:{left:'26%',top:'72%'} },
+];
+
+let seen = new Set();
+
+const counterEl = document.getElementById('counter');
+items.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'counter-dot';
+  d.id = 'dot-' + i;
+  counterEl.appendChild(d);
+});
+
+const overlay = document.getElementById('overlay');
+items.forEach((item, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'item-btn';
+  btn.title = item.name;
+  btn.textContent = item.emoji;
+  btn.style.left = item.pos.left;
+  btn.style.top = item.pos.top;
+  const dur = (2.4 + (i % 6) * 0.25).toFixed(2);
+  const delay = ((i * 0.18) % 1.4).toFixed(2);
+  btn.style.animation = `floatAnim ${dur}s ease-in-out ${delay}s infinite`;
+  btn.addEventListener('click', () => selectItem(i, btn));
+  overlay.appendChild(btn);
+});
+
+function selectItem(idx, btn) {
+  document.querySelectorAll('.item-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected', 'seen');
+  seen.add(idx);
+  seen.forEach(i => document.getElementById('dot-' + i)?.classList.add('done'));
+
+  const item = items[idx];
+  const card = document.getElementById('aufgabeCard');
+  card.classList.remove('empty');
+  card.innerHTML = `
+    <div class="item-header">
+      <span class="item-emoji-big">${item.emoji}</span>
+      <div>
+        <div class="item-name">${item.name}</div>
+        <span class="item-genus">${item.genus}</span>
+      </div>
+    </div>
+    <div class="aufgabe-label">Deine Aufgabe</div>
+    <div class="aufgabe-text">
+      ${item.aufgabe}
+      <div class="beispiel">Beispiel: ${item.beispiel}</div>
+    </div>
+    <div class="b2-box">
+      <div class="b2-label">Erweiterung B2</div>
+      <ul class="b2-fragen">
+        <li><span class="num">①</span> Warum ist dieser Gegenstand wichtig?</li>
+        <li><span class="num">②</span> Wo wurde er gekauft?</li>
+        <li><span class="num">③</span> Welche Erinnerungen sind damit verbunden?</li>
+      </ul>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
