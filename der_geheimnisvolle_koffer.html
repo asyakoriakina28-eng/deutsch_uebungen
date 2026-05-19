@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Der geheimnisvolle Koffer</title>
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --card-bg: #ffffff;
+            --text-color: #2c2925;
+            --accent-color: #2a9d8f;
+            --accent-hover: #264653;
+            --border-color: #efece6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-hover);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #6e675f;
+            line-height: 1.6;
+        }
+
+        .game-container {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            min-height: 550px;
+        }
+
+        .counter {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 0.95rem;
+            color: var(--accent-hover);
+            font-weight: 600;
+            background: #e7f5f3;
+            padding: 6px 16px;
+            border-radius: 50px;
+        }
+
+        .stage {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .suitcase-container {
+            position: absolute;
+            bottom: 10px;
+            z-index: 2;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .suitcase-svg {
+            width: 180px;
+            height: 150px;
+        }
+
+        .item-container {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.1) translateY(100px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .item-container.revealed {
+            opacity: 1;
+            transform: scale(1) translateY(-65px);
+            z-index: 3;
+        }
+
+        .item-svg-wrapper {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 50%;
+            padding: 25px;
+            border: 2px solid #efece6;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item-svg-wrapper svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .info-panel {
+            margin-top: 10px;
+            min-height: 90px;
+            width: 100%;
+        }
+
+        .item-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #2c2925;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .item-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tips {
+            font-size: 1.05rem;
+            color: #4a4e69;
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-weight: 500;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .controls {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(42, 157, 143, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Der geheimnisvolle Koffer</h1>
+        <p class="subtitle">Zieh einen Gegenstand aus dem Koffer und beantworte die einfachen Fragen!</p>
+    </header>
+
+    <div class="game-container">
+        <div class="counter" id="counter">Objekt: 0 / 10</div>
+
+        <div class="stage">
+            
+            <!-- 1. Goldener Schlüssel -->
+            <div id="item-0" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="38" r="18" fill="#FFD700" stroke="#B8860B" stroke-width="4"/>
+                      <circle cx="32" cy="38" r="9" fill="#FFF8DC" stroke="#B8860B" stroke-width="3"/>
+                      <rect x="46" y="34" width="36" height="8" rx="4" fill="#FFD700" stroke="#B8860B" stroke-width="2.5"/>
+                      <rect x="72" y="42" width="6" height="10" rx="2" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+                      <rect x="62" y="42" width="6" height="8" rx="2" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+                      <circle cx="32" cy="38" r="4" fill="#B8860B"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 2. Rote Tasche -->
+            <div id="item-1" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="15" y="38" width="70" height="48" rx="10" fill="#E63946" stroke="#9B1D23" stroke-width="3"/>
+                      <path d="M35 38 Q35 18 50 18 Q65 18 65 38" fill="none" stroke="#9B1D23" stroke-width="5" stroke-linecap="round"/>
+                      <rect x="42" y="56" width="16" height="12" rx="4" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+                      <rect x="46" y="60" width="8" height="4" rx="2" fill="#B8860B"/>
+                      <rect x="15" y="50" width="70" height="5" rx="2" fill="#C1121F" opacity="0.4"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 3. Blaues Buch -->
+            <div id="item-2" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="18" y="12" width="58" height="76" rx="5" fill="#1D3557" stroke="#0A1628" stroke-width="2"/>
+                      <rect x="18" y="12" width="12" height="76" rx="5" fill="#457B9D" stroke="#0A1628" stroke-width="2"/>
+                      <rect x="32" y="25" width="36" height="4" rx="2" fill="#A8DADC" opacity="0.8"/>
+                      <rect x="32" y="35" width="28" height="3" rx="1.5" fill="#A8DADC" opacity="0.5"/>
+                      <rect x="32" y="43" width="32" height="3" rx="1.5" fill="#A8DADC" opacity="0.5"/>
+                      <rect x="32" y="51" width="24" height="3" rx="1.5" fill="#A8DADC" opacity="0.5"/>
+                      <path d="M22 12 Q18 50 22 88" stroke="#2A6080" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 4. Landkarte -->
+            <div id="item-3" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="10,15 38,8 62,15 90,8 90,88 62,95 38,88 10,95" fill="#E9C46A" stroke="#B8860B" stroke-width="2"/>
+                      <line x1="38" y1="8" x2="38" y2="88" stroke="#B8860B" stroke-width="2" stroke-dasharray="4,2"/>
+                      <line x1="62" y1="15" x2="62" y2="95" stroke="#B8860B" stroke-width="2" stroke-dasharray="4,2"/>
+                      <path d="M15 35 Q28 30 35 40 Q42 50 55 45 Q68 40 75 50" fill="none" stroke="#2A9D8F" stroke-width="3" stroke-linecap="round"/>
+                      <circle cx="55" cy="45" r="5" fill="#E63946" stroke="#9B1D23" stroke-width="1.5"/>
+                      <path d="M55 40 L55 28 Q55 24 58 24" fill="none" stroke="#E63946" stroke-width="1.5"/>
+                      <circle cx="58" cy="22" r="4" fill="#E63946"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 5. Taschenuhr -->
+            <div id="item-4" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="50" cy="55" r="33" fill="#FFF8DC" stroke="#B8860B" stroke-width="4"/>
+                      <circle cx="50" cy="55" r="28" fill="none" stroke="#FFD700" stroke-width="2"/>
+                      <line x1="50" y1="30" x2="50" y2="34" stroke="#B8860B" stroke-width="2"/>
+                      <line x1="50" y1="76" x2="50" y2="80" stroke="#B8860B" stroke-width="2"/>
+                      <line x1="25" y1="55" x2="29" y2="55" stroke="#B8860B" stroke-width="2"/>
+                      <line x1="71" y1="55" x2="75" y2="55" stroke="#B8860B" stroke-width="2"/>
+                      <line x1="50" y1="55" x2="50" y2="38" stroke="#2C2925" stroke-width="3" stroke-linecap="round"/>
+                      <line x1="50" y1="55" x2="63" y2="55" stroke="#E63946" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="50" cy="55" r="3" fill="#B8860B"/>
+                      <rect x="43" y="18" width="14" height="8" rx="3" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>
+                      <circle cx="50" cy="14" r="4" fill="#B8860B" stroke="#8B6914" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 6. Violette Feder -->
+            <div id="item-5" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 85 Q35 60 50 45 Q68 25 82 15 Q88 12 90 14 Q92 16 88 22 Q78 36 60 52 Q45 65 28 80 Z" fill="#7209B7" opacity="0.85" stroke="#3F37C9" stroke-width="1.5"/>
+                      <path d="M55 40 Q65 38 72 32" fill="none" stroke="#C77DFF" stroke-width="2" opacity="0.7"/>
+                      <path d="M48 50 Q60 46 68 38" fill="none" stroke="#C77DFF" stroke-width="2" opacity="0.7"/>
+                      <path d="M41 59 Q54 54 63 46" fill="none" stroke="#C77DFF" stroke-width="2" opacity="0.7"/>
+                      <path d="M34 67 Q47 62 56 54" fill="none" stroke="#C77DFF" stroke-width="2" opacity="0.7"/>
+                      <path d="M20 85 Q35 60 50 45 Q68 25 82 15" fill="none" stroke="#3F37C9" stroke-width="2.5" stroke-linecap="round"/>
+                      <line x1="20" y1="85" x2="15" y2="92" stroke="#3F37C9" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 7. Lupe -->
+            <div id="item-6" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="42" cy="42" r="28" fill="#D4F1F9" stroke="#F4A261" stroke-width="5"/>
+                      <circle cx="42" cy="42" r="22" fill="none" stroke="#E76F51" stroke-width="2.5"/>
+                      <circle cx="34" cy="34" r="6" fill="white" opacity="0.5"/>
+                      <line x1="63" y1="63" x2="85" y2="85" stroke="#E76F51" stroke-width="8" stroke-linecap="round"/>
+                      <line x1="63" y1="63" x2="85" y2="85" stroke="#F4A261" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 8. Parfüm -->
+            <div id="item-7" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="28" y="42" width="44" height="46" rx="8" fill="#FFB5C8" stroke="#F4978E" stroke-width="3"/>
+                      <rect x="36" y="28" width="28" height="16" rx="4" fill="#FCD5CE" stroke="#F4978E" stroke-width="2.5"/>
+                      <rect x="44" y="20" width="12" height="10" rx="3" fill="#F4978E" stroke="#C9637A" stroke-width="2"/>
+                      <rect x="40" y="16" width="20" height="6" rx="3" fill="#C9637A"/>
+                      <ellipse cx="50" cy="65" rx="14" ry="6" fill="#FF85A1" opacity="0.4"/>
+                      <path d="M38 55 Q50 48 62 55" fill="none" stroke="#F4978E" stroke-width="2"/>
+                      <text x="50" y="78" text-anchor="middle" font-size="8" fill="#C9637A" font-family="serif" font-style="italic">parfum</text>
+                      <path d="M46 14 Q44 8 40 6 M50 14 Q50 7 50 4 M54 14 Q56 8 60 6" fill="none" stroke="#C9637A" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 9. Kristall -->
+            <div id="item-8" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,8 70,30 70,70 50,92 30,70 30,30" fill="#A8DADC" stroke="#457B9D" stroke-width="2.5" opacity="0.9"/>
+                      <polygon points="50,8 70,30 50,30" fill="#E0F7FA" opacity="0.6"/>
+                      <polygon points="30,30 50,30 30,70" fill="#81D4DA" opacity="0.5"/>
+                      <polygon points="70,30 70,70 50,30" fill="#4FC3C9" opacity="0.4"/>
+                      <polygon points="30,70 50,30 70,70 50,92" fill="#26A6AE" opacity="0.4"/>
+                      <line x1="50" y1="8" x2="50" y2="92" stroke="white" stroke-width="1" opacity="0.5"/>
+                      <line x1="30" y1="30" x2="70" y2="30" stroke="white" stroke-width="1" opacity="0.5"/>
+                      <line x1="30" y1="70" x2="70" y2="70" stroke="white" stroke-width="1" opacity="0.5"/>
+                      <circle cx="42" cy="25" r="4" fill="white" opacity="0.6"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 10. Hut -->
+            <div id="item-9" class="item-container">
+                <div class="item-svg-wrapper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <ellipse cx="50" cy="72" rx="42" ry="10" fill="#6B4226" stroke="#4A2C17" stroke-width="2.5"/>
+                      <path d="M22 72 Q22 32 50 28 Q78 32 78 72 Z" fill="#8B5E3C" stroke="#4A2C17" stroke-width="2.5"/>
+                      <path d="M24 62 Q24 34 50 30 Q76 34 76 62" fill="#9C6644"/>
+                      <ellipse cx="50" cy="62" rx="28" ry="5" fill="#7A4F2E" opacity="0.5"/>
+                      <rect x="20" y="67" width="60" height="7" rx="3" fill="#A0522D" stroke="#4A2C17" stroke-width="1.5"/>
+                      <path d="M28 67 Q50 60 72 67" fill="none" stroke="#C4855A" stroke-width="2" opacity="0.6"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Чемодан -->
+            <div class="suitcase-container" id="suitcase">
+                <svg class="suitcase-svg" viewBox="0 0 24 24">
+                    <rect x="2" y="7" width="20" height="13" rx="3" fill="#6c584c" stroke="#43362a" stroke-width="1"/>
+                    <path d="M9 7V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3" fill="none" stroke="#43362a" stroke-width="2"/>
+                    <rect x="5" y="7" width="2" height="13" fill="#a08675" />
+                    <rect x="17" y="7" width="2" height="13" fill="#a08675" />
+                    <circle cx="12" cy="13" r="1" fill="#e9c46a" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="item-title" id="itemTitle">Bereit?</div>
+            <div class="tips" id="itemTip" style="text-align: center;">Klicke unten, um den ersten Gegenstand herauszuholen.</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="actionBtn" onclick="nextItem()">Gegenstand herausziehen</button>
+        </div>
+    </div>
+
+    <script>
+        const items = [
+            { name: "Ein alter Schlüssel", tip: "Welche Farbe hat er? Was kann man damit öffnen?" },
+            { name: "Eine kleine Tasche", tip: "Welche Farbe hat sie? Was ist in der Tasche?" },
+            { name: "Ein interessantes Buch", tip: "Ist das Buch groß oder klein? Was liest du gern?" },
+            { name: "Eine alte Landkarte", tip: "Welche Farben siehst du? Wohin reist du gerne?" },
+            { name: "Eine schöne Taschenuhr", tip: "Wie spät ist es jetzt? Wer braucht eine Uhr?" },
+            { name: "Eine bunte Feder", tip: "Welche Farbe hat die Feder? Ist sie leicht oder schwer?" },
+            { name: "Eine große Lupe", tip: "Was kann man mit einer Lupe machen? Ist sie aus Glas?" },
+            { name: "Ein kleines Parfümfläschchen", tip: "Wie riecht es: gut oder schlecht? Wer benutzt Parfüm?" },
+            { name: "Ein glänzender Kristall", tip: "Wie sieht er aus? Ist er schön oder nicht schön?" },
+            { name: "Ein eleganter Hut", tip: "Wer trägt diesen Hut (Mann oder Frau)? Wann trägt man einen Hut?" }
+        ];
+
+        let currentIndex = -1;
+
+        function nextItem() {
+            const suitcase = document.getElementById('suitcase');
+            const actionBtn = document.getElementById('actionBtn');
+            const counterText = document.getElementById('counter');
+            const titleText = document.getElementById('itemTitle');
+            const tipText = document.getElementById('itemTip');
+
+            if (currentIndex >= 0 && currentIndex < items.length) {
+                document.getElementById(`item-${currentIndex}`).classList.remove('revealed');
+            }
+
+            currentIndex++;
+
+            suitcase.style.transform = "scale(1.1) translateY(-8px)";
+            setTimeout(() => { suitcase.style.transform = "scale(1) translateY(0)"; }, 200);
+
+            if (currentIndex < items.length) {
+                setTimeout(() => {
+                    const currentImg = document.getElementById(`item-${currentIndex}`);
+                    currentImg.classList.add('revealed');
+                    
+                    titleText.innerText = items[currentIndex].name;
+                    titleText.classList.add('visible');
+                    
+                    tipText.style.textAling = "left";
+                    tipText.innerHTML = `<strong>Fragen:</strong><br>1. ${items[currentIndex].tip.split('? ')[0]}?<br>2. ${items[currentIndex].tip.split('? ')[1]}`;
+                    counterText.innerText = `Objekt: ${currentIndex + 1} / ${items.length}`;
+                    
+                    if (currentIndex === items.length - 1) { actionBtn.innerText = "Spiel neu starten"; }
+                }, 200);
+            } else {
+                currentIndex = -1;
+                titleText.innerText = "Der Koffer ist leer!";
+                titleText.classList.remove('visible');
+                tipText.style.textAlign = "center";
+                tipText.innerText = "Klicke unten, um das Spiel von vorne zu beginnen.";
+                counterText.innerText = "Objekt: 0 / 10";
+                actionBtn.innerText = "Koffer packen";
+            }
+        }
+    </script>
+</body>
+</html>
