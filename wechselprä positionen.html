@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wechselpräpositionen – Level UP! 🎮</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e1a;
+    --panel: #1a1830;
+    --card: #231f3d;
+    --accent1: #ff6b6b;
+    --accent2: #ffd93d;
+    --accent3: #6bcb77;
+    --accent4: #4d96ff;
+    --accent5: #c77dff;
+    --text: #f0eeff;
+    --muted: #8b82b0;
+    --border: #332f5a;
+    --glow1: rgba(255,107,107,0.25);
+    --glow2: rgba(255,217,61,0.25);
+    --glow3: rgba(107,203,119,0.25);
+    --glow4: rgba(77,150,255,0.25);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Stars BG */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(1px 1px at 10% 20%, #fff8 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, #fff5 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 10%, #fff6 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 45%, #fff4 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 80%, #fff7 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 85%, #fff5 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 75%, #fff3 0%, transparent 100%),
+      radial-gradient(2px 2px at 45% 35%, #fff3 0%, transparent 100%),
+      radial-gradient(2px 2px at 65% 55%, #fff2 0%, transparent 100%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    background: linear-gradient(180deg, #1a0a2e 0%, transparent 100%);
+  }
+  .title-main {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3), var(--accent4), var(--accent5));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbowShift 4s linear infinite;
+    background-size: 300%;
+  }
+  @keyframes rainbowShift { 0%{background-position:0%} 100%{background-position:300%} }
+  .subtitle {
+    font-size: 1.1rem; color: var(--muted); margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .xp-bar-wrap {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--panel); border: 2px solid var(--border);
+    border-radius: 999px; padding: 0.4rem 1.2rem;
+    margin-top: 1.2rem; font-weight: 700; font-size: 0.9rem;
+  }
+  .xp-bar {
+    width: 160px; height: 10px;
+    background: var(--border); border-radius: 999px; overflow: hidden;
+  }
+  .xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent4), var(--accent5));
+    border-radius: 999px;
+    width: 0%; transition: width 0.6s ease;
+  }
+  #xp-label { color: var(--accent2); }
+
+  /* ── THEORY SECTION ── */
+  .section { position: relative; z-index: 5; max-width: 980px; margin: 0 auto 3rem; padding: 0 1rem; }
+  .section-title {
+    font-family: 'Baloo 2', cursive; font-size: 1.7rem; font-weight: 800;
+    color: var(--accent2); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .theory-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
+  }
+  .prep-card {
+    background: var(--card); border: 2px solid var(--border);
+    border-radius: 16px; padding: 1rem 1.2rem;
+    text-align: center; transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .prep-card:hover { transform: translateY(-4px); }
+  .prep-card .word {
+    font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800;
+  }
+  .prep-card .meaning { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+  .rule-box {
+    background: var(--card); border-left: 5px solid var(--accent4);
+    border-radius: 0 16px 16px 0; padding: 1.2rem 1.5rem; margin-top: 1.2rem;
+    line-height: 1.7;
+  }
+  .rule-box strong { color: var(--accent2); }
+  .rule-box .tag {
+    display: inline-block; padding: 0.15rem 0.6rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.85rem; margin: 0 0.1rem;
+  }
+  .tag-dat { background: rgba(77,150,255,0.2); color: var(--accent4); border: 1px solid var(--accent4); }
+  .tag-akk { background: rgba(255,107,107,0.2); color: var(--accent1); border: 1px solid var(--accent1); }
+
+  .table-wrap { overflow-x: auto; margin-top: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: center; }
+  th { background: var(--panel); color: var(--accent2); font-weight: 700; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td.dat { color: var(--accent4); font-weight: 600; }
+  td.akk { color: var(--accent1); font-weight: 600; }
+
+  /* ── EXERCISE WRAPPER ── */
+  .exercises { max-width: 980px; margin: 0 auto; padding: 0 1rem 4rem; position: relative; z-index: 5; }
+  .ex-section-title {
+    font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800;
+    text-align: center; margin-bottom: 2rem;
+    background: linear-gradient(90deg, var(--accent5), var(--accent4));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  /* ── CARD ── */
+  .ex-card {
+    background: var(--card); border: 2px solid var(--border);
+    border-radius: 20px; padding: 1.5rem 1.8rem; margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .ex-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 20px 20px 0 0;
+  }
+  .ex-card.type-choice::before { background: linear-gradient(90deg,var(--accent4),var(--accent5)); }
+  .ex-card.type-fill::before { background: linear-gradient(90deg,var(--accent1),var(--accent2)); }
+  .ex-card.type-match::before { background: linear-gradient(90deg,var(--accent3),var(--accent4)); }
+  .ex-card.type-translate::before { background: linear-gradient(90deg,var(--accent2),var(--accent3)); }
+  .ex-card.type-true::before { background: linear-gradient(90deg,var(--accent5),var(--accent1)); }
+
+  .ex-card.correct { border-color: var(--accent3); box-shadow: 0 0 20px var(--glow3); }
+  .ex-card.wrong { border-color: var(--accent1); box-shadow: 0 0 20px var(--glow1); }
+
+  .ex-header {
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .ex-num {
+    font-family: 'Baloo 2', cursive; font-size: 0.8rem; font-weight: 800;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.1rem 0.5rem; color: var(--muted);
+  }
+  .ex-type-badge {
+    font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem;
+    border-radius: 999px; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .badge-choice { background: rgba(77,150,255,0.15); color: var(--accent4); }
+  .badge-fill { background: rgba(255,107,107,0.15); color: var(--accent1); }
+  .badge-match { background: rgba(107,203,119,0.15); color: var(--accent3); }
+  .badge-translate { background: rgba(255,217,61,0.15); color: var(--accent2); }
+  .badge-true { background: rgba(199,125,255,0.15); color: var(--accent5); }
+
+  .ex-question {
+    font-size: 1.1rem; font-weight: 600; line-height: 1.6; margin-bottom: 1rem;
+  }
+  .ex-question .blank {
+    display: inline-block; min-width: 80px; border-bottom: 3px dashed var(--accent4);
+    color: var(--accent4); font-weight: 700; text-align: center; padding: 0 0.3rem;
+  }
+
+  /* choice buttons */
+  .choice-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .choice-btn {
+    background: var(--panel); border: 2px solid var(--border);
+    color: var(--text); font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700; border-radius: 12px;
+    padding: 0.55rem 1.2rem; cursor: pointer;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .choice-btn:hover:not(:disabled) { transform: translateY(-2px); background: var(--border); }
+  .choice-btn:disabled { opacity: 0.7; cursor: default; }
+  .choice-btn.selected-correct { background: rgba(107,203,119,0.2); border-color: var(--accent3); color: var(--accent3); }
+  .choice-btn.selected-wrong { background: rgba(255,107,107,0.2); border-color: var(--accent1); color: var(--accent1); }
+  .choice-btn.reveal-correct { background: rgba(107,203,119,0.1); border-color: var(--accent3); color: var(--accent3); }
+
+  /* fill inputs */
+  .fill-input {
+    background: var(--panel); border: 2px solid var(--border);
+    color: var(--text); font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700; border-radius: 12px;
+    padding: 0.5rem 1rem; width: 100%; max-width: 320px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .fill-input:focus { border-color: var(--accent4); }
+  .fill-input.correct-input { border-color: var(--accent3); color: var(--accent3); }
+  .fill-input.wrong-input { border-color: var(--accent1); color: var(--accent1); }
+  .fill-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .fill-sentence { font-size: 1.05rem; font-weight: 600; flex: 1; min-width: 200px; }
+
+  /* check button */
+  .check-btn {
+    margin-top: 1rem;
+    background: linear-gradient(135deg, var(--accent4), var(--accent5));
+    color: #fff; font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 800; border: none; border-radius: 12px;
+    padding: 0.6rem 1.6rem; cursor: pointer;
+    transition: transform 0.15s, opacity 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(77,150,255,0.3);
+  }
+  .check-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(77,150,255,0.4); }
+  .check-btn:disabled { opacity: 0.5; cursor: default; }
+
+  /* feedback */
+  .feedback {
+    margin-top: 0.75rem; font-weight: 700; font-size: 0.95rem;
+    display: none; align-items: center; gap: 0.4rem;
+  }
+  .feedback.show { display: flex; }
+  .feedback.good { color: var(--accent3); }
+  .feedback.bad { color: var(--accent1); }
+
+  /* true/false */
+  .tf-grid { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .tf-btn {
+    background: var(--panel); border: 2px solid var(--border);
+    color: var(--text); font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700; border-radius: 12px;
+    padding: 0.5rem 1.5rem; cursor: pointer;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s;
+  }
+  .tf-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .tf-btn:disabled { opacity: 0.7; cursor: default; }
+  .tf-true { border-color: var(--accent3); }
+  .tf-false { border-color: var(--accent1); }
+  .tf-btn.selected-correct { background: rgba(107,203,119,0.2); border-color: var(--accent3); color: var(--accent3); }
+  .tf-btn.selected-wrong { background: rgba(255,107,107,0.2); border-color: var(--accent1); color: var(--accent1); }
+  .tf-btn.reveal-correct { background: rgba(107,203,119,0.1); border-color: var(--accent3); color: var(--accent3); }
+
+  /* translate */
+  .translate-input {
+    background: var(--panel); border: 2px solid var(--border);
+    color: var(--text); font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 600; border-radius: 12px;
+    padding: 0.6rem 1rem; width: 100%;
+    outline: none; transition: border-color 0.2s;
+    resize: none;
+  }
+  .translate-input:focus { border-color: var(--accent2); }
+  .translate-input.correct-input { border-color: var(--accent3); color: var(--accent3); }
+  .translate-input.wrong-input { border-color: var(--accent1); }
+  .hint-box {
+    margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted);
+    display: none;
+  }
+  .hint-box.show { display: block; }
+  .hint-link {
+    color: var(--accent5); cursor: pointer; font-weight: 700; text-decoration: underline;
+    font-size: 0.85rem; margin-top: 0.5rem; display: inline-block;
+  }
+
+  /* match */
+  .match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+  .match-col { display: flex; flex-direction: column; gap: 0.5rem; }
+  .match-item {
+    background: var(--panel); border: 2px solid var(--border);
+    border-radius: 12px; padding: 0.55rem 1rem;
+    font-weight: 600; cursor: pointer;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .match-item:hover { transform: translateY(-2px); }
+  .match-item.selected { border-color: var(--accent5); background: rgba(199,125,255,0.15); }
+  .match-item.matched-correct { border-color: var(--accent3); background: rgba(107,203,119,0.1); color: var(--accent3); cursor: default; }
+  .match-item.matched-wrong { border-color: var(--accent1); background: rgba(255,107,107,0.1); color: var(--accent1); }
+
+  /* scoreboard */
+  .scoreboard {
+    position: fixed; top: 1rem; right: 1rem; z-index: 100;
+    background: var(--panel); border: 2px solid var(--border);
+    border-radius: 16px; padding: 0.8rem 1.2rem;
+    font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800;
+    backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; gap: 0.2rem; min-width: 140px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .score-line { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .score-num { color: var(--accent2); }
+
+  /* floating emoji */
+  .float-emoji {
+    position: fixed; pointer-events: none; font-size: 2rem;
+    animation: floatUp 1s ease forwards; z-index: 999;
+  }
+  @keyframes floatUp {
+    0% { opacity:1; transform: translateY(0) scale(1); }
+    100% { opacity:0; transform: translateY(-100px) scale(1.5); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .ex-card { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s; }
+  .ex-card.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .match-container { grid-template-columns: 1fr; }
+    .scoreboard { top: auto; bottom: 1rem; right: 1rem; }
+  }
+
+  .badge-emoji { font-size: 1.3rem; }
+  .section-divider {
+    text-align: center; color: var(--muted); font-size: 1.5rem;
+    letter-spacing: 0.4em; margin: 1rem 0 2rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Scoreboard -->
+<div class="scoreboard">
+  <div class="score-line">⭐ XP <span class="score-num" id="score-xp">0</span></div>
+  <div class="score-line">✅ Richtig <span class="score-num" id="score-correct">0</span></div>
+  <div class="score-line">❌ Falsch <span class="score-num" id="score-wrong">0</span></div>
+  <div class="score-line">🔥 Streak <span class="score-num" id="score-streak">0</span></div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="title-main">Wechselpräpositionen 🎮</div>
+  <div class="subtitle">Level B1 · Deutsch lernen macht Spaß!</div>
+  <div class="xp-bar-wrap">
+    <span>Level <span id="xp-label">1</span></span>
+    <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+    <span id="xp-count">0 / 100 XP</span>
+  </div>
+</header>
+
+<!-- EXERCISES -->
+<div class="exercises">
+  <div class="ex-section-title">🕹️ Übungen — Mach sie alle!</div>
+  <div id="exercises-container"></div>
+</div>
+
+<script>
+const exercises = [
+  // ─── CHOICE (Dativ/Akkusativ wählen) ────────────────────────────────────────
+  {
+    id:1, type:'choice',
+    question:'🐱 Die Katze liegt <strong>___ Sofa</strong>. (auf)',
+    options:['auf dem','auf den','auf der','auf das'],
+    correct:0, case:'Dativ (WO? – Die Katze ist ruhig 😴)'
+  },
+  {
+    id:2, type:'choice',
+    question:'🐶 Der Hund springt <strong>___ Sofa</strong>. (auf)',
+    options:['auf dem','auf den','auf die','auf das'],
+    correct:3, case:'Akkusativ (WOHIN? – Bewegung! 🏃) das Sofa → auf das Sofa'
+  },
+  {
+    id:3, type:'choice',
+    question:'📚 Die Bücher stehen <strong>___ Regal</strong>. (in – das Regal)',
+    options:['im','ins','in der','in den'],
+    correct:0, case:'Dativ → im = in dem'
+  },
+  {
+    id:4, type:'choice',
+    question:'📚 Tom stellt die Bücher <strong>___ Regal</strong>. (in – das Regal)',
+    options:['im','ins','in den','in der'],
+    correct:1, case:'Akkusativ → ins = in das'
+  },
+  {
+    id:5, type:'choice',
+    question:'🍕 Die Pizza liegt <strong>___ Tisch</strong>. (auf – der Tisch)',
+    options:['auf dem','auf den','auf der','aufs'],
+    correct:0, case:'Dativ (WO?)'
+  },
+  {
+    id:6, type:'choice',
+    question:'🖼️ Das Bild hängt <strong>___ Wand</strong>. (an – die Wand)',
+    options:['am','an dem','an der','an die'],
+    correct:2, case:'Dativ – die Wand → an der Wand'
+  },
+  {
+    id:7, type:'choice',
+    question:'🖼️ Ich hänge das Bild <strong>___ Wand</strong>. (an – die Wand)',
+    options:['an der','an die','an dem','am'],
+    correct:1, case:'Akkusativ – Bewegung! an die Wand'
+  },
+
+  // ─── FILL (Lückentext) ────────────────────────────────────────────────────
+  {
+    id:8, type:'fill',
+    before:'Der Ball rollt ',
+    after:' Schrank. (hinter – der Schrank / Wohin? 🎳)',
+    correct:'hinter den',
+    placeholder:'Präp. + Artikel',
+    hint:'Akkusativ Maskulin → den'
+  },
+  {
+    id:9, type:'fill',
+    before:'Der Ball liegt ',
+    after:' Schrank. (hinter – der Schrank / Wo? 🎳)',
+    correct:'hinter dem',
+    placeholder:'Präp. + Artikel',
+    hint:'Dativ Maskulin → dem'
+  },
+  {
+    id:10, type:'fill',
+    before:'Lena hängt das Poster ',
+    after:' Bett. (über – das Bett / Wohin?)',
+    correct:'über das',
+    placeholder:'Präp. + Artikel',
+    hint:'Akkusativ Neutrum → das'
+  },
+  {
+    id:11, type:'fill',
+    before:'Das Poster hängt ',
+    after:' Bett. (über – das Bett / Wo?)',
+    correct:'über dem',
+    placeholder:'Präp. + Artikel',
+    hint:'Dativ Neutrum → dem'
+  },
+  {
+    id:12, type:'fill',
+    before:'Max stellt seinen Rucksack ',
+    after:' Stuhl. (neben – der Stuhl / Wohin?)',
+    correct:'neben den',
+    placeholder:'Präp. + Artikel',
+    hint:'Akkusativ Maskulin → den'
+  },
+  {
+    id:13, type:'fill',
+    before:'Der Rucksack steht ',
+    after:' Stuhl. (neben – der Stuhl / Wo?)',
+    correct:'neben dem',
+    placeholder:'Präp. + Artikel',
+    hint:'Dativ Maskulin → dem'
+  },
+
+  // ─── TRUE/FALSE ─────────────────────────────────────────────────────────────
+  {
+    id:14, type:'truefalse',
+    statement:'„Das Auto fährt in den Tunnel." — Das ist Akkusativ. 🚗💨',
+    correct:true,
+    explanation:'Richtig! „Wohin?" → Bewegung → Akkusativ. in + den (Maskulin)'
+  },
+  {
+    id:15, type:'truefalse',
+    statement:'„Die Flasche steht auf dem Tisch." — Das ist Akkusativ. 🍾',
+    correct:false,
+    explanation:'Falsch! „Wo?" → Lage → Dativ. auf dem Tisch = Dativ'
+  },
+  {
+    id:16, type:'truefalse',
+    statement:'„Er legt das Handy auf den Tisch." — Der Tisch ist im Dativ. 📱',
+    correct:false,
+    explanation:'Falsch! „Wohin?" legen = Bewegung → Akkusativ → auf den Tisch'
+  },
+  {
+    id:17, type:'truefalse',
+    statement:'„Wir wohnen in der Stadt." — Das ist Dativ. 🏙️',
+    correct:true,
+    explanation:'Richtig! „Wo?" → Dativ. in + der Stadt (Feminin Dativ)'
+  },
+  {
+    id:18, type:'truefalse',
+    statement:'„Sie hängt die Jacke ans Fenster." — ans = an + das → Akkusativ. 🧥',
+    correct:true,
+    explanation:'Richtig! ans = an das. Wohin? → Akkusativ. Neutrum!'
+  },
+
+  // ─── MATCH ────────────────────────────────────────────────────────────────
+  {
+    id:19, type:'match',
+    instruction:'Verbinde die Sätze mit dem richtigen Fall! 🧩',
+    pairs:[
+      { left:'Das Kind sitzt unter dem Tisch.', right:'Dativ (WO?)' },
+      { left:'Das Kind kriecht unter den Tisch.', right:'Akkusativ (WOHIN?)' },
+      { left:'Der Vogel fliegt über das Haus.', right:'Akkusativ (WOHIN?)' },
+      { left:'Der Vogel sitzt über der Tür.', right:'Dativ (WO?)' },
+    ]
+  },
+
+  // ─── TRANSLATE ────────────────────────────────────────────────────────────
+  {
+    id:20, type:'translate',
+    russian:'Книга лежит на столе. (der Tisch)',
+    correct:'Das Buch liegt auf dem Tisch.',
+    accept:['das buch liegt auf dem tisch'],
+    hint:'WO? → Dativ. auf + dem (Maskulin)'
+  },
+  {
+    id:21, type:'translate',
+    russian:'Я кладу книгу на стол. (der Tisch)',
+    correct:'Ich lege das Buch auf den Tisch.',
+    accept:['ich lege das buch auf den tisch'],
+    hint:'WOHIN? → Akkusativ. auf + den (Maskulin)'
+  },
+  {
+    id:22, type:'translate',
+    russian:'Кошка прыгает в коробку. (die Schachtel)',
+    correct:'Die Katze springt in die Schachtel.',
+    accept:['die katze springt in die schachtel'],
+    hint:'WOHIN? → Akkusativ. in + die (Feminin)'
+  },
+  {
+    id:23, type:'translate',
+    russian:'Кошка сидит в коробке. (die Schachtel)',
+    correct:'Die Katze sitzt in der Schachtel.',
+    accept:['die katze sitzt in der schachtel'],
+    hint:'WO? → Dativ. in + der (Feminin)'
+  },
+
+  // ─── MORE CHOICE ─────────────────────────────────────────────────────────
+  {
+    id:24, type:'choice',
+    question:'🛏️ Ich lege mich <strong>___ Bett</strong>. (in – das Bett)',
+    options:['im','ins','in der','in die'],
+    correct:1, case:'Akkusativ → ins = in das'
+  },
+  {
+    id:25, type:'choice',
+    question:'🛏️ Ich schlafe <strong>___ Bett</strong>. (in – das Bett)',
+    options:['im','ins','in die','in das'],
+    correct:0, case:'Dativ → im = in dem'
+  },
+  {
+    id:26, type:'choice',
+    question:'🚂 Der Zug fährt <strong>___ Bahnhof</strong>. (in – der Bahnhof)',
+    options:['im','in dem','in den','in der'],
+    correct:2, case:'Akkusativ → in den (Maskulin)'
+  },
+  {
+    id:27, type:'choice',
+    question:'🧸 Das Spielzeug liegt <strong>___ Korb</strong>. (in – der Korb)',
+    options:['im','ins','in den','in die'],
+    correct:0, case:'Dativ → im = in dem'
+  },
+  {
+    id:28, type:'choice',
+    question:'🖥️ Der Laptop steht <strong>___ Schreibtisch</strong>. (auf – der Schreibtisch)',
+    options:['auf dem','auf den','auf der','aufs'],
+    correct:0, case:'Dativ (WO? – er steht dort)'
+  },
+  {
+    id:29, type:'choice',
+    question:'🚗 Das Auto parkt <strong>___ Garage</strong>. (in – die Garage / WO?)',
+    options:['in der','in die','im','ins'],
+    correct:0, case:'Dativ → in der (Feminin)'
+  },
+  {
+    id:30, type:'choice',
+    question:'🚗 Das Auto fährt <strong>___ Garage</strong>. (in – die Garage / WOHIN?)',
+    options:['in der','in die','im','ins'],
+    correct:1, case:'Akkusativ → in die (Feminin)'
+  },
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let xp = 0, correct = 0, wrong = 0, streak = 0;
+let matchState = {}; // per match exercise
+
+// ─── DOM Build ────────────────────────────────────────────────────────────────
+const container = document.getElementById('exercises-container');
+
+function buildExercises() {
+  exercises.forEach((ex, idx) => {
+    const card = document.createElement('div');
+    card.className = `ex-card type-${ex.type}`;
+    card.id = `ex-${ex.id}`;
+
+    const typeNames = { choice:'Wählen', fill:'Lückentext', truefalse:'Richtig/Falsch', match:'Zuordnen', translate:'Übersetzen' };
+    const badgeClass = { choice:'badge-choice', fill:'badge-fill', truefalse:'badge-true', match:'badge-match', translate:'badge-translate' };
+
+    let inner = `
+      <div class="ex-header">
+        <span class="ex-num">#${ex.id}</span>
+        <span class="ex-type-badge ${badgeClass[ex.type]}">${typeNames[ex.type]}</span>
+      </div>`;
+
+    if (ex.type === 'choice') inner += buildChoice(ex);
+    else if (ex.type === 'fill') inner += buildFill(ex);
+    else if (ex.type === 'truefalse') inner += buildTF(ex);
+    else if (ex.type === 'match') inner += buildMatch(ex);
+    else if (ex.type === 'translate') inner += buildTranslate(ex);
+
+    card.innerHTML = inner;
+    container.appendChild(card);
+    attachEvents(card, ex);
+  });
+}
+
+function buildChoice(ex) {
+  const opts = ex.options.map((o, i) =>
+    `<button class="choice-btn" data-idx="${i}" data-ex="${ex.id}">${o}</button>`
+  ).join('');
+  return `
+    <div class="ex-question">${ex.question}</div>
+    <div class="choice-grid">${opts}</div>
+    <div class="feedback" id="fb-${ex.id}"></div>`;
+}
+
+function buildFill(ex) {
+  return `
+    <div class="fill-row">
+      <div class="fill-sentence">${ex.before} <input type="text" class="fill-input" id="inp-${ex.id}" placeholder="${ex.placeholder}"> ${ex.after}</div>
+    </div>
+    <span class="hint-link" id="hint-link-${ex.id}">💡 Tipp anzeigen</span>
+    <div class="hint-box" id="hint-${ex.id}">${ex.hint}</div>
+    <button class="check-btn" data-ex="${ex.id}" data-type="fill">Prüfen ✓</button>
+    <div class="feedback" id="fb-${ex.id}"></div>`;
+}
+
+function buildTF(ex) {
+  return `
+    <div class="ex-question">${ex.statement}</div>
+    <div class="tf-grid">
+      <button class="tf-btn tf-true" data-ex="${ex.id}" data-val="true">✅ Richtig</button>
+      <button class="tf-btn tf-false" data-ex="${ex.id}" data-val="false">❌ Falsch</button>
+    </div>
+    <div class="feedback" id="fb-${ex.id}"></div>`;
+}
+
+function buildMatch(ex) {
+  const shuffledRight = [...ex.pairs.map(p=>p.right)].sort(()=>Math.random()-0.5);
+  let leftCol = '', rightCol = '';
+  ex.pairs.forEach((p, i) => {
+    leftCol += `<div class="match-item" data-ex="${ex.id}" data-side="left" data-idx="${i}">${p.left}</div>`;
+  });
+  shuffledRight.forEach((r, i) => {
+    rightCol += `<div class="match-item" data-ex="${ex.id}" data-side="right" data-val="${r}" data-idx="${i}">${r}</div>`;
+  });
+  return `
+    <div class="ex-question">${ex.instruction}</div>
+    <div class="match-container">
+      <div class="match-col" id="left-${ex.id}">${leftCol}</div>
+      <div class="match-col" id="right-${ex.id}">${rightCol}</div>
+    </div>
+    <div class="feedback" id="fb-${ex.id}"></div>`;
+}
+
+function buildTranslate(ex) {
+  return `
+    <div class="ex-question">🇷🇺 <em>${ex.russian}</em><br><small style="color:var(--muted)">Übersetze auf Deutsch:</small></div>
+    <textarea class="translate-input" id="inp-${ex.id}" rows="2" placeholder="Deine Antwort..."></textarea>
+    <span class="hint-link" id="hint-link-${ex.id}">💡 Tipp anzeigen</span>
+    <div class="hint-box" id="hint-${ex.id}">${ex.hint}</div>
+    <button class="check-btn" data-ex="${ex.id}" data-type="translate">Prüfen ✓</button>
+    <div class="feedback" id="fb-${ex.id}"></div>`;
+}
+
+// ─── Events ───────────────────────────────────────────────────────────────────
+function attachEvents(card, ex) {
+  if (ex.type === 'choice') {
+    card.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosen = parseInt(btn.dataset.idx);
+        const allBtns = card.querySelectorAll('.choice-btn');
+        allBtns.forEach(b => b.disabled = true);
+        if (chosen === ex.correct) {
+          btn.classList.add('selected-correct');
+          showFeedback(ex.id, true, '🎉 Super! ' + ex.case);
+          addXP(10); markCard(card, true);
+        } else {
+          btn.classList.add('selected-wrong');
+          allBtns[ex.correct].classList.add('reveal-correct');
+          showFeedback(ex.id, false, '😅 Leider falsch. ' + ex.case);
+          markCard(card, false);
+        }
+        floatEmoji(btn, chosen === ex.correct ? '⭐' : '💔');
+      });
+    });
+  }
+
+  if (ex.type === 'fill' || ex.type === 'translate') {
+    const hintLink = card.querySelector(`#hint-link-${ex.id}`);
+    const hintBox = card.querySelector(`#hint-${ex.id}`);
+    if (hintLink) hintLink.addEventListener('click', () => hintBox.classList.toggle('show'));
+
+    const checkBtn = card.querySelector('.check-btn');
+    if (checkBtn) checkBtn.addEventListener('click', () => {
+      const inp = card.querySelector(`#inp-${ex.id}`);
+      const val = inp.value.trim().toLowerCase();
+      const correct = ex.accept ? ex.accept.includes(val) : val === ex.correct.toLowerCase();
+      checkBtn.disabled = true; inp.disabled = true;
+      if (correct) {
+        inp.classList.add('correct-input');
+        showFeedback(ex.id, true, '🎉 Perfekt!');
+        addXP(15); markCard(card, true);
+      } else {
+        inp.classList.add('wrong-input');
+        showFeedback(ex.id, false, `❌ Richtige Antwort: <strong>${ex.correct}</strong>`);
+        markCard(card, false);
+      }
+      floatEmoji(checkBtn, correct ? '✨' : '💔');
+    });
+
+    const inp = card.querySelector(`#inp-${ex.id}`);
+    if (inp) inp.addEventListener('keydown', e => { if(e.key==='Enter' && !checkBtn.disabled) checkBtn.click(); });
+  }
+
+  if (ex.type === 'truefalse') {
+    card.querySelectorAll('.tf-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val === 'true';
+        card.querySelectorAll('.tf-btn').forEach(b => b.disabled = true);
+        if (val === ex.correct) {
+          btn.classList.add('selected-correct');
+          showFeedback(ex.id, true, '✅ ' + ex.explanation);
+          addXP(10); markCard(card, true);
+        } else {
+          btn.classList.add('selected-wrong');
+          card.querySelectorAll('.tf-btn').forEach(b => { if((b.dataset.val==='true')=== ex.correct) b.classList.add('reveal-correct'); });
+          showFeedback(ex.id, false, '❌ ' + ex.explanation);
+          markCard(card, false);
+        }
+        floatEmoji(btn, val === ex.correct ? '⭐' : '💔');
+      });
+    });
+  }
+
+  if (ex.type === 'match') {
+    matchState[ex.id] = { selected: null, matched: 0, total: ex.pairs.length };
+    card.querySelectorAll('.match-item').forEach(item => {
+      item.addEventListener('click', () => handleMatch(card, ex, item));
+    });
+  }
+}
+
+function handleMatch(card, ex, item) {
+  const state = matchState[ex.id];
+  if (item.classList.contains('matched-correct')) return;
+
+  if (!state.selected) {
+    if (item.dataset.side === 'left') {
+      card.querySelectorAll('.match-item[data-side="left"]').forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+      state.selected = item;
+    }
+    return;
+  }
+
+  if (item.dataset.side === 'left') {
+    card.querySelectorAll('.match-item[data-side="left"]').forEach(i => i.classList.remove('selected'));
+    item.classList.add('selected');
+    state.selected = item;
+    return;
+  }
+
+  // right side clicked
+  const leftIdx = parseInt(state.selected.dataset.idx);
+  const correctRight = ex.pairs[leftIdx].right;
+  const chosenVal = item.dataset.val;
+
+  if (chosenVal === correctRight) {
+    state.selected.classList.remove('selected');
+    state.selected.classList.add('matched-correct');
+    item.classList.add('matched-correct');
+    state.matched++;
+    addXP(8);
+    if (state.matched === state.total) {
+      showFeedback(ex.id, true, '🎊 Alle Paare gefunden! Mega!');
+      markCard(card, true);
+    }
+  } else {
+    state.selected.classList.remove('selected');
+    state.selected.classList.add('matched-wrong');
+    item.classList.add('matched-wrong');
+    setTimeout(() => {
+      state.selected.classList.remove('matched-wrong');
+      item.classList.remove('matched-wrong');
+    }, 700);
+    markCard(card, false);
+  }
+  state.selected = null;
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function showFeedback(id, ok, msg) {
+  const fb = document.getElementById(`fb-${id}`);
+  fb.innerHTML = msg;
+  fb.className = `feedback show ${ok ? 'good' : 'bad'}`;
+}
+
+function markCard(card, ok) {
+  card.classList.remove('correct', 'wrong');
+  if (ok) { correct++; streak++; }
+  else { wrong++; streak = 0; }
+  card.classList.add(ok ? 'correct' : 'wrong');
+  updateScore();
+}
+
+function addXP(amount) {
+  xp += amount;
+  updateXP();
+}
+
+function updateXP() {
+  const level = Math.floor(xp / 100) + 1;
+  const pct = (xp % 100);
+  document.getElementById('xp-fill').style.width = pct + '%';
+  document.getElementById('xp-count').textContent = `${xp % 100} / 100 XP`;
+  document.getElementById('xp-label').textContent = level;
+  document.getElementById('score-xp').textContent = xp;
+}
+
+function updateScore() {
+  document.getElementById('score-correct').textContent = correct;
+  document.getElementById('score-wrong').textContent = wrong;
+  document.getElementById('score-streak').textContent = streak;
+}
+
+function floatEmoji(el, emoji) {
+  const rect = el.getBoundingClientRect();
+  const div = document.createElement('div');
+  div.className = 'float-emoji';
+  div.textContent = emoji;
+  div.style.left = (rect.left + rect.width/2 - 16) + 'px';
+  div.style.top = (rect.top + window.scrollY - 20) + 'px';
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 1000);
+}
+
+// ─── Scroll reveal ────────────────────────────────────────────────────────────
+function initReveal() {
+  const cards = document.querySelectorAll('.ex-card');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  cards.forEach((c, i) => { c.style.transitionDelay = `${(i % 5) * 0.05}s`; obs.observe(c); });
+}
+
+buildExercises();
+initReveal();
+</script>
+</body>
+</html>
