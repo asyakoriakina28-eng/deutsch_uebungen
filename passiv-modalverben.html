@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passiv mit Modalverben – B1 Deutsch</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #3B82F6;
+  --blue-light: #EFF6FF;
+  --blue-mid: #BFDBFE;
+  --blue-dark: #1D4ED8;
+  --green: #16A34A;
+  --green-light: #F0FDF4;
+  --green-mid: #BBF7D0;
+  --red: #DC2626;
+  --red-light: #FEF2F2;
+  --red-mid: #FECACA;
+  --amber: #D97706;
+  --amber-light: #FFFBEB;
+  --amber-mid: #FDE68A;
+  --purple: #7C3AED;
+  --purple-light: #F5F3FF;
+  --purple-mid: #DDD6FE;
+  --gray: #6B7280;
+  --gray-light: #F9FAFB;
+  --border: #E5E7EB;
+  --text: #111827;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --white: #FFFFFF;
+  --bg: #F8FAFF;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* HEADER */
+header {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  padding: 1.5rem 2rem 1rem;
+}
+.header-inner { max-width: 900px; margin: 0 auto; }
+.header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+.header-title { display: flex; align-items: center; gap: 12px; }
+.header-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: var(--blue); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+h1 { font-size: 1.4rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+h1 span { color: var(--blue); }
+.header-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+.score-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  border: 1.5px solid;
+}
+.chip-green { background: var(--green-light); color: var(--green); border-color: var(--green-mid); }
+.chip-red { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+.chip-blue { background: var(--blue-light); color: var(--blue-dark); border-color: var(--blue-mid); }
+.progress-wrap { display: flex; align-items: center; gap: 12px; }
+.progress-track { flex: 1; height: 8px; background: #E5E7EB; border-radius: 10px; overflow: hidden; min-width: 200px; }
+.progress-fill { height: 100%; background: var(--blue); border-radius: 10px; transition: width 0.4s; width: 0; }
+.progress-pct { font-size: 13px; font-weight: 700; color: var(--blue-dark); min-width: 36px; text-align: right; }
+
+/* NAV TABS */
+.nav-bar { background: white; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.nav-inner { display: flex; max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+.tab-btn {
+  padding: 0.9rem 1.25rem; font-size: 13px; font-weight: 700;
+  color: var(--text-muted); border: none; background: none; cursor: pointer;
+  border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--blue-dark); border-bottom-color: var(--blue); }
+.tab-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gray-light); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--text-muted);
+}
+.tab-btn.active .tab-dot { background: var(--blue); border-color: var(--blue); color: white; }
+
+/* MAIN */
+.main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* SECTION HEADER */
+.sec-head { margin-bottom: 1.75rem; }
+.sec-head h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.sec-head p { font-size: 14px; color: var(--text-muted); }
+.sec-badge {
+  display: inline-block; padding: 3px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+.badge-blue { background: var(--blue-light); color: var(--blue-dark); }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+.badge-amber { background: var(--amber-light); color: var(--amber); }
+.badge-green { background: var(--green-light); color: var(--green); }
+
+/* EXERCISE CARD */
+.ex-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ex-card:hover { box-shadow: 0 2px 16px rgba(59,130,246,0.08); }
+.ex-card.state-correct { border-color: var(--green); background: var(--green-light); }
+.ex-card.state-wrong { border-color: var(--red); background: var(--red-light); }
+
+.ex-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+.ex-num-badge {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--blue-light); color: var(--blue-dark);
+  font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ex-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+
+/* Sentence display */
+.sentence-line {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem; line-height: 1.9;
+  color: var(--text-soft); margin-bottom: 1rem;
+}
+.sentence-line strong { color: var(--blue-dark); }
+
+/* Inline fill input */
+.fill-input {
+  border: none; border-bottom: 2.5px solid var(--blue-mid);
+  background: var(--blue-light); border-radius: 4px 4px 0 0;
+  font-family: 'Lora', serif; font-size: 1rem; color: var(--blue-dark);
+  font-weight: 500; padding: 1px 8px;
+  width: 130px; outline: none; transition: all 0.2s;
+  vertical-align: middle;
+}
+.fill-input:focus { border-bottom-color: var(--blue); background: #DBEAFE; }
+
+/* Text area for written tasks */
+.write-area {
+  width: 100%; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 12px 14px;
+  font-family: 'Lora', serif; font-size: 1rem;
+  color: var(--text); background: white; outline: none;
+  transition: border-color 0.2s; resize: vertical; min-height: 70px;
+  line-height: 1.6;
+}
+.write-area:focus { border-color: var(--blue); }
+
+/* Full sentence input */
+.full-input {
+  width: 100%; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 11px 14px;
+  font-family: 'Lora', serif; font-size: 1rem;
+  color: var(--text); background: white; outline: none;
+  transition: border-color 0.2s;
+}
+.full-input:focus { border-color: var(--blue); }
+
+/* Source box */
+.source-box {
+  background: var(--gray-light); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.875rem 1rem; margin-bottom: 0.875rem;
+}
+.source-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 3px; }
+.source-text { font-family: 'Lora', serif; font-size: 1rem; color: var(--text-soft); }
+
+/* Hint */
+.hint-text { font-size: 12px; color: var(--text-muted); margin-bottom: 0.75rem; font-style: italic; }
+
+/* Buttons row */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+.btn-check {
+  padding: 9px 22px; border-radius: 8px;
+  background: var(--blue); color: white;
+  border: none; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-check:hover { background: var(--blue-dark); }
+.btn-check:disabled { background: #93C5FD; cursor: not-allowed; }
+.btn-ai {
+  padding: 9px 18px; border-radius: 8px;
+  background: white; color: var(--purple);
+  border: 1.5px solid var(--purple-mid);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+}
+.btn-ai:hover { background: var(--purple-light); border-color: var(--purple); }
+.btn-ai .ai-spark { font-size: 14px; }
+.btn-reset {
+  padding: 9px 16px; border-radius: 8px;
+  background: white; color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.btn-reset:hover { background: var(--gray-light); }
+
+/* Feedback */
+.feedback {
+  margin-top: 0.875rem; padding: 0.75rem 1rem;
+  border-radius: 10px; font-size: 14px; font-weight: 600;
+  line-height: 1.6; display: none; align-items: flex-start; gap: 8px;
+}
+.feedback.show { display: flex; }
+.feedback-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.fb-correct { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
+.fb-wrong { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
+.feedback strong { font-weight: 800; }
+
+/* AI Feedback */
+.ai-panel {
+  margin-top: 0.875rem;
+  border: 1.5px solid var(--purple-mid);
+  border-radius: 12px; overflow: hidden; display: none;
+}
+.ai-panel.show { display: block; }
+.ai-panel-head {
+  background: var(--purple-light); padding: 8px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--purple);
+}
+.ai-panel-body {
+  background: white; padding: 12px 14px;
+  font-size: 14px; line-height: 1.75; color: var(--text-soft);
+}
+.ai-dots { display: flex; gap: 4px; }
+.ai-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--purple); animation: pulse 0.9s infinite; }
+.ai-dot:nth-child(2) { animation-delay: 0.18s; }
+.ai-dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes pulse { 0%,80%,100%{opacity:0.3;transform:scale(0.8)} 40%{opacity:1;transform:scale(1)} }
+
+/* Multiple choice */
+.mc-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+.mc-opt {
+  padding: 10px 16px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: white; color: var(--text-soft);
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; text-align: left;
+}
+.mc-opt:hover { border-color: var(--blue-mid); background: var(--blue-light); color: var(--blue-dark); }
+.mc-opt.sel { border-color: var(--blue); background: var(--blue-light); color: var(--blue-dark); }
+.mc-opt.opt-correct { border-color: var(--green); background: var(--green-light); color: var(--green); }
+.mc-opt.opt-wrong { border-color: var(--red); background: var(--red-light); color: var(--red); }
+
+/* Word sort */
+.word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.word-chip {
+  padding: 7px 14px; border-radius: 8px;
+  border: 1.5px solid var(--amber-mid); background: var(--amber-light);
+  color: var(--amber); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.word-chip:hover { background: var(--amber-mid); }
+.word-chip.used { opacity: 0.3; pointer-events: none; }
+.built-sentence {
+  min-height: 44px; padding: 10px 14px;
+  background: var(--gray-light); border: 1.5px solid var(--border);
+  border-radius: 10px; margin-bottom: 0.875rem;
+  font-family: 'Lora', serif; font-size: 1rem; color: var(--text-soft);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+}
+.built-chip {
+  background: white; border: 1.5px solid var(--blue-mid);
+  color: var(--blue-dark); padding: 3px 10px; border-radius: 6px;
+  font-size: 0.9rem; cursor: pointer; transition: all 0.1s;
+}
+.built-chip:hover { background: var(--red-light); border-color: var(--red-mid); color: var(--red); }
+
+/* Nav bottom */
+.section-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 1.5rem; border-top: 1px solid var(--border); margin-top: 0.5rem;
+}
+.nav-btn {
+  padding: 10px 24px; border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid var(--border); background: white; color: var(--text);
+  transition: all 0.15s;
+}
+.nav-btn:hover { background: var(--gray-light); }
+.nav-btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
+.nav-btn.primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+
+/* Result */
+.result-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
+.result-emoji { font-size: 4rem; margin-bottom: 0.75rem; }
+.result-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+.result-sub { font-size: 15px; color: var(--text-muted); }
+.result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.result-card {
+  background: white; border: 1.5px solid var(--border); border-radius: 14px;
+  padding: 1.25rem; text-align: center;
+}
+.result-num { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.result-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+
+@media (max-width: 600px) {
+  header { padding: 1.25rem 1rem 0.875rem; }
+  .main { padding: 1.25rem 1rem; }
+  h1 { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-inner">
+  <div class="header-top">
+    <div class="header-title">
+      <div class="header-icon">✍️</div>
+      <div>
+        <h1>Passiv mit <span>Modalverben</span></h1>
+        <div class="header-sub">Präsens · B1 Niveau · 6 Übungstypen · KI-Feedback</div>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="chip chip-green">✓ <span id="sc-right">0</span> richtig</div>
+      <div class="chip chip-red">✗ <span id="sc-wrong">0</span> falsch</div>
+      <div class="chip chip-blue"><span id="sc-done">0</span>/25 fertig</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+    <div class="progress-pct" id="prog-pct">0%</div>
+  </div>
+</div>
+</header>
+
+<nav class="nav-bar">
+<div class="nav-inner">
+  <button class="tab-btn active" onclick="goTo(0)"><span class="tab-dot">1</span>Lücken</button>
+  <button class="tab-btn" onclick="goTo(1)"><span class="tab-dot">2</span>Schreiben</button>
+  <button class="tab-btn" onclick="goTo(2)"><span class="tab-dot">3</span>Umformung</button>
+  <button class="tab-btn" onclick="goTo(3)"><span class="tab-dot">4</span>Auswahl</button>
+  <button class="tab-btn" onclick="goTo(4)"><span class="tab-dot">5</span>Sortieren</button>
+  <button class="tab-btn" onclick="goTo(5)"><span class="tab-dot">6</span>Freies Schreiben</button>
+  <button class="tab-btn" onclick="goTo(6)"><span class="tab-dot">★</span>Ergebnis</button>
+</div>
+</nav>
+
+<main class="main">
+
+<!-- ===== PANEL 0: Lückentext ===== -->
+<div class="panel active" id="p0">
+  <div class="sec-head">
+    <div class="sec-badge badge-blue">Übung 1 · Lückentext</div>
+    <h2>Fülle die Lücken aus</h2>
+    <p>Trage das fehlende Modalverb oder „werden" in der richtigen Form ein.</p>
+  </div>
+  <div id="gap-wrap"></div>
+  <div class="section-nav">
+    <div></div>
+    <button class="nav-btn primary" onclick="goTo(1)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 1: Schreibübung ===== -->
+<div class="panel" id="p1">
+  <div class="sec-head">
+    <div class="sec-badge badge-purple">Übung 2 · Schreiben</div>
+    <h2>Schreibe den vollständigen Satz</h2>
+    <p>Schreibe einen vollständigen Passivsatz mit Modalverb. Die KI gibt dir detailliertes Feedback!</p>
+  </div>
+  <div id="write-wrap"></div>
+  <div class="section-nav">
+    <button class="nav-btn" onclick="goTo(0)">← Zurück</button>
+    <button class="nav-btn primary" onclick="goTo(2)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 2: Umformung ===== -->
+<div class="panel" id="p2">
+  <div class="sec-head">
+    <div class="sec-badge badge-amber">Übung 3 · Umformung</div>
+    <h2>Aktiv → Passiv</h2>
+    <p>Forme den Aktivsatz in einen Passivsatz um. Schreibe den vollständigen neuen Satz.</p>
+  </div>
+  <div id="transform-wrap"></div>
+  <div class="section-nav">
+    <button class="nav-btn" onclick="goTo(1)">← Zurück</button>
+    <button class="nav-btn primary" onclick="goTo(3)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 3: Multiple Choice ===== -->
+<div class="panel" id="p3">
+  <div class="sec-head">
+    <div class="sec-badge badge-blue">Übung 4 · Multiple Choice</div>
+    <h2>Wähle die richtige Antwort</h2>
+    <p>Klicke auf die korrekte Option.</p>
+  </div>
+  <div id="mc-wrap"></div>
+  <div class="section-nav">
+    <button class="nav-btn" onclick="goTo(2)">← Zurück</button>
+    <button class="nav-btn primary" onclick="goTo(4)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 4: Sortieren ===== -->
+<div class="panel" id="p4">
+  <div class="sec-head">
+    <div class="sec-badge badge-amber">Übung 5 · Wörter sortieren</div>
+    <h2>Baue den Satz</h2>
+    <p>Klicke auf die Wörter in der richtigen Reihenfolge. Klicke auf ein eingesetztes Wort, um es zu entfernen.</p>
+  </div>
+  <div id="sort-wrap"></div>
+  <div class="section-nav">
+    <button class="nav-btn" onclick="goTo(3)">← Zurück</button>
+    <button class="nav-btn primary" onclick="goTo(5)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 5: Freies Schreiben ===== -->
+<div class="panel" id="p5">
+  <div class="sec-head">
+    <div class="sec-badge badge-green">Übung 6 · Freies Schreiben</div>
+    <h2>Freies Schreiben mit KI-Feedback</h2>
+    <p>Schreibe eigene Sätze zu den Situationen. Die KI bewertet Grammatik, Wortschatz und Kreativität.</p>
+  </div>
+  <div id="free-wrap"></div>
+  <div class="section-nav">
+    <button class="nav-btn" onclick="goTo(4)">← Zurück</button>
+    <button class="nav-btn primary" onclick="goTo(6)">Zum Ergebnis →</button>
+  </div>
+</div>
+
+<!-- ===== PANEL 6: Ergebnis ===== -->
+<div class="panel" id="p6">
+  <div id="result-wrap"></div>
+</div>
+
+</main>
+
+<script>
+const API = "https://api.anthropic.com/v1/messages";
+let right = 0, wrong = 0, done = 0;
+const TOTAL = 25;
+
+function score(ok) {
+  if (ok) right++; else wrong++;
+  done++;
+  document.getElementById('sc-right').textContent = right;
+  document.getElementById('sc-wrong').textContent = wrong;
+  document.getElementById('sc-done').textContent = done;
+  const p = Math.round(done / TOTAL * 100);
+  document.getElementById('prog').style.width = p + '%';
+  document.getElementById('prog-pct').textContent = p + '%';
+}
+
+function goTo(n) {
+  document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  if (n === 6) buildResult();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function callAI(prompt) {
+  const r = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const d = await r.json();
+  return d.content?.map(b => b.text || '').join('') || 'Fehler.';
+}
+
+function showAI(panelId, textId, loading = true) {
+  const p = document.getElementById(panelId);
+  const t = document.getElementById(textId);
+  p.classList.add('show');
+  if (loading) t.innerHTML = '<div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>';
+  return t;
+}
+
+// ==================== PANEL 0: Lückentext ====================
+const gaps = [
+  { before: 'Die Briefe', blank1: 'müssen', after: 'heute noch verschickt', blank2: 'werden', end: '.', modal: 'müssen', verb: 'verschickt' },
+  { before: 'Das Museum', blank1: 'kann', after: 'nicht fotografiert', blank2: 'werden', end: '.', modal: 'kann', verb: 'fotografiert' },
+  { before: 'Die Hausaufgaben', blank1: 'sollen', after: 'sorgfältig gemacht', blank2: 'werden', end: '.', modal: 'sollen', verb: 'gemacht' },
+  { before: 'Hier', blank1: 'darf', after: 'nicht geraucht', blank2: 'werden', end: '.', modal: 'darf', verb: 'geraucht' },
+  { before: 'Das Problem', blank1: 'muss', after: 'sofort gelöst', blank2: 'werden', end: '.', modal: 'muss', verb: 'gelöst' },
+];
+
+function buildGaps() {
+  const wrap = document.getElementById('gap-wrap');
+  gaps.forEach((g, i) => {
+    wrap.innerHTML += `
+    <div class="ex-card" id="gc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Lücke füllen</span>
+      </div>
+      <div class="sentence-line">
+        ${g.before}
+        <input class="fill-input" id="g${i}a" placeholder="…" />
+        ${g.after}
+        <input class="fill-input" id="g${i}b" placeholder="…" style="width:100px" />
+        ${g.end}
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-check" id="gbtn${i}" onclick="doGap(${i})">Überprüfen</button>
+      </div>
+      <div class="feedback" id="gfb${i}"><span class="feedback-icon"></span><span id="gfbt${i}"></span></div>
+      <div class="ai-panel" id="gai${i}">
+        <div class="ai-panel-head">✦ KI-Analyse</div>
+        <div class="ai-panel-body" id="gait${i}"></div>
+      </div>
+    </div>`;
+  });
+}
+
+async function doGap(i) {
+  const g = gaps[i];
+  const a = document.getElementById(`g${i}a`).value.trim();
+  const b = document.getElementById(`g${i}b`).value.trim();
+  if (!a || !b) { alert('Bitte fülle beide Lücken aus!'); return; }
+  const ok = a.toLowerCase() === g.blank1.toLowerCase() && b.toLowerCase() === g.blank2.toLowerCase();
+  score(ok);
+  const card = document.getElementById(`gc${i}`);
+  document.getElementById(`gbtn${i}`).disabled = true;
+  card.classList.add(ok ? 'state-correct' : 'state-wrong');
+  const fb = document.getElementById(`gfb${i}`);
+  fb.className = 'feedback show ' + (ok ? 'fb-correct' : 'fb-wrong');
+  fb.querySelector('.feedback-icon').textContent = ok ? '✓' : '✗';
+  document.getElementById(`gfbt${i}`).innerHTML = ok
+    ? 'Sehr gut! Beide Lücken sind richtig.'
+    : `Nicht ganz. Richtig: <strong>${g.blank1}</strong> … <strong>${g.blank2}</strong>`;
+  const t = showAI(`gai${i}`, `gait${i}`);
+  const txt = await callAI(`Du bist DaF-Lehrer (B1). Erkläre kurz auf Deutsch (2-3 Sätze), warum der Satz "${g.before} ${g.blank1} ${g.after} ${g.blank2}${g.end}" korrekt ist. Schülereingabe: Lücke 1 = "${a}", Lücke 2 = "${b}". Sei ermutigend.`);
+  t.textContent = txt;
+}
+
+// ==================== PANEL 1: Schreibübung ====================
+const writeEx = [
+  { prompt: 'Das Licht (müssen / ausmachen)', example: 'Das Licht muss ausgemacht werden.' },
+  { prompt: 'Die Tür (sollen / öffnen)', example: 'Die Tür soll geöffnet werden.' },
+  { prompt: 'Das Auto (können / reparieren)', example: 'Das Auto kann repariert werden.' },
+  { prompt: 'Das Formular (müssen / ausfüllen)', example: 'Das Formular muss ausgefüllt werden.' },
+  { prompt: 'Die Medizin (dürfen / nehmen – negativ)', example: 'Die Medizin darf nicht genommen werden.' },
+];
+
+function buildWrite() {
+  const wrap = document.getElementById('write-wrap');
+  writeEx.forEach((ex, i) => {
+    wrap.innerHTML += `
+    <div class="ex-card" id="wc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Vollständigen Satz schreiben</span>
+      </div>
+      <div class="source-box">
+        <div class="source-label">Schreibe einen Passivsatz mit:</div>
+        <div class="source-text"><strong>${ex.prompt}</strong></div>
+      </div>
+      <textarea class="write-area" id="wa${i}" placeholder="Schreibe hier deinen Passivsatz…"></textarea>
+      <div class="btn-row">
+        <button class="btn-check" id="wbtn${i}" onclick="doWrite(${i})">Überprüfen</button>
+      </div>
+      <div class="feedback" id="wfb${i}"><span class="feedback-icon"></span><span id="wfbt${i}"></span></div>
+      <div class="ai-panel" id="wai${i}">
+        <div class="ai-panel-head">✦ KI-Analyse</div>
+        <div class="ai-panel-body" id="wait${i}"></div>
+      </div>
+    </div>`;
+  });
+}
+
+async function doWrite(i) {
+  const val = document.getElementById(`wa${i}`).value.trim();
+  const ex = writeEx[i];
+  if (!val) { alert('Bitte schreibe einen Satz!'); return; }
+  const ok = val.toLowerCase() === ex.example.toLowerCase();
+  score(ok);
+  const card = document.getElementById(`wc${i}`);
+  document.getElementById(`wbtn${i}`).disabled = true;
+  card.classList.add(ok ? 'state-correct' : 'state-wrong');
+  const fb = document.getElementById(`wfb${i}`);
+  fb.className = 'feedback show ' + (ok ? 'fb-correct' : 'fb-wrong');
+  fb.querySelector('.feedback-icon').textContent = ok ? '✓' : '✗';
+  document.getElementById(`wfbt${i}`).innerHTML = ok
+    ? 'Perfekt! Der Satz ist korrekt.'
+    : `Musterlösung: <strong>${ex.example}</strong>`;
+  const t = showAI(`wai${i}`, `wait${i}`);
+  const txt = await callAI(`Du bist DaF-Lehrer (B1-Niveau). Bewerte diesen Passivsatz auf Deutsch (max. 3 Sätze):
+Aufgabe: Schreibe einen Passivsatz mit "${ex.prompt}"
+Musterlösung: "${ex.example}"
+Schülerantwort: "${val}"
+Ist es richtig/falsch? Was ist gut oder falsch? Sei freundlich und motivierend!`);
+  t.textContent = txt;
+}
+
+// ==================== PANEL 2: Umformung ====================
+const transforms = [
+  { active: 'Man muss den Müll trennen.', passiv: 'Der Müll muss getrennt werden.', subj: 'Der Müll' },
+  { active: 'Man kann das Problem lösen.', passiv: 'Das Problem kann gelöst werden.', subj: 'Das Problem' },
+  { active: 'Man soll die Fenster putzen.', passiv: 'Die Fenster sollen geputzt werden.', subj: 'Die Fenster' },
+  { active: 'Man darf hier nicht schreien.', passiv: 'Hier darf nicht geschrien werden.', subj: 'Hier' },
+  { active: 'Man muss die E-Mail beantworten.', passiv: 'Die E-Mail muss beantwortet werden.', subj: 'Die E-Mail' },
+];
+
+function buildTransform() {
+  const wrap = document.getElementById('transform-wrap');
+  transforms.forEach((tr, i) => {
+    wrap.innerHTML += `
+    <div class="ex-card" id="tc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Aktiv → Passiv</span>
+      </div>
+      <div class="source-box">
+        <div class="source-label">Aktivsatz</div>
+        <div class="source-text">${tr.active}</div>
+      </div>
+
+      <input class="full-input" id="ti${i}" placeholder="Schreibe den Passivsatz…" />
+      <div class="btn-row">
+        <button class="btn-check" id="tbtn${i}" onclick="doTransform(${i})">Überprüfen</button>
+      </div>
+      <div class="feedback" id="tfb${i}"><span class="feedback-icon"></span><span id="tfbt${i}"></span></div>
+      <div class="ai-panel" id="tai${i}">
+        <div class="ai-panel-head">✦ KI-Analyse</div>
+        <div class="ai-panel-body" id="tait${i}"></div>
+      </div>
+    </div>`;
+  });
+}
+
+async function doTransform(i) {
+  const tr = transforms[i];
+  const val = document.getElementById(`ti${i}`).value.trim();
+  if (!val) { alert('Bitte schreibe einen Satz!'); return; }
+  const ok = val.toLowerCase() === tr.passiv.toLowerCase();
+  score(ok);
+  const card = document.getElementById(`tc${i}`);
+  document.getElementById(`tbtn${i}`).disabled = true;
+  card.classList.add(ok ? 'state-correct' : 'state-wrong');
+  const fb = document.getElementById(`tfb${i}`);
+  fb.className = 'feedback show ' + (ok ? 'fb-correct' : 'fb-wrong');
+  fb.querySelector('.feedback-icon').textContent = ok ? '✓' : '✗';
+  document.getElementById(`tfbt${i}`).innerHTML = ok ? 'Ausgezeichnet!' : `Musterlösung: <strong>${tr.passiv}</strong>`;
+  const t = showAI(`tai${i}`, `tait${i}`);
+  const txt = await callAI(`Du bist DaF-Lehrer (B1). Bewerte auf Deutsch (max. 3 Sätze):
+Aktivsatz: "${tr.active}"
+Musterlösung: "${tr.passiv}"
+Schülerantwort: "${val}"
+Ist es richtig/falsch? Erkläre kurz und sei motivierend!`);
+  t.textContent = txt;
+}
+
+// ==================== PANEL 3: Multiple Choice ====================
+const mcData = [
+  { q: 'Das Gebäude ___ renoviert werden. (Es ist nötig.)', opts: ['muss', 'musst', 'müsst', 'müssen'], c: 0, expl: '"muss" – 3. Person Singular von müssen.' },
+  { q: 'Hier ___ nicht fotografiert werden.', opts: ['darf', 'dürfen', 'durfte', 'dürft'], c: 0, expl: '"darf" – Verbot, 3. Person Singular (unpersönliches Passiv).' },
+  { q: 'Die Aufgaben ___ bis Freitag abgegeben werden.', opts: ['soll', 'sollen', 'sollst', 'sollt'], c: 1, expl: '"sollen" – Plural (die Aufgaben = sie).' },
+  { q: 'Der Fehler ___ sofort korrigiert ___. (Möglichkeit)', opts: ['kann / werden', 'kann / sein', 'könnte / worden', 'kann / wurde'], c: 0, expl: 'Passiv mit können: kann + Partizip II + werden.' },
+  { q: 'Das Lied ___ laut gesungen werden.', opts: ['darf', 'dürfen', 'kannst', 'wollen'], c: 0, expl: '"darf" – 3. Person Singular, Erlaubnis/Verbot.' },
+];
+
+function buildMC() {
+  const wrap = document.getElementById('mc-wrap');
+  mcData.forEach((mc, i) => {
+    let opts = mc.opts.map((o, oi) =>
+      `<button class="mc-opt" id="mo${i}-${oi}" onclick="selMC(${i},${oi})">${o}</button>`
+    ).join('');
+    wrap.innerHTML += `
+    <div class="ex-card" id="mc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Wähle die richtige Form</span>
+      </div>
+      <div class="sentence-line">${mc.q}</div>
+      <div class="mc-options">${opts}</div>
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkMC(${i})">Überprüfen</button>
+      </div>
+      <div class="feedback" id="mcfb${i}"><span class="feedback-icon"></span><span id="mcfbt${i}"></span></div>
+    </div>`;
+  });
+}
+
+const mcSel = {};
+function selMC(i, oi) {
+  mcSel[i] = oi;
+  for (let j = 0; j < mcData[i].opts.length; j++) {
+    const b = document.getElementById(`mo${i}-${j}`);
+    b.classList.toggle('sel', j === oi);
+  }
+}
+function checkMC(i) {
+  const sel = mcSel[i];
+  if (sel === undefined) { alert('Bitte wähle eine Antwort!'); return; }
+  const mc = mcData[i];
+  const ok = sel === mc.c;
+  score(ok);
+  document.getElementById(`mc${i}`).querySelector('.btn-check').disabled = true;
+  document.getElementById(`mc${i}`).classList.add(ok ? 'state-correct' : 'state-wrong');
+  for (let j = 0; j < mc.opts.length; j++) {
+    const b = document.getElementById(`mo${i}-${j}`);
+    b.disabled = true;
+    if (j === mc.c) b.classList.add('opt-correct');
+    else if (j === sel) b.classList.add('opt-wrong');
+  }
+  const fb = document.getElementById(`mcfb${i}`);
+  const fbt = document.getElementById(`mcfbt${i}`);
+  fb.className = 'feedback show ' + (ok ? 'fb-correct' : 'fb-wrong');
+  fb.querySelector('.feedback-icon').textContent = ok ? '✓' : '✗';
+  fbt.innerHTML = ok ? `Richtig! ${mc.expl}` : `Falsch. Richtig: <strong>${mc.opts[mc.c]}</strong> — ${mc.expl}`;
+}
+
+// ==================== PANEL 4: Wörter sortieren ====================
+const sortData = [
+  { words: ['Das', 'Paket', 'muss', 'abgeholt', 'werden', '.'], answer: 'Das Paket muss abgeholt werden.' },
+  { words: ['Die', 'Tür', 'soll', 'geschlossen', 'werden', '.'], answer: 'Die Tür soll geschlossen werden.' },
+  { words: ['Hier', 'kann', 'geparkt', 'werden', '.'], answer: 'Hier kann geparkt werden.' },
+  { words: ['Das', 'Buch', 'darf', 'nicht', 'kopiert', 'werden', '.'], answer: 'Das Buch darf nicht kopiert werden.' },
+  { words: ['Die', 'Wohnung', 'muss', 'gereinigt', 'werden', '.'], answer: 'Die Wohnung muss gereinigt werden.' },
+];
+const sortState = {};
+
+function buildSort() {
+  const wrap = document.getElementById('sort-wrap');
+  sortData.forEach((s, i) => {
+    const sh = [...s.words].sort(() => Math.random() - 0.5);
+    sortState[i] = { sh, sel: [] };
+    const chips = sh.map((w, wi) =>
+      `<span class="word-chip" id="sw${i}-${wi}" onclick="addWord(${i},${wi})">${w}</span>`
+    ).join('');
+    wrap.innerHTML += `
+    <div class="ex-card" id="sc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Satz bauen</span>
+      </div>
+      <div class="word-bank">${chips}</div>
+      <div class="built-sentence" id="sb${i}"><em style="color:var(--text-muted);font-size:0.9rem">Dein Satz…</em></div>
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkSort(${i})">Überprüfen</button>
+        <button class="btn-reset" onclick="resetSort(${i})">↩ Reset</button>
+      </div>
+      <div class="feedback" id="sfb${i}"><span class="feedback-icon"></span><span id="sfbt${i}"></span></div>
+    </div>`;
+  });
+}
+
+function addWord(i, wi) {
+  const el = document.getElementById(`sw${i}-${wi}`);
+  if (el.classList.contains('used')) return;
+  el.classList.add('used');
+  sortState[i].sel.push(wi);
+  renderBuilt(i);
+}
+
+function renderBuilt(i) {
+  const box = document.getElementById(`sb${i}`);
+  const sel = sortState[i].sel;
+  if (!sel.length) { box.innerHTML = '<em style="color:var(--text-muted);font-size:0.9rem">Dein Satz…</em>'; return; }
+  box.innerHTML = sel.map((wi, pos) =>
+    `<span class="built-chip" onclick="removeWord(${i},${pos})">${sortState[i].sh[wi]}</span>`
+  ).join('');
+}
+
+function removeWord(i, pos) {
+  const wi = sortState[i].sel[pos];
+  sortState[i].sel.splice(pos, 1);
+  document.getElementById(`sw${i}-${wi}`).classList.remove('used');
+  renderBuilt(i);
+}
+
+function resetSort(i) {
+  sortState[i].sel = [];
+  sortState[i].sh.forEach((_, wi) => document.getElementById(`sw${i}-${wi}`)?.classList.remove('used'));
+  renderBuilt(i);
+}
+
+function checkSort(i) {
+  const built = sortState[i].sel.map(wi => sortState[i].sh[wi]).join(' ');
+  const ok = built === sortData[i].answer;
+  score(ok);
+  document.getElementById(`sc${i}`).querySelector('.btn-check').disabled = true;
+  document.getElementById(`sc${i}`).classList.add(ok ? 'state-correct' : 'state-wrong');
+  const fb = document.getElementById(`sfb${i}`);
+  const fbt = document.getElementById(`sfbt${i}`);
+  fb.className = 'feedback show ' + (ok ? 'fb-correct' : 'fb-wrong');
+  fb.querySelector('.feedback-icon').textContent = ok ? '✓' : '✗';
+  fbt.innerHTML = ok ? 'Perfekt! Richtige Reihenfolge!' : `Richtig: <strong>${sortData[i].answer}</strong>`;
+}
+
+// ==================== PANEL 5: Freies Schreiben ====================
+const freeEx = [
+  { ctx: 'Du siehst ein Schild im Restaurant. Was steht vielleicht dort?', ex: 'z.B. Hier darf nicht geraucht werden.', topic: 'Verbotsschild im Restaurant, Passiv mit dürfen' },
+  { ctx: 'Dein Chef schreibt dir: „Das Projekt ist wichtig!" Was muss gemacht werden?', ex: 'z.B. Das Projekt muss bis Freitag fertiggestellt werden.', topic: 'Arbeitssituation, Passiv mit müssen' },
+  { ctx: 'In der Stadt gibt es ein altes Gebäude. Was kann damit gemacht werden?', ex: 'z.B. Das Gebäude kann renoviert werden.', topic: 'Stadtplanung, Passiv mit können' },
+  { ctx: 'Schreibe zwei Sätze über Regeln in deiner Schule oder Uni.', ex: 'z.B. Handys dürfen nicht benutzt werden. Die Aufgaben müssen pünktlich abgegeben werden.', topic: 'Schulregeln, Passiv mit dürfen und müssen' },
+  { ctx: 'Was soll in einer neuen Wohnung gemacht werden? Schreibe 2 Sätze.', ex: 'z.B. Die Wände sollen gestrichen werden. Der Boden muss erneuert werden.', topic: 'Wohnung renovieren, Passiv mit sollen und müssen' },
+];
+
+function buildFree() {
+  const wrap = document.getElementById('free-wrap');
+  freeEx.forEach((f, i) => {
+    wrap.innerHTML += `
+    <div class="ex-card" id="fc${i}">
+      <div class="ex-meta">
+        <div class="ex-num-badge">${i+1}</div>
+        <span class="ex-label">Freies Schreiben · KI-Bewertung</span>
+      </div>
+      <div class="source-box">
+        <div class="source-label">Situation</div>
+        <div class="source-text">${f.ctx}</div>
+      </div>
+      <textarea class="write-area" id="fa${i}" placeholder="Schreibe hier deine Sätze…" style="min-height:90px"></textarea>
+      <div class="btn-row">
+        <button class="btn-check" id="fbtn${i}" onclick="aiFree(${i})">Überprüfen</button>
+      </div>
+      <div class="ai-panel" id="fai${i}">
+        <div class="ai-panel-head">✦ KI-Bewertung</div>
+        <div class="ai-panel-body" id="fait${i}"></div>
+      </div>
+    </div>`;
+  });
+}
+
+async function aiFree(i) {
+  const f = freeEx[i];
+  const val = document.getElementById(`fa${i}`).value.trim();
+  if (!val) { alert('Bitte schreibe zuerst etwas!'); return; }
+  const t = showAI(`fai${i}`, `fait${i}`);
+  const txt = await callAI(`Du bist DaF-Lehrer (B1-Niveau). Bewerte diesen freien Text auf Deutsch (4-5 Sätze):
+
+Aufgabe: "${f.ctx}"
+Thema/Fokus: ${f.topic}
+Schülertext: "${val}"
+
+Bewerte:
+1. Wird das Passiv mit Modalverben korrekt verwendet?
+2. Sind Grammatik und Wortschatz passend für B1?
+3. Konkretes Lob + 1-2 Verbesserungsvorschläge
+4. Falls kein Passiv mit Modalverb vorhanden: zeige wie es geht.
+Sei freundlich, konstruktiv und ermutigend!`);
+  t.textContent = txt;
+  score(true); // Freies Schreiben = immer Punkt für Teilnahme
+  document.getElementById(`fbtn${i}`).disabled = true;
+  document.getElementById(`fc${i}`).classList.add('state-correct');
+}
+
+// ==================== ERGEBNIS ====================
+function buildResult() {
+  const wrap = document.getElementById('result-wrap');
+  const pct = Math.round(right / Math.max(done, 1) * 100);
+  let emoji = '🌟', title = 'Ausgezeichnet!', color = 'var(--green)';
+  if (pct < 50) { emoji = '📚'; title = 'Weiter üben!'; color = 'var(--red)'; }
+  else if (pct < 70) { emoji = '👍'; title = 'Gut gemacht!'; color = 'var(--amber)'; }
+  else if (pct < 90) { emoji = '🎯'; title = 'Sehr gut!'; color = 'var(--blue-dark)'; }
+
+  wrap.innerHTML = `
+  <div class="result-hero">
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-title" style="color:${color}">${title}</div>
+    <div class="result-sub">Du hast ${right} von ${done} bewerteten Aufgaben richtig beantwortet.</div>
+  </div>
+  <div class="result-grid">
+    <div class="result-card"><div class="result-num">${done}</div><div class="result-lbl">Aufgaben</div></div>
+    <div class="result-card"><div class="result-num" style="color:var(--green)">${right}</div><div class="result-lbl">Richtig</div></div>
+    <div class="result-card"><div class="result-num" style="color:var(--red)">${wrong}</div><div class="result-lbl">Falsch</div></div>
+    <div class="result-card"><div class="result-num" style="color:var(--blue-dark)">${pct}%</div><div class="result-lbl">Erfolg</div></div>
+  </div>
+  <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:0.75rem">Formel – Passiv mit Modalverben (Präsens)</div>
+    <div style="background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:10px;padding:12px 16px;font-family:'Lora',serif;font-size:1rem;color:var(--blue-dark);margin-bottom:0.75rem">
+      <strong>Subjekt</strong> + <strong>Modalverb</strong> (konjugiert) + … + <strong>Partizip II</strong> + <strong>werden</strong>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted)">Beispiele: Das Fenster <strong>muss</strong> geöffnet <strong>werden</strong>. · Die Aufgaben <strong>sollen</strong> gemacht <strong>werden</strong>.</div>
+  </div>
+  <div style="text-align:center">
+    <button class="nav-btn primary" style="font-size:15px;padding:12px 32px" onclick="location.reload()">↻ Nochmal üben</button>
+  </div>`;
+}
+
+// Init
+buildGaps();
+buildWrite();
+buildTransform();
+buildMC();
+buildSort();
+buildFree();
+</script>
+</body>
+</html>
