@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Unterricht – Wortschatz & Kreativaufgaben</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --surface2: #f3f1eb;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #1a1916;
+    --muted: #666;
+    --accent: #b07d2a;
+    --accent2: #b07d2a;
+    --teal: #0f6e56;
+    --coral: #993c1d;
+    --purple: #534ab7;
+    --blue: #185fa5;
+    --pink: #993556;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(176,125,42,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(232,200,122,0.3);
+    border-radius: 20px;
+    padding: 4px 16px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 40px;
+  }
+
+  /* WORT-CHIPS */
+  .vocab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 24px 64px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    cursor: default;
+    transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SECTION */
+  .section-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: grid;
+    gap: 32px;
+  }
+
+  /* TASK CARDS */
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .task-card:hover { border-color: rgba(0,0,0,0.22); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-num {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    opacity: 0.18;
+    min-width: 52px;
+  }
+  .card-title-wrap {}
+  .card-emoji {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .card-body {
+    padding: 24px 28px;
+  }
+
+  .card-desc {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .example-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .example-box strong {
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* WÖRTER */
+  .words-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .word-pill {
+    font-size: 13px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+  .w-gold   { background: rgba(232,200,122,0.12); color: var(--accent);  border-color: rgba(232,200,122,0.25); }
+  .w-teal   { background: rgba(15,110,86,0.1);  color: var(--teal);   border-color: rgba(15,110,86,0.25); }
+  .w-coral  { background: rgba(153,60,29,0.1); color: var(--coral);  border-color: rgba(153,60,29,0.25); }
+  .w-purple { background: rgba(83,74,183,0.1); color: var(--purple); border-color: rgba(83,74,183,0.25); }
+  .w-blue   { background: rgba(24,95,165,0.1);   color: var(--blue);   border-color: rgba(24,95,165,0.25); }
+  .w-pink   { background: rgba(153,53,86,0.1);   color: var(--pink);   border-color: rgba(153,53,86,0.25); }
+
+  /* TASKS WITHIN CARD */
+  .sub-tasks {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 16px;
+  }
+  .sub-tasks li {
+    font-size: 14px;
+    color: #555;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .sub-tasks li:last-child { border-bottom: none; }
+  .sub-tasks li::before {
+    content: '→';
+    color: var(--accent);
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ACCENT BAR */
+  .accent-bar {
+    height: 3px;
+  }
+  .ab-gold   { background: linear-gradient(90deg, var(--accent), transparent); }
+  .ab-teal   { background: linear-gradient(90deg, var(--teal), transparent); }
+  .ab-coral  { background: linear-gradient(90deg, var(--coral), transparent); }
+  .ab-purple { background: linear-gradient(90deg, var(--purple), transparent); }
+  .ab-blue   { background: linear-gradient(90deg, var(--blue), transparent); }
+  .ab-pink   { background: linear-gradient(90deg, var(--pink), transparent); }
+  .ab-amber  { background: linear-gradient(90deg, #ef9f27, transparent); }
+  .ab-green  { background: linear-gradient(90deg, #97c459, transparent); }
+
+  .badge-min {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: rgba(232,200,122,0.1);
+    border: 1px solid rgba(232,200,122,0.2);
+    border-radius: 6px;
+    padding: 3px 9px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  /* TIMER VISUAL */
+  .timer-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--teal); background: rgba(15,110,86,0.06);
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--teal);
+    margin-right: 12px;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* RULE BOX */
+  .rule-box {
+    background: rgba(83,74,183,0.06);
+    border: 1px solid rgba(83,74,183,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--purple);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .rule-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* TWO-COL */
+  @media (min-width: 640px) {
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+
+  .scroll-hint {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Deutsch · Wortschatz & Sprechen</div>
+  <h1>Kreative<br><em>Sprech&shy;aufgaben</em></h1>
+  <p>Acht spannende Übungen – entdecke Wörter, erzähle Geschichten, denke frei.</p>
+</div>
+
+<!-- Alle Schlüsselwörter als Chips -->
+<div class="vocab-bar">
+  <span class="chip"><span class="chip-dot" style="background:#b07d2a"></span>das Geheimnis</span>
+  <span class="chip"><span class="chip-dot" style="background:#b07d2a"></span>verrückt</span>
+  <span class="chip"><span class="chip-dot" style="background:#0f6e56"></span>der Sinn</span>
+  <span class="chip"><span class="chip-dot" style="background:#0f6e56"></span>sich entwickeln</span>
+  <span class="chip"><span class="chip-dot" style="background:#993c1d"></span>und überhaupt</span>
+  <span class="chip"><span class="chip-dot" style="background:#993c1d"></span>zustimmen</span>
+  <span class="chip"><span class="chip-dot" style="background:#534ab7"></span>der Wecker</span>
+  <span class="chip"><span class="chip-dot" style="background:#534ab7"></span>wecken</span>
+  <span class="chip"><span class="chip-dot" style="background:#185fa5"></span>der Tagesablauf</span>
+  <span class="chip"><span class="chip-dot" style="background:#185fa5"></span>insgesamt</span>
+  <span class="chip"><span class="chip-dot" style="background:#993556"></span>allgemein</span>
+  <span class="chip"><span class="chip-dot" style="background:#993556"></span>davon träumen</span>
+  <span class="chip"><span class="chip-dot" style="background:#3b6d11"></span>der Gegenstand</span>
+</div>
+
+<p class="scroll-hint">↓ Aufgabe für Aufgabe</p>
+
+<div class="section-wrap">
+
+  <!-- AUFGABE 1 -->
+  <div class="task-card">
+    <div class="accent-bar ab-gold"></div>
+    <div class="card-header">
+      <div class="card-num">01</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">🧠</div>
+        <div class="card-title">Das verschwundene Geheimnis</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="badge-min">Mindestens 5 Wörter benutzen</div>
+      <p class="card-desc">Benutze mindestens 5 Wörter aus der Liste und erzähle eine spannende oder verrückte Geschichte.</p>
+      <div class="words-row">
+        <span class="word-pill w-gold">das Geheimnis</span>
+        <span class="word-pill w-gold">verrückt</span>
+        <span class="word-pill w-gold">der Sinn</span>
+        <span class="word-pill w-gold">sich entwickeln</span>
+        <span class="word-pill w-gold">und überhaupt</span>
+        <span class="word-pill w-gold">zustimmen</span>
+      </div>
+      <div class="example-box">
+        <strong>Beispiel</strong>
+        „In meiner Stadt gab es ein verrücktes Geheimnis. Niemand wusste den Sinn davon, aber plötzlich begann sich alles zu entwickeln …"
+      </div>
+    </div>
+  </div>
+
+  <!-- AUFGABE 2 -->
+  <div class="task-card">
+    <div class="accent-bar ab-teal"></div>
+    <div class="card-header">
+      <div class="card-num">02</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">⏰</div>
+        <div class="card-title">Zwei-Minuten-Challenge: Mein chaotischer Morgen</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display:flex; align-items:center; margin-bottom:18px;">
+        <div class="timer-circle">2'</div>
+        <p style="font-size:15px; color:#ccc;">Sprich 2 Minuten über deinen Morgen – alles läuft schief!</p>
+      </div>
+      <div class="words-row">
+        <span class="word-pill w-teal">der Wecker</span>
+        <span class="word-pill w-teal">wecken</span>
+        <span class="word-pill w-teal">der Tagesablauf</span>
+        <span class="word-pill w-teal">insgesamt</span>
+        <span class="word-pill w-teal">verrückt</span>
+        <span class="word-pill w-teal">allgemein</span>
+      </div>
+      <ul class="sub-tasks">
+        <li>Wie wirst du geweckt?</li>
+        <li>Was passiert mit deinem Tagesablauf?</li>
+        <li>Warum ist der Morgen verrückt?</li>
+        <li>Wie war der Morgen insgesamt?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AUFGABE 3 -->
+  <div class="task-card">
+    <div class="accent-bar ab-coral"></div>
+    <div class="card-header">
+      <div class="card-num">03</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">📺</div>
+        <div class="card-title">Falsche Dokumentation: „Das Leben der Menschen"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Du bist ein Reporter und erklärst die „komische Welt der Menschen". Benutze <strong style="color:var(--coral)">ALLE</strong> Wörter kreativ.</p>
+      <div class="words-row">
+        <span class="word-pill w-coral">sich entwickeln</span>
+        <span class="word-pill w-coral">der Sinn</span>
+        <span class="word-pill w-coral">davon träumen</span>
+        <span class="word-pill w-coral">zustimmen</span>
+        <span class="word-pill w-coral">allgemein</span>
+        <span class="word-pill w-coral">und überhaupt</span>
+      </div>
+      <div class="example-box">
+        <strong>Beispiel</strong>
+        „Menschen träumen davon, sich ständig zu entwickeln, aber viele stimmen dieser Idee nicht zu …"
+      </div>
+    </div>
+  </div>
+
+  <!-- AUFGABE 4 -->
+  <div class="task-card">
+    <div class="accent-bar ab-purple"></div>
+    <div class="card-header">
+      <div class="card-num">04</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">🤔</div>
+        <div class="card-title">Entweder oder? – Lebensentscheidungen</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Antworte spontan und begründe deine Meinung mit mindestens einem Wort aus der Liste.</p>
+      <div class="words-row" style="margin-bottom:20px;">
+        <span class="word-pill w-purple">verrückt</span>
+        <span class="word-pill w-purple">der Tagesablauf</span>
+        <span class="word-pill w-purple">insgesamt</span>
+        <span class="word-pill w-purple">sich entwickeln</span>
+        <span class="word-pill w-purple">der Sinn</span>
+      </div>
+      <ul class="sub-tasks">
+        <li>Ein <em>verrücktes</em> Leben oder ein ruhiges Leben?</li>
+        <li>Immer reisen oder zu Hause bleiben?</li>
+        <li>Keine Regeln oder klare Struktur?</li>
+        <li>Alles planen oder spontan sein?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AUFGABE 5 -->
+  <div class="task-card">
+    <div class="accent-bar ab-blue"></div>
+    <div class="card-header">
+      <div class="card-num">05</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">🎨</div>
+        <div class="card-title">Bildbeschreibung ohne Bild: „Der seltsame Tag"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Stell dir vor: Ein Mensch steht nachts allein auf einer leeren Straße und denkt nach. Beschreibe die Szene.</p>
+      <div class="words-row">
+        <span class="word-pill w-blue">verrückt</span>
+        <span class="word-pill w-blue">sich entwickeln</span>
+        <span class="word-pill w-blue">der Sinn</span>
+        <span class="word-pill w-blue">und überhaupt</span>
+        <span class="word-pill w-blue">allgemein</span>
+      </div>
+      <ul class="sub-tasks">
+        <li>Was passiert?</li>
+        <li>Warum ist die Situation verrückt?</li>
+        <li>Wie entwickelt sich die Situation?</li>
+        <li>Was ist der Sinn dieses Moments?</li>
+        <li>Und überhaupt – was passiert danach?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AUFGABE 6 -->
+  <div class="task-card">
+    <div class="accent-bar ab-pink"></div>
+    <div class="card-header">
+      <div class="card-num">06</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">💬</div>
+        <div class="card-title">Mini-Diskussion: „Ist ein verrücktes Leben besser?"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="rule-box">
+        <span class="rule-icon">💡</span>
+        <span>Thema: <em>„Ein verrücktes Leben ist besser als ein normales Leben."</em> – Sprich frei und begründe deine Meinung!</span>
+      </div>
+      <p style="font-size:14px; color:#999; margin-bottom:14px;">Benutze möglichst viele dieser Wörter:</p>
+      <div class="words-row">
+        <span class="word-pill w-pink">verrückt</span>
+        <span class="word-pill w-pink">der Sinn</span>
+        <span class="word-pill w-pink">sich entwickeln</span>
+        <span class="word-pill w-pink">zustimmen</span>
+        <span class="word-pill w-pink">davon träumen</span>
+        <span class="word-pill w-pink">allgemein</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUFGABE 7 -->
+  <div class="task-card">
+    <div class="accent-bar ab-amber"></div>
+    <div class="card-header">
+      <div class="card-num">07</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">🧩</div>
+        <div class="card-title">Story-Chain (gemeinsam oder allein)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="rule-box" style="background:rgba(239,159,39,0.08); border-color:rgba(239,159,39,0.35); color:#ef9f27;">
+        <span class="rule-icon">📏</span>
+        <span><strong style="color:#7a4f0a;">Regel:</strong> Jeder Satz = 1 neues Wort aus der Liste. Die Geschichte wächst Schritt für Schritt.</span>
+      </div>
+      <p class="card-desc">Erzähle eine Geschichte – jeder Satz muss ein neues Wort enthalten.</p>
+      <div class="words-row">
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">das Geheimnis</span>
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">der Gegenstand</span>
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">verrückt</span>
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">sich entwickeln</span>
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">insgesamt</span>
+        <span class="word-pill" style="background:rgba(186,117,23,0.1); color:#7a4f0a; border-color:rgba(186,117,23,0.3);">und überhaupt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUFGABE 8 -->
+  <div class="task-card">
+    <div class="accent-bar ab-green"></div>
+    <div class="card-header">
+      <div class="card-num">08</div>
+      <div class="card-title-wrap">
+        <div class="card-emoji">📦</div>
+        <div class="card-title">Ein Gegenstand erzählt seine Geschichte</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Du bist ein Gegenstand und erzählst dein Leben. Was erlebst du jeden Tag?</p>
+      <div class="words-row">
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">der Gegenstand</span>
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">wecken</span>
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">der Sinn</span>
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">verrückt</span>
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">sich entwickeln</span>
+        <span class="word-pill" style="background:rgba(59,109,17,0.1); color:#3b6d11; border-color:rgba(59,109,17,0.3);">allgemein</span>
+      </div>
+      <ul class="sub-tasks">
+        <li>Wer bist du?</li>
+        <li>Wie wirst du benutzt / „geweckt"?</li>
+        <li>Wie hat sich dein Leben entwickelt?</li>
+        <li>Warum ist dein Leben verrückt?</li>
+        <li>Was ist dein Sinn?</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Viel Spaß beim Sprechen und Erzählen! 🎉 &nbsp;·&nbsp; Deutsch Unterricht &nbsp;·&nbsp; Wortschatz &amp; Kreativaufgaben
+</footer>
+
+</body>
+</html>
