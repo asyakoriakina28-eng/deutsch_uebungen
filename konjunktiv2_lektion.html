@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konjunktiv II · B1 Deutschstunde</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f7f4ef;
+  --surface:#ffffff;
+  --ink:#141210;
+  --ink2:#3a3530;
+  --ink3:#7a746e;
+  --blue:#2153a8;
+  --blue-l:#dde8f8;
+  --blue-m:#8fb2e8;
+  --coral:#c94f3a;
+  --coral-l:#faeae7;
+  --coral-m:#e99585;
+  --teal:#1d7a6a;
+  --teal-l:#d8f0ec;
+  --teal-m:#7ac4b5;
+  --amber:#b5760c;
+  --amber-l:#fdf1d8;
+  --amber-m:#e6ba6c;
+  --plum:#6b2fa0;
+  --plum-l:#f0e6fa;
+  --plum-m:#c49ce0;
+  --border:#e8e3db;
+  --r:14px;
+  --rs:8px;
+  --shadow:0 2px 16px rgba(20,18,16,.07);
+  --shadow-md:0 6px 32px rgba(20,18,16,.11);
+}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+}
+
+/* ── SIDEBAR NAV ── */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:64px;
+  background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;
+  padding:24px 0;gap:8px;
+  z-index:100;
+}
+.sidebar-logo{
+  font-family:'Playfair Display',serif;
+  color:#fff;font-size:18px;font-weight:900;
+  writing-mode:vertical-rl;
+  letter-spacing:4px;
+  margin-bottom:24px;
+  opacity:.85;
+}
+.sb-dot{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .3s;
+  font-size:16px;position:relative;
+}
+.sb-dot:hover{background:rgba(255,255,255,.12);}
+.sb-dot.active{background:rgba(255,255,255,.18);}
+.sb-dot.done::after{
+  content:'';position:absolute;top:4px;right:4px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal-m);
+}
+.sb-dot-num{
+  color:rgba(255,255,255,.4);
+  font-size:11px;font-weight:600;letter-spacing:.5px;
+}
+.sb-dot.active .sb-dot-num{color:#fff;}
+
+/* ── MAIN CONTENT ── */
+.main{
+  margin-left:64px;
+  padding:40px 40px 80px;
+  max-width:960px;
+}
+
+/* ── PHASES ── */
+.phase{display:none;}
+.phase.active{
+  display:block;
+  animation:fadeUp .45s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── PHASE HERO ── */
+.phase-hero{
+  display:grid;grid-template-columns:1fr auto;gap:20px;
+  align-items:end;
+  margin-bottom:36px;
+  padding-bottom:24px;
+  border-bottom:2px solid var(--border);
+}
+.phase-eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:8px;
+}
+.phase-h1{
+  font-family:'Playfair Display',serif;
+  font-size:38px;font-weight:900;color:var(--ink);
+  line-height:1.1;
+}
+.phase-h1 em{color:var(--blue);font-style:normal;}
+.phase-sub{
+  font-size:15px;color:var(--ink3);margin-top:8px;line-height:1.6;
+}
+.phase-badge{
+  background:var(--ink);color:#fff;
+  border-radius:12px;padding:10px 18px;
+  font-size:12px;font-weight:600;letter-spacing:.5px;
+  white-space:nowrap;align-self:flex-start;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);
+  padding:28px 32px;margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+.card-h{
+  font-family:'Playfair Display',serif;
+  font-size:19px;font-weight:700;color:var(--ink);
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.card-body{font-size:15px;line-height:1.75;color:var(--ink2);}
+
+/* ── ACCENT BAR ── */
+.card.accent-blue{border-left:4px solid var(--blue);}
+.card.accent-coral{border-left:4px solid var(--coral);}
+.card.accent-teal{border-left:4px solid var(--teal);}
+.card.accent-amber{border-left:4px solid var(--amber);}
+.card.accent-plum{border-left:4px solid var(--plum);}
+
+/* ── FORMULA BOX ── */
+.formula{
+  background:var(--ink);color:#f7f4ef;
+  border-radius:var(--rs);padding:18px 24px;
+  font-family:'Playfair Display',serif;
+  font-size:17px;text-align:center;
+  margin:14px 0;letter-spacing:.3px;line-height:1.7;
+}
+.formula em{color:var(--amber-m);font-style:normal;font-weight:700;}
+.formula s{color:var(--coral-m);text-decoration:none;font-style:italic;}
+
+/* ── COMPARE GRID ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.cg-cell{border-radius:var(--rs);padding:16px 18px;}
+.cg-cell.real{background:#f0ede9;border-left:3px solid #bbb;}
+.cg-cell.konj{background:var(--blue-l);border-left:3px solid var(--blue);}
+.cg-cell label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:6px;}
+.cg-cell .sent{font-size:15px;font-weight:500;color:var(--ink);}
+.cg-cell .trans{font-size:12px;color:var(--ink3);margin-top:3px;}
+
+/* ── VERB TABLE ── */
+.vtable{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;}
+.vtable th{background:var(--blue-l);color:var(--blue);font-weight:600;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.5px;}
+.vtable td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.vtable tr:last-child td{border-bottom:none;}
+.vtable tr:hover td{background:var(--bg);}
+.hl{color:var(--blue);font-weight:600;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;margin:2px;}
+.tb{background:var(--blue-l);color:var(--blue);}
+.tc{background:var(--coral-l);color:var(--coral);}
+.tt{background:var(--teal-l);color:var(--teal);}
+.ta{background:var(--amber-l);color:var(--amber);}
+.tp{background:var(--plum-l);color:var(--plum);}
+
+/* ── INPUTS ── */
+.blank{
+  border:2px solid var(--border);border-radius:var(--rs);
+  padding:7px 13px;font-family:'Outfit',sans-serif;
+  font-size:15px;color:var(--ink);background:var(--surface);
+  outline:none;min-width:130px;transition:all .25s;
+}
+.blank:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(33,83,168,.1);}
+.blank.ok{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+.blank.err{border-color:var(--coral);background:var(--coral-l);color:var(--coral);}
+
+textarea.tarea{
+  width:100%;min-height:90px;
+  border:2px solid var(--border);border-radius:var(--rs);
+  padding:14px 16px;font-family:'Outfit',sans-serif;
+  font-size:15px;color:var(--ink);background:var(--surface);
+  outline:none;resize:vertical;line-height:1.7;transition:all .25s;
+}
+textarea.tarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(33,83,168,.1);}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  padding:10px 20px;border-radius:var(--rs);border:none;
+  cursor:pointer;transition:all .22s;letter-spacing:.2px;
+}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:#1840a0;transform:translateY(-1px);box-shadow:0 6px 20px rgba(33,83,168,.3);}
+.btn-blue:active{transform:translateY(0);}
+.btn-line{background:transparent;color:var(--blue);border:2px solid var(--blue-m);}
+.btn-line:hover{border-color:var(--blue);background:var(--blue-l);}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-teal:hover{background:#15604f;transform:translateY(-1px);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-coral:hover{background:#a83e2b;transform:translateY(-1px);}
+.btn-ink{background:var(--ink);color:#fff;padding:13px 30px;font-size:15px;}
+.btn-ink:hover{background:var(--blue);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.btn-sm{font-size:12px;padding:7px 14px;border-radius:6px;}
+
+/* ── EXERCISE ITEMS ── */
+.ex-item{
+  margin-bottom:16px;padding:18px 22px;
+  background:var(--bg);border-radius:var(--rs);
+  border:1px solid var(--border);transition:border-color .2s;
+}
+.ex-item:hover{border-color:var(--blue-m);}
+.ex-line{font-size:15px;color:var(--ink);margin-bottom:10px;line-height:1.7;}
+.ex-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.fb{font-size:13px;font-weight:600;}
+.fb.ok{color:var(--teal);}
+.fb.err{color:var(--coral);}
+
+/* ── MATCH GAME ── */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px;}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.mi{
+  padding:13px 16px;border-radius:var(--rs);font-size:14px;
+  cursor:pointer;border:2px solid transparent;transition:all .22s;line-height:1.5;
+  margin-bottom:8px;
+}
+.mi.L{background:var(--plum-l);color:var(--ink);}
+.mi.R{background:var(--amber-l);color:var(--ink);}
+.mi:hover{transform:translateX(3px);box-shadow:var(--shadow);}
+.mi.sel{border-color:var(--blue);transform:scale(1.02);}
+.mi.mok{background:var(--teal-l);border-color:var(--teal);color:var(--teal);}
+.mi.merr{background:var(--coral-l);border-color:var(--coral);color:var(--coral);}
+
+/* ── WORD SCRAMBLE ── */
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.wt{
+  padding:8px 15px;border-radius:var(--rs);
+  background:var(--coral-l);color:var(--coral);
+  font-weight:600;font-size:14px;cursor:pointer;
+  border:2px solid transparent;transition:all .22s;user-select:none;
+}
+.wt:hover:not(.used){border-color:var(--coral);transform:translateY(-2px);}
+.wt.used{opacity:.3;pointer-events:none;}
+.sent-build{
+  min-height:52px;padding:12px 16px;
+  border-radius:var(--rs);border:2px dashed var(--blue-m);
+  background:var(--blue-l);display:flex;flex-wrap:wrap;gap:7px;
+  align-items:center;font-size:14px;
+}
+.placed-w{
+  padding:6px 12px;border-radius:6px;
+  background:var(--blue);color:#fff;font-weight:600;font-size:14px;
+  cursor:pointer;transition:all .2s;
+}
+.placed-w:hover{background:var(--coral);}
+
+/* ── SCENARIO CARDS ── */
+.sc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;}
+.sc{
+  padding:18px 16px;border-radius:var(--r);
+  cursor:pointer;border:2px solid transparent;transition:all .28s;
+  text-align:center;
+}
+.sc:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.sc.picked{border-color:var(--blue);}
+.sc-icon{font-size:30px;display:block;margin-bottom:8px;}
+.sc-label{font-size:13px;font-weight:600;color:var(--ink2);line-height:1.4;}
+.sc-prompt{font-size:12px;color:var(--ink3);margin-top:6px;font-style:italic;line-height:1.5;}
+
+/* ── BUBBLE ── */
+.bubble{
+  background:var(--blue-l);border-left:4px solid var(--blue);
+  border-radius:0 var(--rs) var(--rs) 0;
+  padding:14px 20px;font-size:15px;color:var(--ink2);
+  font-style:italic;line-height:1.6;margin-bottom:12px;
+}
+
+/* ── TRUE/FALSE ── */
+.tf-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;border-radius:var(--rs);
+  background:var(--bg);border:1px solid var(--border);
+  margin-bottom:10px;font-size:15px;
+}
+.tf-sent{flex:1;line-height:1.6;}
+.tf-btns{display:flex;gap:8px;flex-shrink:0;}
+.tf-btn{
+  padding:7px 14px;border-radius:6px;font-size:13px;font-weight:600;
+  cursor:pointer;border:2px solid transparent;transition:all .2s;
+  font-family:'Outfit',sans-serif;
+}
+.tf-btn.t-btn{background:var(--teal-l);color:var(--teal);}
+.tf-btn.f-btn{background:var(--coral-l);color:var(--coral);}
+.tf-btn.correct-choice{background:var(--teal);color:#fff;border-color:var(--teal);}
+.tf-btn.wrong-choice{background:var(--coral);color:#fff;border-color:var(--coral);}
+.tf-btn.gray-out{opacity:.4;pointer-events:none;}
+
+/* ── MULTIPLE CHOICE ── */
+.mc-item{margin-bottom:20px;}
+.mc-q{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.6;}
+.mc-opts{display:flex;flex-direction:column;gap:7px;}
+.mc-opt{
+  padding:11px 16px;border-radius:var(--rs);border:2px solid var(--border);
+  cursor:pointer;font-size:14px;transition:all .22s;background:var(--surface);
+}
+.mc-opt:hover{border-color:var(--blue);background:var(--blue-l);}
+.mc-opt.chosen-ok{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+.mc-opt.chosen-err{border-color:var(--coral);background:var(--coral-l);color:var(--coral);}
+.mc-opt.reveal-ok{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+
+/* ── DRAG SORT ── */
+.sort-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.sort-item{
+  padding:12px 18px;border-radius:var(--rs);
+  background:var(--amber-l);border:2px solid var(--border);
+  font-size:15px;cursor:grab;user-select:none;transition:all .2s;
+  display:flex;align-items:center;gap:12px;
+}
+.sort-item:hover{border-color:var(--amber);transform:scale(1.01);}
+.sort-item.dragging{opacity:.4;}
+.drag-handle{color:var(--ink3);font-size:18px;cursor:grab;}
+
+/* ── FEEDBACK BOX ── */
+.fb-box{
+  background:var(--plum-l);border:1px solid var(--plum-m);
+  border-radius:var(--rs);padding:16px 20px;
+  font-size:14px;color:var(--ink2);line-height:1.7;
+  display:none;margin-top:12px;
+}
+.fb-box.vis{display:block;}
+.fb-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--plum);margin-bottom:8px;}
+
+/* ── SCORE ── */
+.score-box{
+  text-align:center;padding:24px;
+  background:var(--teal-l);border-radius:var(--r);margin-top:14px;
+  display:none;
+}
+.score-box.vis{display:block;}
+.score-n{font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--teal);}
+.score-l{font-size:14px;color:var(--ink3);margin-top:4px;}
+
+/* ── PHASE NAV BAR ── */
+.pnav{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:36px;padding:20px 28px;
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--border);box-shadow:var(--shadow);
+}
+.pnav-mid{text-align:center;}
+.pnav-mid strong{display:block;font-size:14px;color:var(--ink);}
+.pnav-mid span{font-size:12px;color:var(--ink3);}
+
+/* ── FINISH ── */
+.finish-hero{
+  background:var(--ink);color:#f7f4ef;
+  border-radius:var(--r);padding:52px 44px;
+  text-align:center;margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.finish-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 30%, rgba(33,83,168,.4) 0%,transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(29,122,106,.3) 0%,transparent 50%);
+}
+.finish-hero *{position:relative;}
+.finish-emoji{font-size:60px;display:block;margin-bottom:18px;}
+.finish-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:#fff;margin-bottom:12px;}
+.finish-sub{font-size:16px;color:rgba(255,255,255,.7);max-width:440px;margin:0 auto 28px;line-height:1.6;}
+.check-list{list-style:none;text-align:left;max-width:380px;margin:0 auto 28px;}
+.check-list li{padding:8px 0;font-size:15px;color:rgba(255,255,255,.8);border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;}
+.check-list li::before{content:'✓';color:var(--teal-m);font-weight:700;font-size:16px;flex-shrink:0;}
+
+/* ── HW TABS ── */
+.hw-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.hw-tab{
+  padding:9px 18px;border-radius:var(--rs);border:2px solid var(--border);
+  cursor:pointer;font-size:13px;font-weight:600;transition:all .22s;
+  font-family:'Outfit',sans-serif;background:var(--surface);color:var(--ink3);
+}
+.hw-tab:hover{border-color:var(--blue);color:var(--blue);}
+.hw-tab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.hw-panel{display:none;}
+.hw-panel.active{display:block;}
+
+/* ── HINT ── */
+.hint{display:none;font-size:13px;color:var(--plum);font-style:italic;margin-top:6px;}
+.hint.vis{display:block;}
+
+/* MOBILE */
+@media(max-width:700px){
+  .sidebar{width:48px;}
+  .main{margin-left:48px;padding:24px 16px 60px;}
+  .phase-h1{font-size:26px;}
+  .compare-grid,.match-wrap,.sc-grid{grid-template-columns:1fr;}
+  .sc-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">DE</div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════
+     PHASE 0 · EINSTIEG
+══════════════════════════════════ -->
+<section class="phase active" id="phase-0">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Deutschstunde · B1</div>
+      <div class="phase-h1">Konjunktiv <em>II</em><br>mit »wenn«</div>
+      <div class="phase-sub">Träume, Wünsche und Hypothesen auf Deutsch ausdrücken — 60 Minuten intensives Üben.</div>
+    </div>
+    <div class="phase-badge">🎯 Einstieg</div>
+  </div>
+
+  <div class="card accent-blue">
+    <div class="card-h">✨ Was lernst du heute?</div>
+    <div class="card-body">
+      <ul style="padding-left:18px;line-height:2.1">
+        <li>Den Konjunktiv II mit <em>„wenn"</em> korrekt bilden</li>
+        <li>Irreale Situationen und Fantasien beschreiben</li>
+        <li>Formen von <em>wäre, hätte, würde, könnte</em> sicher verwenden</li>
+        <li>Flüssig über Träume und Hypothesen sprechen</li>
+      </ul>
+      <div style="margin-top:14px">
+        <span class="tag tb">Niveau B1</span>
+        <span class="tag tc">60 min</span>
+        <span class="tag tt">9 Übungen</span>
+        <span class="tag ta">Hausaufgaben</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card accent-coral">
+    <div class="card-h">💬 Wärst du lieber …?</div>
+    <div class="card-body" style="margin-bottom:14px">Stell dir vor: Du kannst wählen. Was passt besser zu dir? Erkläre kurz warum!</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:var(--plum-l);border-radius:var(--rs);padding:14px;text-align:center;cursor:pointer;border:2px solid transparent;transition:.2s" onclick="toggleWahl(this)">
+        <div style="font-size:26px;margin-bottom:6px">🐦</div>
+        <div style="font-size:13px;font-weight:600;color:var(--plum)">Vogel</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">frei & schnell</div>
+      </div>
+      <div style="background:var(--teal-l);border-radius:var(--rs);padding:14px;text-align:center;cursor:pointer;border:2px solid transparent;transition:.2s" onclick="toggleWahl(this)">
+        <div style="font-size:26px;margin-bottom:6px">🐬</div>
+        <div style="font-size:13px;font-weight:600;color:var(--teal)">Delfin</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">klug & sozial</div>
+      </div>
+      <div style="background:var(--amber-l);border-radius:var(--rs);padding:14px;text-align:center;cursor:pointer;border:2px solid transparent;transition:.2s" onclick="toggleWahl(this)">
+        <div style="font-size:26px;margin-bottom:6px">🦁</div>
+        <div style="font-size:13px;font-weight:600;color:var(--amber)">Löwe</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">stark & frei</div>
+      </div>
+    </div>
+    <textarea class="tarea" placeholder="Wenn ich ein Tier wäre, wäre ich ein/e _____, weil …" rows="3"></textarea>
+  </div>
+
+  <div class="pnav">
+    <div></div>
+    <div class="pnav-mid"><strong>Phase 1 von 7</strong><span>Nächste: Grammatik</span></div>
+    <button class="btn btn-ink" onclick="goTo(1)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 1 · GRAMMATIK
+══════════════════════════════════ -->
+<section class="phase" id="phase-1">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 1 · 10 Minuten</div>
+      <div class="phase-h1"><em>Grammatik</em><br>entdecken</div>
+      <div class="phase-sub">Wie funktioniert der Konjunktiv II? Schritt für Schritt.</div>
+    </div>
+    <div class="phase-badge">📚 Theorie</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🔀 Realität → Irrealität</div>
+    <div class="compare-grid">
+      <div class="cg-cell real"><label>Indikativ (Realität)</label><div class="sent">Ich habe kein Geld.<br>Ich kaufe kein Auto.</div><div class="trans">↳ Das ist wahr.</div></div>
+      <div class="cg-cell konj"><label>Konjunktiv II (Irrealität)</label><div class="sent">Wenn ich Geld <em>hätte</em>, <em>würde</em> ich ein Auto kaufen.</div><div class="trans">↳ Fantasie / Hypothese</div></div>
+      <div class="cg-cell real"><label>Indikativ</label><div class="sent">Sie ist nicht in Berlin.<br>Sie trifft ihre Freunde nicht.</div></div>
+      <div class="cg-cell konj"><label>Konjunktiv II</label><div class="sent">Wenn sie in Berlin <em>wäre</em>, <em>würde</em> sie ihre Freunde treffen.</div></div>
+      <div class="cg-cell real"><label>Indikativ</label><div class="sent">Wir können nicht fliegen.<br>Wir reisen nicht um die Welt.</div></div>
+      <div class="cg-cell konj"><label>Konjunktiv II</label><div class="sent">Wenn wir fliegen <em>könnten</em>, <em>würden</em> wir um die Welt reisen.</div></div>
+    </div>
+  </div>
+
+  <div class="card accent-blue">
+    <div class="card-h">📐 Die Struktur</div>
+    <div class="formula">
+      <em>Wenn</em> + Subjekt + … + Verb <em>(Konj. II)</em>,<br>
+      Subjekt + <em>würde</em> + … + Infinitiv
+    </div>
+    <div style="margin-top:6px;font-size:13px;color:var(--ink3);text-align:center">
+      ⚠ Bei <strong>sein, haben, Modalverben</strong> direkt Konjunktiv II. Bei anderen: <strong>würde + Infinitiv</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🗂 Konjunktiv-II-Formen im Überblick</div>
+    <table class="vtable">
+      <thead><tr><th>Infinitiv</th><th>ich</th><th>du</th><th>er/sie/es</th><th>wir</th><th>ihr</th><th>sie/Sie</th></tr></thead>
+      <tbody>
+        <tr><td><strong>sein</strong></td><td class="hl">wäre</td><td class="hl">wärst</td><td class="hl">wäre</td><td class="hl">wären</td><td class="hl">wärt</td><td class="hl">wären</td></tr>
+        <tr><td><strong>haben</strong></td><td class="hl">hätte</td><td class="hl">hättest</td><td class="hl">hätte</td><td class="hl">hätten</td><td class="hl">hättet</td><td class="hl">hätten</td></tr>
+        <tr><td><strong>können</strong></td><td class="hl">könnte</td><td class="hl">könntest</td><td class="hl">könnte</td><td class="hl">könnten</td><td class="hl">könntet</td><td class="hl">könnten</td></tr>
+        <tr><td><strong>müssen</strong></td><td class="hl">müsste</td><td class="hl">müsstest</td><td class="hl">müsste</td><td class="hl">müssten</td><td class="hl">müsstet</td><td class="hl">müssten</td></tr>
+        <tr><td><strong>dürfen</strong></td><td class="hl">dürfte</td><td class="hl">dürftest</td><td class="hl">dürfte</td><td class="hl">dürften</td><td class="hl">dürftet</td><td class="hl">dürften</td></tr>
+        <tr><td><strong>wollen</strong></td><td class="hl">wollte</td><td class="hl">wolltest</td><td class="hl">wollte</td><td class="hl">wollten</td><td class="hl">wolltet</td><td class="hl">wollten</td></tr>
+        <tr><td><strong>andere</strong></td><td class="hl">würde</td><td class="hl">würdest</td><td class="hl">würde</td><td class="hl">würden</td><td class="hl">würdet</td><td class="hl">würden</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card accent-teal">
+    <div class="card-h">⚡ Blitz-Check: Richtig oder Falsch?</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">Klicke auf R (Richtig) oder F (Falsch). Ist der Satz korrekt?</div>
+    <div id="tf-container"></div>
+    <button class="btn btn-teal btn-sm" style="margin-top:10px" onclick="checkTF()">Auswerten ✓</button>
+    <div id="tf-result" style="margin-top:10px;font-size:14px;font-weight:600;display:none"></div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(0)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 2 von 7</strong><span>Nächste: Lückentext</span></div>
+    <button class="btn btn-ink" onclick="goTo(2)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 2 · LÜCKENÜBUNG
+══════════════════════════════════ -->
+<section class="phase" id="phase-2">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 2 · 10 Minuten</div>
+      <div class="phase-h1">Lücken<em>text</em></div>
+      <div class="phase-sub">Ergänze die fehlenden Konjunktiv-II-Formen.</div>
+    </div>
+    <div class="phase-badge">✏️ Formtraining</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">📝 Übung 1 — Formen einsetzen</div>
+    <div class="card-body" style="margin-bottom:16px;font-size:14px;color:var(--ink3)">
+      Schreibe die richtige Konjunktiv-II-Form in die Lücke. Klicke dann auf „Prüfen".
+    </div>
+    <div id="fill-ex1"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="checkAllFill(1)">Alle prüfen ✓</button>
+      <button class="btn btn-line" onclick="resetFill(1)">Neu ↺</button>
+      <button class="btn btn-line btn-sm" style="margin-left:auto" onclick="showAllHints(1)">Tipps 💡</button>
+    </div>
+    <div class="score-box" id="score-fill1">
+      <div class="score-n" id="sn-fill1">—</div>
+      <div class="score-l">richtige Antworten</div>
+    </div>
+  </div>
+
+  <div class="card accent-coral">
+    <div class="card-h">📝 Übung 2 — Sätze umformen</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">Schreibe den Satz im Konjunktiv II (mit „wenn").</div>
+    <div id="transform-ex"></div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(1)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 3 von 7</strong><span>Nächste: Multiple Choice</span></div>
+    <button class="btn btn-ink" onclick="goTo(3)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 3 · MULTIPLE CHOICE + ZUORDNUNG
+══════════════════════════════════ -->
+<section class="phase" id="phase-3">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 3 · 10 Minuten</div>
+      <div class="phase-h1"><em>Auswählen</em><br>& Zuordnen</div>
+      <div class="phase-sub">Multiple Choice und Satz-Matching — teste dein Verständnis.</div>
+    </div>
+    <div class="phase-badge">🧠 Verstehen</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🔘 Übung 3 — Multiple Choice</div>
+    <div class="card-body" style="margin-bottom:16px;font-size:14px;color:var(--ink3)">Wähle die richtige Option.</div>
+    <div id="mc-container"></div>
+    <button class="btn btn-blue" style="margin-top:12px" onclick="revealAllMC()">Alle Antworten zeigen ✓</button>
+  </div>
+
+  <div class="card accent-plum">
+    <div class="card-h">🔗 Übung 4 — Satzhälften zuordnen</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">Klicke auf eine <span class="tag tp">lila</span> Satzhälfte, dann auf die passende <span class="tag ta">gelbe</span> Hälfte.</div>
+    <div class="match-wrap">
+      <div><div class="match-col-label">Wenn-Teil …</div><div id="match-L"></div></div>
+      <div><div class="match-col-label">… dann-Teil</div><div id="match-R"></div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+      <button class="btn btn-coral" onclick="checkMatch()">Prüfen ✓</button>
+      <button class="btn btn-line" onclick="buildMatch()">Neu ↺</button>
+    </div>
+    <div id="match-result" style="margin-top:10px;font-size:14px;font-weight:600;display:none"></div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(2)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 4 von 7</strong><span>Nächste: Wörter sortieren</span></div>
+    <button class="btn btn-ink" onclick="goTo(4)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 4 · WÖRTER ORDNEN
+══════════════════════════════════ -->
+<section class="phase" id="phase-4">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 4 · 10 Minuten</div>
+      <div class="phase-h1">Wörter<em>spiel</em></div>
+      <div class="phase-sub">Bringe die Wörter in die richtige Reihenfolge.</div>
+    </div>
+    <div class="phase-badge">🃏 Wörter</div>
+  </div>
+
+  <div class="card accent-amber">
+    <div class="card-h">🔀 Übung 5 — Wörter ordnen <span style="font-size:14px;font-weight:400;color:var(--ink3)">(8 Sätze)</span></div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">
+      Klicke auf die Wörter in der richtigen Reihenfolge. Klicke auf ein platziertes Wort, um es zurückzusetzen.
+    </div>
+    <div id="scramble-wrap"></div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(3)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 5 von 7</strong><span>Nächste: Kreativ schreiben</span></div>
+    <button class="btn btn-ink" onclick="goTo(5)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 5 · KREATIV SCHREIBEN
+══════════════════════════════════ -->
+<section class="phase" id="phase-5">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 5 · 10 Minuten</div>
+      <div class="phase-h1"><em>Traumwelt</em><br>beschreiben</div>
+      <div class="phase-sub">Wähle eine Welt — und schreibe frei auf Deutsch.</div>
+    </div>
+    <div class="phase-badge">🌈 Kreativ</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🌍 Übung 6 — Wähle deine Welt</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">Wähle eine Situation und schreibe mindestens 5 Sätze mit Konjunktiv II.</div>
+    <div class="sc-grid" id="dreamGrid">
+      <div class="sc" style="background:var(--blue-l)" onclick="pickDream(0,this)"><span class="sc-icon">🏝️</span><div class="sc-label">Einsame Insel</div><div class="sc-prompt">Wenn ich auf einer Insel leben würde …</div></div>
+      <div class="sc" style="background:var(--teal-l)" onclick="pickDream(1,this)"><span class="sc-icon">🚀</span><div class="sc-label">Astronaut im All</div><div class="sc-prompt">Wenn ich im Weltall wohnen würde …</div></div>
+      <div class="sc" style="background:var(--plum-l)" onclick="pickDream(2,this)"><span class="sc-icon">🧙</span><div class="sc-label">Zauberreich</div><div class="sc-prompt">Wenn ich Zauberkräfte hätte …</div></div>
+      <div class="sc" style="background:var(--amber-l)" onclick="pickDream(3,this)"><span class="sc-icon">💰</span><div class="sc-label">Milliardär</div><div class="sc-prompt">Wenn ich Milliardär wäre …</div></div>
+      <div class="sc" style="background:var(--coral-l)" onclick="pickDream(4,this)"><span class="sc-icon">⏰</span><div class="sc-label">Andere Epoche</div><div class="sc-prompt">Wenn ich im Mittelalter leben würde …</div></div>
+      <div class="sc" style="background:#e8f0fb" onclick="pickDream(5,this)"><span class="sc-icon">🦸</span><div class="sc-label">Superheld</div><div class="sc-prompt">Wenn ich unsichtbar wäre …</div></div>
+    </div>
+  </div>
+
+  <div class="card accent-teal" id="dream-write" style="display:none">
+    <div class="card-h" id="dream-title">✍️ Schreibe!</div>
+    <div class="bubble" id="dream-starter"></div>
+    <div style="margin-bottom:10px;font-size:13px;color:var(--ink3)">Verwende mindestens: <span class="tag tb">wäre</span> <span class="tag tc">hätte</span> <span class="tag tt">würde + Inf.</span> <span class="tag ta">könnte</span></div>
+    <textarea class="tarea" id="dream-ta" rows="6" placeholder="Schreibe hier …"></textarea>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn btn-teal" onclick="analyzeDream()">Analysieren ✨</button>
+      <button class="btn btn-line btn-sm" onclick="dreamHelp()">Hilfe 💡</button>
+    </div>
+    <div class="fb-box" id="dream-fb"><div class="fb-label">✨ Analyse</div><div id="dream-fb-text"></div></div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(4)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 6 von 7</strong><span>Nächste: Sprechen</span></div>
+    <button class="btn btn-ink" onclick="goTo(6)">Weiter →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 6 · SPRECHEN
+══════════════════════════════════ -->
+<section class="phase" id="phase-6">
+  <div class="phase-hero">
+    <div>
+      <div class="phase-eyebrow">Phase 6 · 10 Minuten</div>
+      <div class="phase-h1">Sprechen &amp;<br><em>Kommunizieren</em></div>
+      <div class="phase-sub">Rollenspiel, Dialog und spontanes Sprechen.</div>
+    </div>
+    <div class="phase-badge">🗣️ Sprechen</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">🎭 Übung 7 — Rollenspiel-Szenario</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:14px;color:var(--ink3)">Wähle ein Thema und sprich (oder schreibe) mindestens 5 Sätze.</div>
+    <div class="sc-grid">
+      <div class="sc" style="background:var(--teal-l)" onclick="pickScenario(this,0)"><span class="sc-icon">🌏</span><div class="sc-label">Traumreise</div><div class="sc-prompt">Wohin würdest du reisen, wenn du ein Jahr frei hättest?</div></div>
+      <div class="sc" style="background:var(--blue-l)" onclick="pickScenario(this,1)"><span class="sc-icon">💼</span><div class="sc-label">Traumjob</div><div class="sc-prompt">Was wäre dein Traumberuf, wenn du alles studieren könntest?</div></div>
+      <div class="sc" style="background:var(--amber-l)" onclick="pickScenario(this,2)"><span class="sc-icon">🏡</span><div class="sc-label">Traumhaus</div><div class="sc-prompt">Wie würde dein ideales Zuhause aussehen?</div></div>
+      <div class="sc" style="background:var(--plum-l)" onclick="pickScenario(this,3)"><span class="sc-icon">🕰️</span><div class="sc-label">Zeitreise</div><div class="sc-prompt">In welches Jahr würdest du reisen, wenn du eine Zeitmaschine hättest?</div></div>
+      <div class="sc" style="background:var(--coral-l)" onclick="pickScenario(this,4)"><span class="sc-icon">🌱</span><div class="sc-label">Superkraft</div><div class="sc-prompt">Was würdest du tun, wenn du eine besondere Kraft hättest?</div></div>
+    </div>
+  </div>
+
+  <div class="card accent-blue" id="speak-card" style="display:none">
+    <div class="card-h">💬 Deine Antwort</div>
+    <div class="bubble" id="speak-prompt"></div>
+    <div style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:6px;font-size:13px">
+      <span class="tag tb">Ich würde …</span>
+      <span class="tag tt">Wenn ich … wäre …</span>
+      <span class="tag tc">Am liebsten würde ich …</span>
+      <span class="tag ta">Außerdem könnte ich …</span>
+      <span class="tag tp">Ich glaube, dass …</span>
+    </div>
+    <textarea class="tarea" id="speak-ta" rows="5" placeholder="Antworte hier …"></textarea>
+    <div style="margin-top:12px">
+      <button class="btn btn-blue" onclick="analyzeSpeak()">Feedback ✨</button>
+    </div>
+    <div class="fb-box" id="speak-fb"><div class="fb-label">💬 Feedback</div><div id="speak-fb-text"></div></div>
+  </div>
+
+  <div class="card accent-teal">
+    <div class="card-h">🎲 Übung 8 — Kettenspiel</div>
+    <div class="card-body" style="margin-bottom:12px">
+      Eine Person beginnt — die andere ergänzt und fügt einen eigenen Satz hinzu!
+    </div>
+    <div class="bubble" id="chain-sent" style="font-size:17px;font-weight:600;font-style:normal">Wenn ich unsichtbar wäre, würde ich …</div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-teal" onclick="nextChain()">🎲 Neuer Satz</button>
+      <button class="btn btn-line btn-sm" onclick="showChainTip()">Tipp 💡</button>
+    </div>
+    <div class="hint" id="chain-tip">Tipp: Beende zuerst den Satz, dann beginne deinen eigenen Wenn-Satz!</div>
+  </div>
+
+  <div class="pnav">
+    <button class="btn btn-line" onclick="goTo(5)">← Zurück</button>
+    <div class="pnav-mid"><strong>Phase 7 von 7</strong><span>Nächste: Hausaufgaben</span></div>
+    <button class="btn btn-ink" onclick="goTo(7)">Abschluss →</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PHASE 7 · ABSCHLUSS + HAUSAUFGABEN
+══════════════════════════════════ -->
+<section class="phase" id="phase-7">
+  <div class="finish-hero">
+    <span class="finish-emoji">🌟</span>
+    <div class="finish-title">Ausgezeichnet!</div>
+    <div class="finish-sub">Du hast heute den Konjunktiv II gründlich geübt — 9 Übungen, 60 Minuten, B1-Niveau gemeistert.</div>
+    <ul class="check-list">
+      <li>Grammatik verstanden & Formen gelernt</li>
+      <li>Lückentexte & Umformungen gelöst</li>
+      <li>Multiple Choice & Zuordnung abgeschlossen</li>
+      <li>Wörter sortiert & Sätze gebildet</li>
+      <li>Kreativ geschrieben & gesprochen</li>
+    </ul>
+    <button class="btn btn-blue" style="font-size:15px;padding:13px 30px" onclick="goTo(0)">Nochmal von vorne 🔄</button>
+  </div>
+
+  <div class="card">
+    <div class="card-h">📚 Kurze Zusammenfassung</div>
+    <div class="formula">
+      <em>Wenn</em> + Subjekt + … + <em>Konj. II</em>, + Subjekt + <em>würde</em> + … + Infinitiv
+    </div>
+    <table class="vtable" style="margin-top:10px">
+      <thead><tr><th>sein</th><th>haben</th><th>können</th><th>würde + Inf.</th></tr></thead>
+      <tbody><tr><td class="hl">wäre/wärst</td><td class="hl">hätte/hättest</td><td class="hl">könnte/könntest</td><td class="hl">würde/würdest…</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- HAUSAUFGABEN -->
+  <div class="card accent-blue">
+    <div class="card-h">📖 Übung 9 — Hausaufgaben</div>
+    <div class="card-body" style="margin-bottom:16px;font-size:14px;color:var(--ink3)">
+      Wähle eine (oder alle!) Aufgaben für zu Hause. Alle mit dem Konjunktiv II!
+    </div>
+    <div class="hw-tabs">
+      <button class="hw-tab active" onclick="switchHW(0,this)">✉️ Brief</button>
+      <button class="hw-tab" onclick="switchHW(1,this)">🪄 Wenn-Kette</button>
+      <button class="hw-tab" onclick="switchHW(2,this)">🌍 Utopia</button>
+      <button class="hw-tab" onclick="switchHW(3,this)">🎭 Dialog</button>
+    </div>
+
+    <!-- HW 0: Brief -->
+    <div class="hw-panel active" id="hwp-0">
+      <div style="background:var(--blue-l);border-radius:var(--rs);padding:16px 20px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:8px">Aufgabe: Brief an dein zukünftiges Ich</div>
+        <p style="font-size:15px;color:var(--ink2);line-height:1.7">Schreibe einen Brief (8–10 Sätze) an dich selbst in 10 Jahren. Benutze den Konjunktiv II:</p>
+        <ul style="padding-left:18px;margin-top:8px;font-size:14px;color:var(--ink3);line-height:2">
+          <li>Was würdest du gerne bis dahin erreicht haben?</li>
+          <li>Wenn du damals anders entschieden hättest, …</li>
+          <li>Was wärst du, wenn dein Leben anders verlaufen wäre?</li>
+        </ul>
+        <div style="margin-top:10px;font-size:12px;font-style:italic;color:var(--ink3)">Beispiel: „Lieber ich in 10 Jahren, wenn ich heute mutiger wäre, würde ich …"</div>
+      </div>
+      <textarea class="tarea" rows="7" placeholder="Lieber ich, wenn ich …"></textarea>
+      <div style="margin-top:8px;font-size:12px;color:var(--ink3)">Min. 3 × Konjunktiv II &nbsp;·&nbsp; Min. 2 × „wenn"-Satz</div>
+    </div>
+
+    <!-- HW 1: Wenn-Kette -->
+    <div class="hw-panel" id="hwp-1">
+      <div style="background:var(--teal-l);border-radius:var(--rs);padding:16px 20px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:8px">Aufgabe: Die magische Wenn-Kette</div>
+        <p style="font-size:15px;color:var(--ink2);line-height:1.7">Schreibe eine Kette aus 8 Sätzen. Der letzte Teil des Satzes wird zum neuen Anfang:</p>
+        <div style="margin-top:10px;padding:12px 16px;background:rgba(255,255,255,.6);border-radius:var(--rs);font-size:14px;line-height:2;color:var(--ink2)">
+          Wenn ich reich <em>wäre</em>, <em>würde</em> ich reisen.<br>
+          Wenn ich reisen <em>würde</em>, <em>würde</em> ich viele Länder sehen.<br>
+          Wenn ich viele Länder sehen <em>würde</em>, <em>würde</em> ich …<br>
+          <span style="color:var(--teal)">→ und so weiter!</span>
+        </div>
+      </div>
+      <div id="chain-inputs"></div>
+      <button class="btn btn-teal btn-sm" style="margin-top:10px" onclick="addChainInput()">+ Satz hinzufügen</button>
+    </div>
+
+    <!-- HW 2: Utopia -->
+    <div class="hw-panel" id="hwp-2">
+      <div style="background:var(--plum-l);border-radius:var(--rs);padding:16px 20px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--plum);margin-bottom:8px">Aufgabe: Deine perfekte Welt (Utopia)</div>
+        <p style="font-size:15px;color:var(--ink2);line-height:1.7">Beschreibe in 10–12 Sätzen: Wie wäre eine ideale Welt? Benutze Konjunktiv II für alle Sätze.</p>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tp">Umwelt</span>
+          <span class="tag tp">Bildung</span>
+          <span class="tag tp">Arbeit</span>
+          <span class="tag tp">Frieden</span>
+          <span class="tag tp">Technologie</span>
+        </div>
+        <div style="margin-top:10px;font-size:12px;font-style:italic;color:var(--ink3)">Beispiel: „In meiner idealen Welt würde es keine Kriege geben. Wenn alle Menschen …"</div>
+      </div>
+      <textarea class="tarea" rows="8" placeholder="In meiner idealen Welt würde es …"></textarea>
+    </div>
+
+    <!-- HW 3: Dialog -->
+    <div class="hw-panel" id="hwp-3">
+      <div style="background:var(--amber-l);border-radius:var(--rs);padding:16px 20px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Aufgabe: Schreibe einen Dialog</div>
+        <p style="font-size:15px;color:var(--ink2);line-height:1.7">Schreibe einen Dialog (12–15 Zeilen) zwischen zwei Personen über eine hypothetische Situation. Verwende mindestens 6 Konjunktiv-II-Formen.</p>
+        <div style="margin-top:10px;padding:12px 16px;background:rgba(255,255,255,.6);border-radius:var(--rs);font-size:14px;line-height:2;color:var(--ink2)">
+          <strong>Idee:</strong> Person A und Person B gewinnen im Lotto.<br>
+          A: „Was würdest du machen, wenn du eine Million hättest?"<br>
+          B: „Ich würde … Und du?"<br>
+          A: „Wenn ich so viel Geld hätte, würde ich zuerst …"
+        </div>
+      </div>
+      <textarea class="tarea" rows="9" placeholder="A: Wenn ich …&#10;B: Ich würde …&#10;A: …"></textarea>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<script>
+// ────────────────────────────────────
+// NAVIGATION
+// ────────────────────────────────────
+let cur = 0;
+const N = 8;
+const phaseEmojis = ['🌱','📚','✏️','🧠','🃏','🌈','🗣️','🎯'];
+const phaseLabels = ['Intro','Gramm.','Lücken','Auswahl','Wörter','Schreiben','Sprechen','Ende'];
+
+function buildSidebar(){
+  const sb = document.getElementById('sidebar');
+  // keep logo
+  const logo = sb.querySelector('.sidebar-logo');
+  sb.innerHTML = '';
+  sb.appendChild(logo);
+  for(let i=0;i<N;i++){
+    const d = document.createElement('div');
+    d.className='sb-dot'+(i===cur?' active':'')+(i<cur?' done':'');
+    d.title = phaseLabels[i];
+    d.innerHTML = `<span class="sb-dot-num">${i===cur?phaseEmojis[i]:(i<cur?'✓':i+1)}</span>`;
+    d.onclick=()=>goTo(i);
+    sb.appendChild(d);
+  }
+}
+
+function goTo(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase-'+n).classList.add('active');
+  cur=n;
+  buildSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===3) buildMatch();
+}
+
+// ────────────────────────────────────
+// WAHL TOGGLE
+// ────────────────────────────────────
+function toggleWahl(el){
+  const p = el.parentElement;
+  p.querySelectorAll('[onclick]').forEach(c=>c.style.border='2px solid transparent');
+  el.style.border='2px solid var(--blue)';
+  el.style.transform='scale(1.04)';
+}
+
+// ────────────────────────────────────
+// TRUE / FALSE (Phase 1)
+// ────────────────────────────────────
+const tfData=[
+  {s:'Wenn ich Zeit <u>hätte</u>, würde ich mehr lesen.',ok:true},
+  {s:'Wenn er reich <u>ist</u>, würde er reisen. ← Konjunktiv II?',ok:false},
+  {s:'Wenn wir früher <u>aufgestanden wären</u>, hätten wir den Zug nicht verpasst.',ok:true},
+  {s:'Wenn du mehr <u>üben würden</u>, wärst du besser.',ok:false},
+  {s:'Wenn sie eine Zauberkraft <u>hätte</u>, würde sie fliegen.',ok:true},
+];
+let tfAnswers={};
+function buildTF(){
+  const c=document.getElementById('tf-container');
+  c.innerHTML=tfData.map((d,i)=>`
+    <div class="tf-item">
+      <div class="tf-sent">${i+1}. ${d.s}</div>
+      <div class="tf-btns">
+        <button class="tf-btn t-btn" id="tfT${i}" onclick="pickTF(${i},true)">R ✓</button>
+        <button class="tf-btn f-btn" id="tfF${i}" onclick="pickTF(${i},false)">F ✗</button>
+      </div>
+    </div>
+  `).join('');
+}
+function pickTF(i,val){
+  tfAnswers[i]=val;
+  document.getElementById('tfT'+i).className='tf-btn t-btn'+(val===true?' correct-choice':'');
+  document.getElementById('tfF'+i).className='tf-btn f-btn'+(val===false?' correct-choice':'');
+}
+function checkTF(){
+  let ok=0;
+  tfData.forEach((d,i)=>{
+    const correct=tfAnswers[i]===d.ok;
+    if(correct) ok++;
+    const tBtn=document.getElementById('tfT'+i);
+    const fBtn=document.getElementById('tfF'+i);
+    if(d.ok){tBtn.className='tf-btn correct-choice';fBtn.className='tf-btn f-btn gray-out';}
+    else{fBtn.className='tf-btn correct-choice';tBtn.className='tf-btn t-btn gray-out';}
+  });
+  const r=document.getElementById('tf-result');
+  r.style.display='block';
+  r.style.color=ok===tfData.length?'var(--teal)':'var(--coral)';
+  r.textContent=`${ok}/${tfData.length} richtig! ${ok===tfData.length?'🎉 Perfekt!':'Schau dir die roten Antworten an.'}`;
+}
+
+// ────────────────────────────────────
+// FILL-IN (Phase 2) — Übung 1
+// ────────────────────────────────────
+const fillEx1=[
+  {pre:'Wenn ich mehr Zeit ',suf:', würde ich ein Buch lesen.',verb:'haben',ans:'hätte',hint:'haben → hätte'},
+  {pre:'Wenn sie reich ',suf:', würde sie eine Villa kaufen.',verb:'sein',ans:'wäre',hint:'sein → wäre'},
+  {pre:'Wenn wir Urlaub ',suf:', würden wir nach Japan fahren.',verb:'haben',ans:'hätten',hint:'haben → hätten (Plural)'},
+  {pre:'Wenn er fliegen ',suf:', würde er um die Welt reisen.',verb:'können',ans:'könnte',hint:'können → könnte'},
+  {pre:'Wenn du nicht arbeiten ',suf:', könntest du schlafen.',verb:'müssen',ans:'müsstest',hint:'müssen → müsstest'},
+  {pre:'Ich ',suf:' sehr glücklich, wenn ich einen Hund hätte.',verb:'sein',ans:'wäre',hint:'sein → wäre (1. Pers.)'},
+  {pre:'Wenn das Wetter schön ',suf:', würden wir ins Freibad gehen.',verb:'sein',ans:'wäre',hint:'sein → wäre (3. Pers.)'},
+  {pre:'Wenn ihr mehr lerntet, ',suf:' ihr die Prüfung bestehen.',verb:'würden',ans:'würdet',hint:'würden → ihr-Form: würdet'},
+  {pre:'Wenn er nicht so müde ',suf:', würde er Sport machen.',verb:'sein',ans:'wäre',hint:'sein → wäre'},
+  {pre:'Wenn wir ein Auto ',suf:', könnten wir aufs Land fahren.',verb:'haben',ans:'hätten',hint:'haben → hätten'},
+];
+function buildFillEx1(){
+  const c=document.getElementById('fill-ex1');
+  c.innerHTML=fillEx1.map((d,i)=>`
+    <div class="ex-item">
+      <div class="ex-line">
+        <span style="font-size:11px;font-weight:700;color:var(--ink3);margin-right:8px">${i+1}.</span>
+        ${d.pre}<input class="blank" id="fe1-${i}" placeholder="${d.verb}…" autocomplete="off" spellcheck="false">${d.suf}
+      </div>
+      <div class="ex-row">
+        <button class="btn btn-line btn-sm" onclick="chkFill1(${i})">Prüfen</button>
+        <span class="fb" id="fb1-${i}"></span>
+        <div class="hint" id="h1-${i}">💡 ${d.hint}</div>
+      </div>
+    </div>
+  `).join('');
+}
+function chkFill1(i){
+  const v=document.getElementById('fe1-'+i).value.trim().toLowerCase();
+  const ok=fillEx1[i].ans.toLowerCase();
+  const inp=document.getElementById('fe1-'+i);
+  const fb=document.getElementById('fb1-'+i);
+  if(v===ok){inp.className='blank ok';fb.className='fb ok';fb.textContent='✓ Richtig!';}
+  else{inp.className='blank err';fb.className='fb err';fb.textContent=`✗ → ${fillEx1[i].ans}`;}
+}
+function checkAllFill(x){
+  let ok=0;
+  fillEx1.forEach((_,i)=>{chkFill1(i);const v=document.getElementById('fe1-'+i).value.trim().toLowerCase();if(v===fillEx1[i].ans.toLowerCase())ok++;});
+  const sb=document.getElementById('score-fill1');
+  sb.classList.add('vis');
+  document.getElementById('sn-fill1').textContent=`${ok}/${fillEx1.length}`;
+}
+function resetFill(x){
+  fillEx1.forEach((_,i)=>{
+    const inp=document.getElementById('fe1-'+i);
+    inp.value='';inp.className='blank';
+    document.getElementById('fb1-'+i).textContent='';
+    document.getElementById('h1-'+i).classList.remove('vis');
+  });
+  document.getElementById('score-fill1').classList.remove('vis');
+}
+function showAllHints(x){fillEx1.forEach((_,i)=>document.getElementById('h1-'+i).classList.add('vis'));}
+
+// ────────────────────────────────────
+// TRANSFORM (Phase 2) — Übung 2
+// ────────────────────────────────────
+const transData=[
+  {q:'Er hat kein Auto. Er fährt nicht in die Berge.',ex:'Wenn er ein Auto hätte, würde er in die Berge fahren.'},
+  {q:'Wir haben kein Geld. Wir machen keine Reise.',ex:'Wenn wir Geld hätten, würden wir eine Reise machen.'},
+  {q:'Sie ist nicht hier. Sie hilft uns nicht.',ex:'Wenn sie hier wäre, würde sie uns helfen.'},
+];
+function buildTransform(){
+  const c=document.getElementById('transform-ex');
+  c.innerHTML=transData.map((d,i)=>`
+    <div class="ex-item" style="margin-bottom:18px">
+      <div class="ex-line" style="margin-bottom:8px"><strong>${i+1}.</strong> ${d.q}</div>
+      <div style="font-size:13px;color:var(--ink3);margin-bottom:8px">→ Schreibe mit „Wenn … , würde/wäre/hätte …":</div>
+      <textarea class="tarea" rows="2" id="tr-${i}" placeholder="Wenn … ,  … " style="min-height:60px"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn btn-line btn-sm" onclick="showTransAns(${i})">Lösung anzeigen</button>
+      </div>
+      <div class="hint" id="tr-hint-${i}">✅ Musterlösung: <em>${d.ex}</em></div>
+    </div>
+  `).join('');
+}
+function showTransAns(i){document.getElementById('tr-hint-'+i).classList.add('vis');}
+
+// ────────────────────────────────────
+// MULTIPLE CHOICE (Phase 3)
+// ────────────────────────────────────
+const mcData=[
+  {q:'Wenn ich König ___ , würde ich alle Schulden abschaffen.',opts:['sein','wäre','wurde','bin'],ans:1},
+  {q:'Wenn er mehr schlafen würde, ___ er nicht so müde.',opts:['wäre','würde','ist','sei'],ans:0},
+  {q:'Wenn wir früher ___ , hätten wir den Bus nicht verpasst.',opts:['aufgestanden wären','aufstehen würden','aufstehen wären','aufgestanden sind'],ans:0},
+  {q:'Wenn du Geld ___ , was würdest du kaufen?',opts:['hast','hätten','hättest','hattest'],ans:2},
+  {q:'Ich würde öfter kochen, wenn ich mehr Zeit ___.',opts:['hatte','habe','hätte','haben würde'],ans:2},
+  {q:'Wenn er nicht so faul wäre, ___ er mehr Erfolg.',opts:['hatte','hat','hätte','hättest'],ans:2},
+];
+function buildMC(){
+  const c=document.getElementById('mc-container');
+  c.innerHTML=mcData.map((d,i)=>`
+    <div class="mc-item">
+      <div class="mc-q">${i+1}. ${d.q}</div>
+      <div class="mc-opts">
+        ${d.opts.map((o,j)=>`<div class="mc-opt" id="mc${i}-${j}" onclick="pickMC(${i},${j})">${String.fromCharCode(65+j)}) ${o}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+let mcChosen={};
+function pickMC(i,j){
+  if(mcChosen[i]!==undefined) return;
+  mcChosen[i]=j;
+  const correct=mcData[i].ans===j;
+  document.getElementById(`mc${i}-${j}`).className='mc-opt '+(correct?'chosen-ok':'chosen-err');
+  if(!correct) document.getElementById(`mc${i}-${mcData[i].ans}`).className='mc-opt reveal-ok';
+}
+function revealAllMC(){
+  mcData.forEach((_,i)=>{
+    if(mcChosen[i]===undefined){
+      document.getElementById(`mc${i}-${mcData[i].ans}`).className='mc-opt reveal-ok';
+    }
+  });
+}
+
+// ────────────────────────────────────
+// MATCHING (Phase 3)
+// ────────────────────────────────────
+const matchPairs=[
+  {l:'Wenn ich in Paris wohnte,',r:'würde ich jeden Tag Croissants essen.'},
+  {l:'Wenn er mehr schlafen würde,',r:'wäre er nicht so müde.'},
+  {l:'Wenn wir ein Boot hätten,',r:'würden wir den See überqueren.'},
+  {l:'Wenn sie besser Deutsch könnte,',r:'würde sie in Deutschland arbeiten.'},
+  {l:'Wenn ihr früher aufstehen würdet,',r:'hättet ihr mehr Zeit am Morgen.'},
+];
+let selL=null,matchedP={},matchR=[];
+function buildMatch(){
+  const lo=shuffle([...matchPairs]);
+  matchR=shuffle([...matchPairs]);
+  selL=null;matchedP={};
+  document.getElementById('match-L').innerHTML=lo.map((d,i)=>`<div class="mi L" id="mL${i}" data-i="${i}" data-l="${i}" onclick="pickL(${i})">${d.l}</div>`).join('');
+  document.getElementById('match-R').innerHTML=matchR.map((d,i)=>`<div class="mi R" id="mR${i}" data-i="${i}" onclick="pickR(${i})">${d.r}</div>`).join('');
+  document.getElementById('match-result').style.display='none';
+  window._matchLo=lo;
+}
+function pickL(i){
+  document.querySelectorAll('.mi.L').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('mL'+i).classList.add('sel');
+  selL=i;
+}
+function pickR(i){
+  if(selL===null)return;
+  matchedP[selL]=i;
+  document.getElementById('mL'+selL).style.outline='2px solid var(--amber)';
+  document.getElementById('mR'+i).style.outline='2px solid var(--amber)';
+  selL=null;
+  document.querySelectorAll('.mi.L').forEach(el=>el.classList.remove('sel'));
+}
+function checkMatch(){
+  let ok=0;
+  const lo=window._matchLo;
+  Object.keys(matchedP).forEach(li=>{
+    const ri=matchedP[li];
+    const leftText=lo[li].l;
+    const rightText=matchR[ri].r;
+    const expected=matchPairs.find(p=>p.l===leftText);
+    const correct=expected&&expected.r===rightText;
+    document.getElementById('mL'+li).className='mi L '+(correct?'mok':'merr');
+    document.getElementById('mR'+ri).className='mi R '+(correct?'mok':'merr');
+    if(correct)ok++;
+  });
+  const r=document.getElementById('match-result');
+  r.style.display='block';
+  r.style.color=ok===matchPairs.length?'var(--teal)':'var(--coral)';
+  r.textContent=`${ok}/${matchPairs.length} Paare richtig! ${ok===matchPairs.length?'🎉 Perfekt!':'Versuche es nochmal.'}`;
+}
+
+// ────────────────────────────────────
+// SCRAMBLE (Phase 4)
+// ────────────────────────────────────
+// Scramble: words are clean tokens (no standalone punctuation).
+// The solution is built by joining with spaces, then fixing space-before-punctuation.
+// Display label shows the pretty sentence; comparison uses normalised form.
+function normSc(str){ return str.replace(/\s+([,.])/g,'$1').replace(/\s+/g,' ').trim(); }
+
+const scrambles=[
+  {words:['Wenn','ich','Präsident','wäre,','würde','ich','kostenlose','Bildung','einführen.'],
+   sol:'Wenn ich Präsident wäre, würde ich kostenlose Bildung einführen.'},
+  {words:['Wenn','wir','mehr','Freizeit','hätten,','würden','wir','öfter','reisen.'],
+   sol:'Wenn wir mehr Freizeit hätten, würden wir öfter reisen.'},
+  {words:['Wenn','du','fliegen','könntest,','würdest','du','die','ganze','Welt','sehen.'],
+   sol:'Wenn du fliegen könntest, würdest du die ganze Welt sehen.'},
+  {words:['Wenn','sie','reich','wäre,','würde','sie','eine','Villa','kaufen.'],
+   sol:'Wenn sie reich wäre, würde sie eine Villa kaufen.'},
+  {words:['Wenn','er','mehr','schlafen','würde,','wäre','er','nicht','so','müde.'],
+   sol:'Wenn er mehr schlafen würde, wäre er nicht so müde.'},
+  {words:['Wenn','ihr','früher','aufstehen','würdet,','hättet','ihr','mehr','Zeit.'],
+   sol:'Wenn ihr früher aufstehen würdet, hättet ihr mehr Zeit.'},
+  {words:['Wenn','ich','ein','Auto','hätte,','würde','ich','ans','Meer','fahren.'],
+   sol:'Wenn ich ein Auto hätte, würde ich ans Meer fahren.'},
+  {words:['Wenn','wir','keine','Arbeit','hätten,','könnten','wir','reisen.'],
+   sol:'Wenn wir keine Arbeit hätten, könnten wir reisen.'},
+];
+let scIdx=0,scPlaced=[];
+function buildScramble(){
+  scIdx=0;scPlaced=[];renderScramble();
+}
+function renderScramble(){
+  if(scIdx>=scrambles.length){
+    document.getElementById('scramble-wrap').innerHTML='<p style="color:var(--teal);font-weight:700;text-align:center;padding:24px;font-size:16px">🎉 Alle Sätze gelöst! Sehr gut!</p>';
+    return;
+  }
+  const d=scrambles[scIdx];
+  const sh=shuffle([...d.words]);
+  scPlaced=[];
+  document.getElementById('scramble-wrap').innerHTML=`
+    <div style="margin-bottom:6px;font-size:13px;color:var(--ink3)">Satz ${scIdx+1} von ${scrambles.length}</div>
+    <div class="word-bank" id="wb">${sh.map((w,i)=>`<div class="wt" id="wt${i}" onclick="placeW(${i},this)">${w}</div>`).join('')}</div>
+    <div class="sent-build" id="sb">
+      <span id="sbph" style="font-size:13px;color:var(--ink3)">Klicke die Wörter in der richtigen Reihenfolge …</span>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn btn-coral" onclick="checkScramble()">Prüfen ✓</button>
+      <button class="btn btn-line" onclick="renderScramble()">Zurücksetzen ↺</button>
+    </div>
+    <div id="sc-fb" style="margin-top:10px;font-size:14px;font-weight:600;display:none"></div>
+  `;
+}
+function placeW(i, elOrEvent){
+  // elOrEvent may be the DOM element (called via onclick attr passing `this`)
+  const tileEl = (elOrEvent && elOrEvent.tagName) ? elOrEvent : document.getElementById('wt'+i);
+  if(tileEl.classList.contains('used')) return;
+  const w = tileEl.textContent.trim();
+  tileEl.classList.add('used');
+  scPlaced.push({i, w});
+  const ph=document.getElementById('sbph');
+  if(ph) ph.remove();
+  const sp=document.createElement('span');
+  sp.className='placed-w'; sp.textContent=w;
+  sp.onclick=()=>unplaceW(i, w, sp, tileEl);
+  document.getElementById('sb').appendChild(sp);
+}
+function unplaceW(i, w, el, tileEl){
+  (tileEl || document.getElementById('wt'+i)).classList.remove('used');
+  // remove only the first matching entry
+  const idx = scPlaced.findIndex(p=>p.i===i && p.w===w);
+  if(idx!==-1) scPlaced.splice(idx,1);
+  el.remove();
+  if(!document.getElementById('sb').querySelector('.placed-w')){
+    const sb=document.getElementById('sb');
+    const ph=document.createElement('span'); ph.id='sbph';
+    ph.style.cssText='font-size:13px;color:var(--ink3)';
+    ph.textContent='Klicke die Wörter in der richtigen Reihenfolge …';
+    sb.appendChild(ph);
+  }
+}
+function checkScramble(){
+  const built = normSc(scPlaced.map(p=>p.w).join(' '));
+  const expected = normSc(scrambles[scIdx].sol);
+  const fb=document.getElementById('sc-fb');
+  fb.style.display='block';
+  if(built === expected){
+    fb.style.color='var(--teal)'; fb.textContent='✓ Richtig! 🎉';
+    setTimeout(()=>{scIdx++; renderScramble();}, 1100);
+  } else {
+    fb.style.color='var(--coral)';
+    fb.textContent=`✗ Noch nicht richtig. Lösung: „${scrambles[scIdx].sol}"`;
+  }
+}
+
+// ────────────────────────────────────
+// DREAM WRITING (Phase 5)
+// ────────────────────────────────────
+const dreams=[
+  {title:'🏝️ Einsame Insel',starter:'Wenn ich auf einer einsamen Insel leben würde, …'},
+  {title:'🚀 Astronaut im All',starter:'Wenn ich im Weltall wohnen würde, …'},
+  {title:'🧙 Zauberreich',starter:'Wenn ich Zauberkräfte hätte, …'},
+  {title:'💰 Milliardär',starter:'Wenn ich Milliardär wäre, …'},
+  {title:'⏰ Andere Epoche',starter:'Wenn ich im Mittelalter leben würde, …'},
+  {title:'🦸 Superheld',starter:'Wenn ich unsichtbar wäre, …'},
+];
+function pickDream(i,el){
+  document.querySelectorAll('#dreamGrid .sc').forEach(c=>c.classList.remove('picked'));
+  el.classList.add('picked');
+  document.getElementById('dream-title').textContent=dreams[i].title;
+  document.getElementById('dream-starter').textContent=dreams[i].starter;
+  document.getElementById('dream-ta').placeholder=dreams[i].starter+'...';
+  document.getElementById('dream-write').style.display='block';
+  document.getElementById('dream-fb').classList.remove('vis');
+}
+function analyzeDream(){
+  const txt=document.getElementById('dream-ta').value.trim();
+  if(txt.length<20){alert('Schreibe bitte mehr! Mindestens 5 Sätze.');return;}
+  const forms=(txt.match(/\b(wäre|wärst|wären|hätte|hättest|hätten|könnte|könntest|könnten|würde|würdest|würden|müsste|müsstest|dürfte)\b/gi)||[]);
+  const wenn=(txt.match(/\bwenn\b/gi)||[]).length;
+  const sents=txt.split(/[.!?]+/).filter(s=>s.trim().length>3).length;
+  const f=document.getElementById('dream-fb');
+  f.classList.add('vis');
+  document.getElementById('dream-fb-text').innerHTML=`
+    <p>📊 Sätze: <strong>${sents}</strong> &nbsp;·&nbsp; Konjunktiv-Formen: <strong>${forms.length}</strong> &nbsp;·&nbsp; „wenn": <strong>${wenn}×</strong></p>
+    ${forms.length>=4?'<p style="color:var(--teal)">✅ Sehr guter Konjunktiv-II-Gebrauch!</p>':'<p>💡 Versuche noch mehr Konjunktiv-II-Formen einzubauen.</p>'}
+    ${wenn===0?'<p>💡 Füge auch mindestens einen „wenn"-Satz hinzu.</p>':''}
+    ${sents>=5?'<p style="color:var(--teal)">✅ Schöne ausführliche Antwort!</p>':'<p>💡 Schreibe noch etwas mehr — mindestens 5 Sätze.</p>'}
+  `;
+}
+function dreamHelp(){
+  const f=document.getElementById('dream-fb');
+  f.classList.add('vis');
+  document.getElementById('dream-fb-text').innerHTML=`
+    <p><strong>Hilfreiche Strukturen:</strong></p>
+    <ul style="padding-left:16px;line-height:2;font-size:14px">
+      <li><em>Wenn ich [dort] wäre, würde ich …</em></li>
+      <li><em>Ich hätte viel Zeit und würde jeden Tag …</em></li>
+      <li><em>Außerdem könnte ich …</em></li>
+      <li><em>Es wäre wunderbar, weil …</em></li>
+      <li><em>Ich müsste nicht mehr … und könnte stattdessen …</em></li>
+    </ul>
+  `;
+}
+
+// ────────────────────────────────────
+// SPEAKING (Phase 6)
+// ────────────────────────────────────
+const sprompts=[
+  'Wohin würdest du reisen, wenn du ein Jahr frei hättest?',
+  'Was wäre dein Traumberuf, wenn du alles studieren könntest?',
+  'Wie würde dein ideales Zuhause aussehen?',
+  'In welches Jahr würdest du reisen, wenn du eine Zeitmaschine hättest?',
+  'Was würdest du tun, wenn du eine besondere Kraft hättest?',
+];
+function pickScenario(el,i){
+  document.querySelectorAll('.sc').forEach(c=>{if(c.closest('#phase-6'))c.classList.remove('picked');});
+  el.classList.add('picked');
+  document.getElementById('speak-prompt').textContent=sprompts[i];
+  document.getElementById('speak-card').style.display='block';
+  document.getElementById('speak-fb').classList.remove('vis');
+}
+function analyzeSpeak(){
+  const txt=document.getElementById('speak-ta').value.trim();
+  if(txt.length<20){alert('Schreibe bitte mehr!');return;}
+  const forms=(txt.match(/\b(wäre|wärst|wären|hätte|hättest|hätten|könnte|könntest|könnten|würde|würdest|würden|müsste|dürfte)\b/gi)||[]);
+  const wenn=(txt.match(/\bwenn\b/gi)||[]).length;
+  const sents=txt.split(/[.!?]+/).filter(s=>s.trim().length>3).length;
+  const f=document.getElementById('speak-fb');
+  f.classList.add('vis');
+  document.getElementById('speak-fb-text').innerHTML=`
+    <p>📊 Sätze: <strong>${sents}</strong> &nbsp;·&nbsp; Konjunktiv-Formen: <strong>${forms.length}</strong> &nbsp;·&nbsp; „wenn": <strong>${wenn}×</strong></p>
+    ${forms.length>=3?'<p style="color:var(--teal)">✅ Ausgezeichneter Konjunktiv-II-Gebrauch!</p>':'<p>💡 Mehr Konjunktiv-II-Formen verwenden.</p>'}
+    ${sents>=4?'<p style="color:var(--teal)">✅ Schöne ausführliche Antwort!</p>':'<p>💡 Mehr Sätze schreiben für eine vollständige Antwort.</p>'}
+  `;
+}
+
+// ────────────────────────────────────
+// CHAIN GAME
+// ────────────────────────────────────
+const chains=[
+  'Wenn ich unsichtbar wäre, würde ich …',
+  'Wenn das Wetter immer perfekt wäre, …',
+  'Wenn ich alle Sprachen sprechen könnte, …',
+  'Wenn ich nicht schlafen müsste, …',
+  'Wenn ich in 200 Jahren leben würde, …',
+  'Wenn ich wie ein Vogel fliegen könnte, …',
+  'Wenn ich ein Tier wäre, …',
+  'Wenn ich 1000 Jahre alt werden würde, …',
+];
+let chainIdx=0;
+function nextChain(){
+  chainIdx=(chainIdx+1)%chains.length;
+  const el=document.getElementById('chain-sent');
+  el.style.opacity='0';el.style.transition='opacity .3s';
+  setTimeout(()=>{el.textContent=chains[chainIdx];el.style.opacity='1';},300);
+}
+function showChainTip(){document.getElementById('chain-tip').classList.add('vis');}
+
+// ────────────────────────────────────
+// HOMEWORK — WENN-KETTE inputs
+// ────────────────────────────────────
+let chainInputCount=3;
+function buildChainInputs(){
+  const c=document.getElementById('chain-inputs');
+  c.innerHTML='';
+  for(let i=0;i<chainInputCount;i++){
+    const ta=document.createElement('textarea');
+    ta.className='tarea';ta.rows=2;ta.style.marginBottom='8px';
+    ta.placeholder=i===0?'Wenn ich reich wäre, würde ich reisen.':
+                   i===1?'Wenn ich reisen würde, würde ich viele Länder sehen.':
+                   'Wenn ich viele Länder sehen würde, würde ich …';
+    c.appendChild(ta);
+  }
+}
+function addChainInput(){
+  chainInputCount++;
+  buildChainInputs();
+}
+
+// ────────────────────────────────────
+// HW TABS
+// ────────────────────────────────────
+function switchHW(i,btn){
+  document.querySelectorAll('.hw-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.hw-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('hwp-'+i).classList.add('active');
+}
+
+// ────────────────────────────────────
+// UTILS
+// ────────────────────────────────────
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+// ────────────────────────────────────
+// INIT
+// ────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  buildSidebar();
+  buildTF();
+  buildFillEx1();
+  buildTransform();
+  buildMC();
+  buildMatch();
+  buildScramble();
+  buildChainInputs();
+});
+</script>
+</body>
+</html>
