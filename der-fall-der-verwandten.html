@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Der Fall der verschwundenen Verwandten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Work+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12141c;
+    --panel:#1c2030;
+    --panel-alt:#252a3d;
+    --line:#3a3f56;
+    --gold:#d1a355;
+    --gold-soft:#e8c88a;
+    --teal:#6fb7a5;
+    --cream:#f1ece0;
+    --dim:#9aa0b8;
+    --red:#d1495b;
+    --green:#7fae6f;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.035) 1px, transparent 1.5px) 0 0/26px 26px,
+      var(--bg);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom:90px;
+  }
+  h1,h2,h3, .display{
+    font-family:'Special Elite', cursive;
+    letter-spacing:0.5px;
+  }
+  .mono{font-family:'Space Mono', monospace;}
+  a{color:var(--teal);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:32px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 15%, rgba(209,163,85,0.16), transparent 55%);
+    pointer-events:none;
+  }
+  .case-num{
+    color:var(--gold);
+    font-size:0.85rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .hero h1{
+    font-size:clamp(1.8rem, 7vw, 2.8rem);
+    line-height:1.25;
+    margin:0 0 14px;
+    color:var(--cream);
+    max-width:640px;
+  }
+  .hero p{
+    color:var(--dim);
+    max-width:460px;
+    font-size:1.05rem;
+    line-height:1.65;
+    margin-bottom:12px;
+  }
+  .hero .lead{color:var(--cream); font-weight:600; margin-bottom:22px;}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--gold);
+    color:#1a1408;
+    border:none;
+    padding:15px 28px;
+    font-family:'Work Sans',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 8px 26px rgba(209,163,85,0.25);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn.ghost{
+    background:transparent;
+    border:1.5px solid var(--line);
+    color:var(--cream);
+    box-shadow:none;
+  }
+  .lantern{width:64px;height:64px;margin-bottom:22px;}
+
+  /* ---------- CASE BOARD PROGRESS ---------- */
+  #board{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(18,20,28,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:10px 8px 8px;
+    display:none;
+  }
+  #board.show{display:block;}
+  .board-track{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    max-width:720px;
+    margin:0 auto;
+    overflow-x:auto;
+    gap:2px;
+    padding:2px 4px;
+  }
+  .pin{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    border-radius:50%;
+    border:2px solid var(--line);
+    background:var(--panel-alt);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;
+    font-size:0.7rem;
+    color:var(--dim);
+    cursor:pointer;
+    position:relative;
+    transition:all .2s ease;
+  }
+  .pin.active{border-color:var(--gold); color:var(--gold); box-shadow:0 0 0 4px rgba(209,163,85,0.15);}
+  .pin.done{background:var(--gold); border-color:var(--gold); color:#1a1408;}
+  .thread{flex:1 1 auto; height:2px; background:var(--line); min-width:8px;}
+  .thread.done{background:var(--gold);}
+
+  /* ---------- SECTIONS ---------- */
+  section.station{
+    max-width:640px;
+    margin:0 auto;
+    padding:70px 20px 30px;
+    scroll-margin-top:70px;
+  }
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Space Mono',monospace;
+    font-size:0.75rem;
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border:1px solid rgba(209,163,85,0.4);
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:16px;
+  }
+  .station h2{
+    font-size:clamp(1.35rem, 5vw, 1.8rem);
+    margin:0 0 6px;
+    color:var(--cream);
+  }
+  .station .sub{
+    color:var(--dim);
+    margin-bottom:22px;
+    line-height:1.55;
+    font-size:0.97rem;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 18px;
+    margin-bottom:16px;
+  }
+  .card .prompt{
+    font-size:1.05rem;
+    line-height:1.6;
+    margin-bottom:16px;
+  }
+  .blank{
+    color:var(--gold);
+    font-weight:700;
+    border-bottom:2px dotted var(--gold);
+    padding:0 2px;
+  }
+  .opts{display:flex;flex-wrap:wrap;gap:9px;}
+  .opt{
+    background:var(--panel-alt);
+    border:1.5px solid var(--line);
+    color:var(--cream);
+    padding:10px 16px;
+    border-radius:10px;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.95rem;
+    cursor:pointer;
+    min-height:44px;
+    transition:all .15s ease;
+  }
+  .opt:active{transform:scale(0.96);}
+  .opt.correct{background:rgba(127,174,111,0.25); border-color:var(--green); color:#c9e8bd;}
+  .opt.wrong{background:rgba(209,73,91,0.22); border-color:var(--red); color:#f3c3ca;}
+  .opt.disabled{pointer-events:none; opacity:0.55;}
+  .feedback{margin-top:10px; font-size:0.88rem; color:var(--teal); min-height:18px;}
+  .station-status{display:flex;align-items:center;gap:8px; color:var(--dim); font-size:0.85rem; margin-top:8px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line);}
+  .dot.on{background:var(--green);}
+
+  .speak-inline{
+    border-left:3px solid var(--teal);
+    background:rgba(111,183,165,0.08);
+    padding:14px 16px;
+    border-radius:0 10px 10px 0;
+    margin-top:6px;
+    font-size:0.95rem;
+    line-height:1.55;
+  }
+  .speak-inline b{color:var(--teal);}
+
+  /* ---------- VOCAB / SPEAKING STATION ---------- */
+  .illus{width:100%;max-width:300px;display:block;margin:0 auto 20px;}
+  .flip-grid{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:520px){.flip-grid{grid-template-columns:1fr 1fr;}}
+  .flip-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    cursor:pointer;
+    min-height:140px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    transition:border-color .2s ease;
+  }
+  .flip-card .word{font-family:'Space Mono',monospace; color:var(--gold); font-size:0.78rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;}
+  .flip-card .front-txt{color:var(--dim); font-size:0.92rem;}
+  .flip-card .back-txt{display:none; font-size:0.98rem; line-height:1.5;}
+  .flip-card.open .front-txt{display:none;}
+  .flip-card.open .back-txt{display:block;}
+  .flip-card.open{border-color:var(--teal);}
+  .flip-card .done-btn{
+    margin-top:12px; align-self:flex-start;
+    background:none; border:1px solid var(--line); color:var(--dim);
+    font-size:0.78rem; padding:6px 12px; border-radius:999px; cursor:pointer;
+  }
+  .flip-card .done-btn.checked{background:var(--green); border-color:var(--green); color:#12220e; font-weight:700;}
+
+  /* ---------- FINALE ---------- */
+  .chips{display:flex;flex-wrap:wrap;gap:8px; margin:18px 0;}
+  .chip{
+    background:var(--panel-alt); border:1.5px solid var(--line); color:var(--cream);
+    padding:9px 15px; border-radius:999px; font-size:0.9rem; cursor:pointer;
+    min-height:40px; display:flex;align-items:center;
+  }
+  .chip.used{background:var(--gold); border-color:var(--gold); color:#1a1408; font-weight:700;}
+  .counter{color:var(--teal); font-family:'Space Mono',monospace; font-size:0.9rem; margin-bottom:6px;}
+  #epilogue{
+    display:none; background:var(--panel); border:1px solid var(--gold);
+    border-radius:var(--radius); padding:20px; margin-top:20px; line-height:1.7;
+  }
+  #epilogue.show{display:block;}
+
+  /* ---------- DETECTIVE NOTEBOOK ---------- */
+  #notebookBtn{
+    position:fixed;
+    right:16px; bottom:16px;
+    z-index:60;
+    background:var(--gold);
+    color:#1a1408;
+    border:none;
+    border-radius:999px;
+    padding:13px 18px;
+    font-family:'Work Sans',sans-serif;
+    font-weight:700;
+    font-size:0.92rem;
+    display:none;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.4);
+    cursor:pointer;
+  }
+  #notebookBtn.show{display:inline-flex;}
+  #notebookBtn .badge{
+    background:#1a1408; color:var(--gold-soft);
+    border-radius:999px; font-family:'Space Mono',monospace;
+    font-size:0.75rem; padding:2px 8px;
+  }
+  #notebookOverlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.55);
+    display:none; z-index:70; align-items:flex-end; justify-content:center;
+  }
+  #notebookOverlay.show{display:flex;}
+  #notebookPanel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-bottom:none;
+    border-radius:20px 20px 0 0;
+    max-width:640px; width:100%;
+    max-height:75vh;
+    overflow-y:auto;
+    padding:22px 20px 30px;
+  }
+  #notebookPanel h3{margin:0 0 4px; color:var(--gold-soft); font-size:1.1rem;}
+  #notebookPanel .nb-sub{color:var(--dim); font-size:0.88rem; margin-bottom:16px;}
+  .clue-line{
+    display:flex; gap:10px;
+    padding:10px 0;
+    border-bottom:1px dashed var(--line);
+    font-size:0.95rem; line-height:1.5;
+    animation:fadeIn .4s ease;
+  }
+  .clue-line:last-child{border-bottom:none;}
+  .clue-line .num{color:var(--gold); font-family:'Space Mono',monospace; flex-shrink:0;}
+  #closeNb{
+    display:block; margin:16px auto 0; background:none; border:1px solid var(--line);
+    color:var(--cream); padding:10px 20px; border-radius:999px; cursor:pointer;
+  }
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .empty-nb{color:var(--dim); font-size:0.9rem; font-style:italic;}
+
+  footer{text-align:center; color:var(--line); font-size:0.8rem; padding:30px 20px 10px;}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="hero">
+  <svg class="lantern" viewBox="0 0 64 64" fill="none">
+    <ellipse cx="32" cy="52" rx="10" ry="3" fill="rgba(209,163,85,0.25)"/>
+    <path d="M24 20 h16 v22 a8 8 0 0 1 -16 0 z" fill="#2a2416" stroke="#d1a355" stroke-width="2"/>
+    <rect x="20" y="14" width="24" height="6" rx="2" fill="#d1a355"/>
+    <rect x="30" y="6" width="4" height="8" fill="#d1a355"/>
+    <circle cx="32" cy="30" r="8" fill="#e8c88a" opacity="0.85"/>
+  </svg>
+  <div class="case-num">AKTE Nr. 0714 &middot; UNGELÖST</div>
+  <h1>Der Fall der verschwundenen Verwandten</h1>
+  <p class="lead">Tante Lina ist weg. Einfach so.</p>
+  <p>Niemand weiß, warum. Du bist Detektiv oder Detektivin. Löse 6 Spuren. Sammle Hinweise in deinem Notizbuch. Am Ende sagst du laut, was wirklich passiert ist.</p>
+  <button class="btn" onclick="openCase()">📁 Akte öffnen</button>
+</div>
+
+<!-- ============ PROGRESS BOARD ============ -->
+<div id="board"><div class="board-track" id="boardTrack"></div></div>
+
+<!-- ============ STATION 1: ADJEKTIVDEKLINATION ============ -->
+<section class="station" id="s1">
+  <div class="tag">Spur 1 / Adjektivdeklination</div>
+  <h2>Wie sah Tante Lina aus?</h2>
+  <p class="sub">Ein Zeuge beschreibt Tante Lina. Wähle die richtige Endung.</p>
+  <div id="s1-items"></div>
+  <div class="speak-inline"><b>🎙 Sprich:</b> Du bist Zeuge. Beschreibe Tante Lina für die Polizei: Wie sieht sie aus? Was trägt sie gern? Benutz mindestens zwei Adjektive vor einem Nomen.</div>
+</section>
+
+<!-- ============ STATION 2: PRÄPOSITIONEN ============ -->
+<section class="station" id="s2">
+  <div class="tag">Spur 2 / Präpositionen</div>
+  <h2>Wo war sie zuletzt?</h2>
+  <p class="sub">Die Polizei sucht den letzten Ort. Ergänze die richtige Präposition.</p>
+  <div id="s2-items"></div>
+  <div class="speak-inline"><b>🎙 Sprich:</b> Wo war Tante Lina wohl um Mitternacht? Beschreib den Ort mit zwei Präpositionen (z. B. "im Garten", "vor dem Fenster").</div>
+</section>
+
+<!-- ============ STATION 3: REFLEXIVE VERBEN ============ -->
+<section class="station" id="s3">
+  <div class="tag">Spur 3 / Reflexive Verben</div>
+  <h2>Die Familie im Verhör</h2>
+  <p class="sub">Jede Person sagt etwas über sich selbst. Wähle das richtige Reflexivpronomen.</p>
+  <div id="s3-items"></div>
+  <div class="speak-inline"><b>🎙 Sprich:</b> Wie fühlt sich die Familie gerade? Worüber macht sie sich Sorgen? Antworte mit reflexiven Verben.</div>
+</section>
+
+<!-- ============ STATION 4: KONNEKTOREN ============ -->
+<section class="station" id="s4">
+  <div class="tag">Spur 4 / Konnektoren</div>
+  <h2>Die Zeugenaussagen</h2>
+  <p class="sub">obwohl · wenn · wann · als · weil · deshalb · trotzdem — welches Wort passt in jeden Satz?</p>
+  <div id="s4-items"></div>
+  <div class="speak-inline"><b>🎙 Sprich:</b> Erzähl, was letzte Nacht passiert ist. Benutz "als" für ein Ereignis und "obwohl" für einen Widerspruch.</div>
+</section>
+
+<!-- ============ STATION 5: POSSESSIVARTIKEL ============ -->
+<section class="station" id="s5">
+  <div class="tag">Spur 5 / Possessivartikel</div>
+  <h2>Wem gehört das?</h2>
+  <p class="sub">Am Tatort liegen Sachen. Wem gehören sie? Wähle den richtigen Possessivartikel.</p>
+  <div id="s5-items"></div>
+  <div class="speak-inline"><b>🎙 Sprich:</b> Zeig auf drei Dinge in deinem Zimmer. Sag, wem sie gehören — dir, deinem Freund oder deiner Familie.</div>
+</section>
+
+<!-- ============ STATION 6: WORTSCHATZ & SPRECHEN ============ -->
+<section class="station" id="s6">
+  <div class="tag">Spur 6 / Wortschatz &amp; Sprechen</div>
+  <h2>Das Beweisfoto</h2>
+  <p class="sub">Ein Foto vom Tatort ist da. Tippe auf jede Karte, sprich frei, und markiere sie danach als erledigt.</p>
+
+  <svg class="illus" viewBox="0 0 300 220" fill="none">
+    <rect x="0" y="0" width="300" height="220" fill="#1c2030"/>
+    <rect x="150" y="40" width="8" height="140" fill="#8a6a3d"/>
+    <rect x="120" y="60" width="8" height="120" fill="#8a6a3d" transform="rotate(-8 124 120)"/>
+    <line x1="126" y1="70" x2="150" y2="66" stroke="#8a6a3d" stroke-width="6"/>
+    <line x1="126" y1="100" x2="150" y2="96" stroke="#8a6a3d" stroke-width="6"/>
+    <line x1="126" y1="130" x2="150" y2="126" stroke="#8a6a3d" stroke-width="6"/>
+    <line x1="126" y1="160" x2="150" y2="156" stroke="#8a6a3d" stroke-width="6"/>
+    <circle cx="140" cy="55" r="12" fill="#e8c88a"/>
+    <rect x="128" y="66" width="24" height="34" rx="4" fill="#d1495b"/>
+    <circle cx="134" cy="74" r="2.4" fill="#e8c88a"/>
+    <circle cx="146" cy="74" r="2.4" fill="#f0d27a"/>
+    <circle cx="134" cy="84" r="2.4" fill="#6fb7a5"/>
+    <circle cx="146" cy="84" r="2.4" fill="#e8c88a"/>
+    <circle cx="140" cy="92" r="2.4" fill="#d1a355"/>
+    <rect x="126" y="98" width="12" height="26" fill="#3a3f56"/>
+    <rect x="150" y="98" width="12" height="26" fill="#3a3f56"/>
+    <text x="14" y="205" fill="#9aa0b8" font-family="Space Mono, monospace" font-size="10">BEWEIS: Tante Linas Anzug &middot; Leiter am Fenster</text>
+  </svg>
+
+  <div class="flip-grid" id="vocabGrid"></div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="station" id="s7">
+  <div class="tag">Finale / Der Fall wird gelöst</div>
+  <h2>Deine Theorie</h2>
+  <p class="sub">Sag laut, was mit Tante Lina passiert ist. Tippe auf jedes Wort, sobald du es benutzt hast. Schaffst du 5 Wörter?</p>
+  <div class="counter" id="chipCounter">0 / 5 Wörter benutzt</div>
+  <div class="chips" id="chipBank"></div>
+  <button class="btn ghost" onclick="revealEpilogue()">🔦 Zeig mir eine mögliche Auflösung</button>
+  <div id="epilogue"></div>
+</section>
+
+<footer>Akte Nr. 0714 &middot; Fall bearbeitet mit viel Neugier</footer>
+
+<!-- ============ NOTEBOOK ============ -->
+<button id="notebookBtn" onclick="openNotebook()">📓 Notizbuch <span class="badge" id="nbBadge">0</span></button>
+<div id="notebookOverlay" onclick="if(event.target===this) closeNotebook()">
+  <div id="notebookPanel">
+    <h3>Ermittlungsnotizbuch</h3>
+    <div class="nb-sub">Jeder gelöste Hinweis landet hier.</div>
+    <div id="clueList"><div class="empty-nb">Noch keine Hinweise. Löse eine Aufgabe!</div></div>
+    <button id="closeNb" onclick="closeNotebook()">Schließen</button>
+  </div>
+</div>
+
+<script>
+/* ---------------- DATA: everything ties to the Tante-Lina case ---------------- */
+const stations = [
+  {id:'s1', items:[
+    {p:'Tante Lina war eine {b} Frau.', word:'schüchtern', opts:['schüchterne','schüchternen','schüchternes','schüchternem'], ans:'schüchterne',
+      clue:'Zeuge sagt: Tante Lina war eine schüchterne Frau.'},
+    {p:'Im Schrank fehlt ein {b} Anzug.', word:'bunt', opts:['bunter','bunten','buntes','buntem'], ans:'bunter',
+      clue:'Im Schrank fehlt ein bunter Anzug.'},
+    {p:'Die Polizei findet ein {b} Kleidungsstück.', word:'gemustert', opts:['gemusterte','gemusterten','gemustertes','gemustertem'], ans:'gemustertes',
+      clue:'Die Polizei findet ein gemustertes Kleidungsstück im Garten.'},
+    {p:'Die Familie spricht mit ihrem {b} Nachbarn.', word:'schüchtern', opts:['schüchterne','schüchternen','schüchternes','schüchtern'], ans:'schüchternen',
+      clue:'Die Familie spricht mit ihrem schüchternen Nachbarn.'},
+    {p:'Der Zeuge sah einen {b} Mann auf der Leiter.', word:'groß', opts:['großer','großen','großes','großem'], ans:'großen',
+      clue:'Ein Zeuge sah einen großen Mann auf der Leiter.'},
+    {p:'Die Polizei spricht mit der {b} Nachbarin.', word:'nett', opts:['nette','netten','nettes','nett'], ans:'netten',
+      clue:'Die Polizei spricht mit der netten Nachbarin von nebenan.'},
+    {p:'Im Garten liegt ein {b} Schuh.', word:'klein', opts:['kleiner','kleinen','kleines','kleinem'], ans:'kleiner',
+      clue:'Im Garten liegt ein kleiner Schuh — gehört er Tante Lina?'},
+    {p:'Der Kommissar zeigt der Familie einen {b} Brief.', word:'geheimnisvoll', opts:['geheimnisvolle','geheimnisvollen','geheimnisvolles','geheimnisvollem'], ans:'geheimnisvollen',
+      clue:'Der Kommissar zeigt der Familie einen geheimnisvollen Brief.'}
+  ]},
+  {id:'s2', items:[
+    {p:'Die Familie beschwert sich ___ das Verschwinden.', opts:['über','für','mit','von'], ans:'über',
+      clue:'Die Familie beschwert sich über das plötzliche Verschwinden.'},
+    {p:'Tante Lina reiste häufig ___ Spanien.', opts:['nach','in','zu','an'], ans:'nach',
+      clue:'Tante Lina reiste häufig nach Spanien.'},
+    {p:'Der Zeuge sieht eine Gestalt oben ___ der Leiter.', opts:['auf','unter','neben','in'], ans:'auf',
+      clue:'Ein Zeuge sieht eine Gestalt oben auf der Leiter.'},
+    {p:'Die Polizei stellt die Leiter zurück ___ die Wand.', opts:['an','auf','über','vor'], ans:'an',
+      clue:'Die Polizei stellt die Leiter zurück an die Wand.'},
+    {p:'Ihr Neffe interessiert sich sehr ___ den Fall.', opts:['für','an','über','auf'], ans:'für',
+      clue:'Ihr Neffe interessiert sich sehr für den Fall.'},
+    {p:'Der Geheimbrief liegt ___ dem Tisch.', opts:['auf','unter','an','durch'], ans:'auf',
+      clue:'Der Geheimbrief liegt auf dem Tisch im Wohnzimmer.'},
+    {p:'Die Familie fährt ___ die Stadt, um zu suchen.', opts:['in','auf','bei','nach'], ans:'in',
+      clue:'Die Familie fährt in die Stadt, um nach ihr zu suchen.'},
+    {p:'Der Neffe wartet nervös ___ der Tür.', opts:['vor','hinter','über','zwischen'], ans:'vor',
+      clue:'Der Neffe wartet nervös vor der Tür der Polizeiwache.'}
+  ]},
+  {id:'s3', items:[
+    {p:'Ich beschwere ___ nicht, aber ich mache mir Sorgen.', opts:['mich','dich','sich','uns'], ans:'mich',
+      clue:'Der Bruder sagt: "Ich mache mir Sorgen um Tante Lina."'},
+    {p:'Interessierst du ___ auch für diesen Fall?', opts:['dich','mich','sich','euch'], ans:'dich',
+      clue:'Der Neffe fragt die Nichte: "Interessierst du dich auch für den Fall?"'},
+    {p:'Wir freuen ___ auf gute Nachrichten.', opts:['uns','euch','sich','mich'], ans:'uns',
+      clue:'Die Familie freut sich auf gute Nachrichten.'},
+    {p:'Die Nachbarin fühlt ___ schuldig.', opts:['sich','dich','mich','uns'], ans:'sich',
+      clue:'Die Nachbarin fühlt sich schuldig — sie hat etwas gesehen.'},
+    {p:'Beeilt ihr ___? Die Polizei kommt gleich!', opts:['euch','sich','uns','dich'], ans:'euch',
+      clue:'"Beeilt euch, die Polizei kommt gleich!", ruft der Vater.'},
+    {p:'Ich erinnere ___ gut an Tante Lina.', opts:['mich','dich','sich','uns'], ans:'mich',
+      clue:'"Ich erinnere mich gut an Tante Lina", sagt der Nachbar.'},
+    {p:'Der Kommissar setzt ___ an den Tisch und liest den Brief.', opts:['sich','mich','dich','euch'], ans:'sich',
+      clue:'Der Kommissar setzt sich an den Tisch und liest den Brief.'},
+    {p:'Wir treffen ___ morgen bei der Familie.', opts:['uns','euch','sich','mich'], ans:'uns',
+      clue:'"Wir treffen uns morgen bei der Familie", sagt der Kommissar.'}
+  ]},
+  {id:'s4', items:[
+    {p:'___ Tante Lina jung war, reiste sie oft allein.', opts:['Als','Wenn','Weil','Obwohl'], ans:'Als',
+      clue:'Als Tante Lina jung war, reiste sie oft allein.'},
+    {p:'Niemand weiß, ___ sie wirklich verschwunden ist.', opts:['wann','wenn','als','weil'], ans:'wann',
+      clue:'Niemand weiß genau, wann sie verschwunden ist.'},
+    {p:'___ es dunkel wird, sucht die Familie im Garten.', opts:['Wenn','Als','Weil','Trotzdem'], ans:'Wenn',
+      clue:'Wenn es dunkel wird, sucht die Familie im Garten.'},
+    {p:'Der Nachbar ist besorgt, ___ er die Leiter gesehen hat.', opts:['weil','deshalb','obwohl','wann'], ans:'weil',
+      clue:'Der Nachbar ist besorgt, weil er die Leiter gesehen hat.'},
+    {p:'Er hat die Leiter gesehen. ___ ruft er die Polizei.', opts:['Deshalb','Weil','Wenn','Als'], ans:'Deshalb',
+      clue:'Er hat die Leiter gesehen. Deshalb ruft er die Polizei.'},
+    {p:'Sie geht weiter zur Arbeit, ___ sie sich Sorgen macht.', opts:['obwohl','weil','wenn','deshalb'], ans:'obwohl',
+      clue:'Die Nichte geht zur Arbeit, obwohl sie sich große Sorgen macht.'},
+    {p:'Die Familie ruft die Polizei, ___ sie Angst hat.', opts:['weil','deshalb','wann','trotzdem'], ans:'weil',
+      clue:'Die Familie ruft die Polizei, weil sie Angst hat.'},
+    {p:'___ man den Brief liest, versteht man plötzlich alles.', opts:['Wenn','Als','Weil','Obwohl'], ans:'Wenn',
+      clue:'Wenn man den Brief liest, versteht man plötzlich alles.'},
+    {p:'Sie bleibt ruhig, ___ die Lage gefährlich aussieht.', opts:['obwohl','weil','wenn','deshalb'], ans:'obwohl',
+      clue:'Die Nachbarin bleibt ruhig, obwohl die Lage gefährlich aussieht.'}
+  ]},
+  {id:'s5', items:[
+    {p:'Das ist ___ Anzug. (Tante Lina = sie)', opts:['ihr','ihre','ihren','ihrem'], ans:'ihr',
+      clue:'Das ist ihr Anzug — er lag im Garten.'},
+    {p:'Wo ist ___ Leiter? (du = der Neffe)', opts:['dein','deine','deinen','deinem'], ans:'deine',
+      clue:'"Wo ist deine Leiter?", fragt der Kommissar den Neffen.'},
+    {p:'___ Aussage hilft der Polizei sehr. (er = der Zeuge)', opts:['Sein','Seine','Seinen','Seinem'], ans:'Seine',
+      clue:'Seine Aussage hilft der Polizei sehr.'},
+    {p:'___ Suche nach Tante Lina geht weiter. (wir = die Familie)', opts:['Unser','Unsere','Unseren','Unserem'], ans:'Unsere',
+      clue:'Unsere Suche nach Tante Lina geht weiter.'},
+    {p:'Der Kommissar spricht mit ___ Mann. (sie = die Nachbarin)', opts:['ihr','ihre','ihren','ihrem'], ans:'ihrem',
+      clue:'Der Kommissar spricht mit ihrem Mann — vielleicht weiß er mehr.'},
+    {p:'Ist das ___ Tasche? (du)', opts:['dein','deine','deinen','deinem'], ans:'deine',
+      clue:'"Ist das deine Tasche?", fragt der Kommissar den Neffen.'},
+    {p:'___ Hund bellt die ganze Nacht. (die Nachbarn = sie, Plural)', opts:['Ihr','Ihre','Ihren','Ihrem'], ans:'Ihr',
+      clue:'Ihr Hund bellt die ganze Nacht — vielleicht hat er etwas gesehen.'},
+    {p:'Ich suche ___ Schlüssel. (ich)', opts:['mein','meine','meinen','meinem'], ans:'meinen',
+      clue:'"Ich suche meinen Schlüssel", sagt Tante Linas Nachbar nervös.'}
+  ]}
+];
+
+const vocabCards = [
+  {word:'schüchtern', q:'Bist du eher schüchtern wie Tante Lina, oder mutig? Erzähl ein Beispiel.'},
+  {word:'bunt / gemustert / der Anzug', q:'Schau das Beweisfoto an: Wie sieht Tante Linas Anzug aus? Wie sieht die Leiter aus?'},
+  {word:'häufig', q:'Tante Lina war häufig unterwegs. Was machst du häufig? Was machst du nie?'},
+  {word:'bevorzugen', q:'Tante Lina bevorzugte die Berge. Was bevorzugst du: Berge oder Meer? Warum?'},
+  {word:'sich beschweren', q:'Ein Nachbar beschwert sich beim Kommissar, dass ihm niemand zuhört. Spiel die Szene!'},
+  {word:'reisen / das Schicksal', q:'Glaubst du an Schicksal? Und: Wohin ist Tante Lina wohl gereist?'},
+  {word:'die Leiter', q:'Wer hat wohl die Leiter ans Fenster gestellt? Erfinde eine Idee und erzähl sie.'}
+];
+
+const wordBank = ['die Verwandte','schüchtern','die Leiter','bunt','gemustert','der Anzug','häufig','bevorzugen','reisen','sich beschweren','das Schicksal'];
+
+const epilogueText = `Am Ende findet die Familie eine Postkarte im Garten: Tante Lina ist nicht in Gefahr. Sie ist einfach, ohne ein Wort, auf eine spontane Reise nach Spanien gefahren. Sie hatte es häufig satt, dass alle sich über ihr ruhiges Leben beschwerten. Also zog sie ihren buntesten, gemustertsten Anzug an, stieg über die alte Leiter aus dem Fenster (die Haustür quietscht zu laut) und folgte einfach ihrem Schicksal. Manchmal ist der spannendste Fall gar kein Verbrechen — nur ein Mensch, der endlich das tut, was er schon lange bevorzugt hätte.`;
+
+/* ---------------- NOTEBOOK ---------------- */
+const clues = [];
+function addClue(text){
+  clues.push(text);
+  renderClues();
+  document.getElementById('notebookBtn').classList.add('show');
+  document.getElementById('nbBadge').textContent = clues.length;
+}
+function renderClues(){
+  const list = document.getElementById('clueList');
+  if (clues.length === 0){
+    list.innerHTML = '<div class="empty-nb">Noch keine Hinweise. Löse eine Aufgabe!</div>';
+    return;
+  }
+  list.innerHTML = clues.map((c,i) => `<div class="clue-line"><span class="num">${String(i+1).padStart(2,'0')}</span><span>${c}</span></div>`).join('');
+}
+function openNotebook(){ document.getElementById('notebookOverlay').classList.add('show'); }
+function closeNotebook(){ document.getElementById('notebookOverlay').classList.remove('show'); }
+
+/* ---------------- RENDER EXERCISES ---------------- */
+function renderStation(st){
+  const container = document.getElementById(st.id + '-items');
+  st.solved = new Array(st.items.length).fill(false);
+  st.items.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const promptText = item.word
+      ? item.p.replace('{b}', `<span class="blank">___</span> <span class="mono" style="color:var(--dim);font-size:0.8rem;">(${item.word})</span>`)
+      : item.p;
+    card.innerHTML = `<div class="prompt">${promptText}</div><div class="opts"></div><div class="feedback"></div>`;
+    const optsWrap = card.querySelector('.opts');
+    const fb = card.querySelector('.feedback');
+    const shuffled = [...item.opts].sort(() => Math.random() - 0.5);
+    shuffled.forEach(optText => {
+      const b = document.createElement('button');
+      b.className = 'opt';
+      b.textContent = optText;
+      b.onclick = () => {
+        if (optText === item.ans) {
+          b.classList.add('correct');
+          fb.textContent = '✓ Richtig! Hinweis gesichert.';
+          fb.style.color = 'var(--green)';
+          [...optsWrap.children].forEach(c => c.classList.add('disabled'));
+          if (!st.solved[idx]) {
+            st.solved[idx] = true;
+            addClue(item.clue);
+            checkStationDone(st);
+          }
+        } else {
+          b.classList.add('wrong');
+          fb.textContent = 'Nicht ganz — versuch es nochmal.';
+          fb.style.color = 'var(--red)';
+        }
+      };
+      optsWrap.appendChild(b);
+    });
+    container.appendChild(card);
+  });
+  const status = document.createElement('div');
+  status.className = 'station-status';
+  status.innerHTML = `<span class="dot" id="${st.id}-dot"></span> <span id="${st.id}-count">0 / ${st.items.length} gelöst</span>`;
+  container.appendChild(status);
+}
+function checkStationDone(st){
+  const solvedCount = st.solved.filter(Boolean).length;
+  document.getElementById(st.id + '-count').textContent = `${solvedCount} / ${st.items.length} gelöst`;
+  if (solvedCount === st.items.length) {
+    document.getElementById(st.id + '-dot').classList.add('on');
+    markPinDone(st.id);
+  }
+}
+stations.forEach(renderStation);
+
+/* ---------------- VOCAB CARDS ---------------- */
+const vocabGrid = document.getElementById('vocabGrid');
+vocabCards.forEach((c) => {
+  const card = document.createElement('div');
+  card.className = 'flip-card';
+  card.innerHTML = `
+    <div class="word">${c.word}</div>
+    <div class="front-txt">Tippen, um die Sprechfrage zu zeigen →</div>
+    <div class="back-txt">${c.q}</div>
+    <button class="done-btn">Ich habe gesprochen ✓</button>
+  `;
+  card.addEventListener('click', (e) => {
+    if (e.target.classList.contains('done-btn')) return;
+    card.classList.toggle('open');
+  });
+  const doneBtn = card.querySelector('.done-btn');
+  doneBtn.onclick = (e) => {
+    e.stopPropagation();
+    const wasChecked = doneBtn.classList.contains('checked');
+    doneBtn.classList.toggle('checked');
+    doneBtn.textContent = doneBtn.classList.contains('checked') ? 'Erledigt ✓' : 'Ich habe gesprochen ✓';
+    if (!wasChecked) addClue(`Gespräch geführt: "${c.word}".`);
+    const doneCount = [...document.querySelectorAll('.done-btn.checked')].length;
+    if (doneCount === vocabCards.length) markPinDone('s6');
+  };
+  vocabGrid.appendChild(card);
+});
+
+/* ---------------- FINALE CHIPS ---------------- */
+const chipBank = document.getElementById('chipBank');
+const chipCounter = document.getElementById('chipCounter');
+wordBank.forEach(w => {
+  const chip = document.createElement('div');
+  chip.className = 'chip';
+  chip.textContent = w;
+  chip.onclick = () => {
+    chip.classList.toggle('used');
+    const usedCount = document.querySelectorAll('.chip.used').length;
+    chipCounter.textContent = `${usedCount} / 5 Wörter benutzt`;
+    if (usedCount >= 5) markPinDone('s7');
+  };
+  chipBank.appendChild(chip);
+});
+function revealEpilogue(){
+  const ep = document.getElementById('epilogue');
+  ep.textContent = epilogueText;
+  ep.classList.add('show');
+  addClue('Fall gelöst: Tante Lina ist auf Reisen — freiwillig!');
+}
+
+/* ---------------- BOARD / NAVIGATION ---------------- */
+const boardTrack = document.getElementById('boardTrack');
+const allIds = ['s1','s2','s3','s4','s5','s6','s7'];
+allIds.forEach((id, i) => {
+  const pin = document.createElement('div');
+  pin.className = 'pin';
+  pin.id = 'pin-' + id;
+  pin.textContent = i + 1;
+  pin.onclick = () => document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  boardTrack.appendChild(pin);
+  if (i < allIds.length - 1) {
+    const thread = document.createElement('div');
+    thread.className = 'thread';
+    thread.id = 'thread-' + id;
+    boardTrack.appendChild(thread);
+  }
+});
+function markPinDone(stationId){
+  const pin = document.getElementById('pin-' + stationId);
+  if (pin) pin.classList.add('done');
+  const thread = document.getElementById('thread-' + stationId);
+  if (thread) thread.classList.add('done');
+}
+function openCase(){
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('board').classList.add('show');
+  document.getElementById('s1').scrollIntoView({behavior:'smooth'});
+}
+const sections = allIds.map(id => document.getElementById(id));
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  sections.forEach(sec => { if (window.scrollY + 100 >= sec.offsetTop) current = sec; });
+  allIds.forEach(id => document.getElementById('pin-' + id).classList.remove('active'));
+  document.getElementById('pin-' + current.id).classList.add('active');
+});
+</script>
+</body>
+</html>
