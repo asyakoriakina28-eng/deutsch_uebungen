@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Präpositions-Kompass — Dativ-Präpositionen (B2)</title>
+<style>
+  :root{
+    --parchment:#f3ead4;
+    --parchment-dark:#e8dab5;
+    --ink:#2c2416;
+    --brass:#a8791a;
+    --brass-dark:#7d5a10;
+    --teal:#1f4e4a;
+    --teal-light:#2e6b65;
+    --red:#9c3b3b;
+    --green:#2f6b3a;
+    --paper-shadow: 0 6px 18px rgba(44,36,22,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: radial-gradient(circle at 20% 10%, #fbf5e4, var(--parchment) 60%);
+    color: var(--ink);
+    line-height:1.55;
+    padding-bottom: 60px;
+  }
+  header{
+    background: linear-gradient(160deg, var(--teal), var(--teal-light));
+    color: #f3ead4;
+    padding: 34px 20px 46px;
+    text-align:center;
+    position:relative;
+    box-shadow: var(--paper-shadow);
+  }
+  header h1{
+    font-size: 2.1em;
+    margin: 10px 0 6px;
+    letter-spacing: 0.5px;
+  }
+  header p.subtitle{
+    margin:0;
+    font-style: italic;
+    opacity:0.9;
+    font-size:1.05em;
+  }
+  .compass-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom: 8px;
+  }
+  #progress-bar-outer{
+    max-width:640px;
+    margin: 24px auto 0;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    height: 22px;
+    overflow:hidden;
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+  #progress-bar-inner{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, var(--brass), #d9a94a);
+    transition: width 0.5s ease;
+  }
+  #progress-label{
+    max-width:640px;
+    margin: 6px auto 0;
+    font-size:0.9em;
+    text-align:center;
+    opacity:0.95;
+  }
+  main{
+    max-width: 880px;
+    margin: -22px auto 0;
+    padding: 0 18px;
+  }
+  .card{
+    background: var(--parchment);
+    border: 1px solid var(--brass);
+    border-radius: 10px;
+    box-shadow: var(--paper-shadow);
+    padding: 26px 28px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:8px; left:8px; right:8px; bottom:8px;
+    border: 1px dashed rgba(168,121,26,0.35);
+    border-radius:6px;
+    pointer-events:none;
+  }
+  .station-badge{
+    display:inline-block;
+    background: var(--brass);
+    color:#fff9ea;
+    font-weight:bold;
+    padding: 3px 12px;
+    border-radius: 14px;
+    font-size:0.82em;
+    letter-spacing:0.5px;
+    margin-bottom: 10px;
+  }
+  h2{
+    color: var(--teal);
+    margin-top:4px;
+    font-size:1.4em;
+    border-bottom: 2px solid var(--brass);
+    padding-bottom:6px;
+  }
+  h3{ color: var(--brass-dark); margin-bottom: 4px;}
+  table.ref-table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size:0.95em;
+  }
+  table.ref-table th, table.ref-table td{
+    border: 1px solid rgba(168,121,26,0.4);
+    padding: 8px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.ref-table th{
+    background: var(--brass);
+    color:#fff9ea;
+  }
+  table.ref-table tr:nth-child(even){ background: rgba(168,121,26,0.08); }
+  .ru{ color: var(--teal); font-style: italic; font-size:0.92em; }
+  .note-box{
+    background: rgba(31,78,74,0.08);
+    border-left: 4px solid var(--teal);
+    padding: 10px 14px;
+    margin-top: 14px;
+    border-radius: 4px;
+    font-size:0.95em;
+  }
+  .exercise-item{
+    margin: 14px 0;
+    padding: 10px 0;
+    border-bottom: 1px dotted rgba(44,36,22,0.2);
+  }
+  .exercise-item:last-child{ border-bottom:none; }
+  input[type="text"]{
+    font-family: inherit;
+    font-size: 1em;
+    padding: 5px 8px;
+    border: 1px solid var(--brass);
+    border-radius: 5px;
+    background: #fffdf6;
+    width: 130px;
+  }
+  select{
+    font-family: inherit;
+    font-size: 0.95em;
+    padding: 5px 8px;
+    border: 1px solid var(--brass);
+    border-radius: 5px;
+    background: #fffdf6;
+  }
+  .mc-options label{
+    display:block;
+    margin: 4px 0 4px 4px;
+    cursor:pointer;
+  }
+  .btn{
+    background: var(--teal);
+    color: #f3ead4;
+    border:none;
+    padding: 10px 22px;
+    border-radius: 22px;
+    font-size: 1em;
+    cursor:pointer;
+    font-family: inherit;
+    letter-spacing:0.3px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .btn:hover{ background: var(--teal-light); transform: translateY(-1px); }
+  .result-box{
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight:bold;
+    display:none;
+  }
+  .correct{ color: var(--green); }
+  .incorrect{ color: var(--red); }
+  .feedback-icon{ font-weight:bold; margin-right:6px; }
+  .speaking-card{
+    background: #fffdf6;
+    border: 1px solid var(--brass);
+    border-left: 6px solid var(--teal);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 10px 0;
+  }
+  .speaking-card .prep{
+    font-weight:bold;
+    color: var(--teal);
+    text-transform: uppercase;
+    font-size:0.85em;
+    letter-spacing: 1px;
+  }
+  .thesis{
+    background: rgba(156,59,59,0.07);
+    border-left: 4px solid var(--red);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-style: italic;
+  }
+  footer{
+    text-align:center;
+    color: var(--brass-dark);
+    font-size: 0.85em;
+    margin-top: 20px;
+    opacity:0.85;
+  }
+  .fill-blank-word{
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--red);
+    font-weight:bold;
+  }
+  @media (max-width:600px){
+    header h1{ font-size:1.5em; }
+    .card{ padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="compass-wrap">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="56" fill="#0e332f" stroke="#d9a94a" stroke-width="3"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#d9a94a" stroke-width="1" opacity="0.6"/>
+      <text x="60" y="18" fill="#d9a94a" font-size="11" text-anchor="middle" font-family="Georgia, serif">N</text>
+      <text x="60" y="110" fill="#d9a94a" font-size="11" text-anchor="middle" font-family="Georgia, serif">S</text>
+      <text x="14" y="64" fill="#d9a94a" font-size="11" text-anchor="middle" font-family="Georgia, serif">W</text>
+      <text x="106" y="64" fill="#d9a94a" font-size="11" text-anchor="middle" font-family="Georgia, serif">O</text>
+      <g id="needle" transform="rotate(-90 60 60)" style="transition: transform 0.8s ease;">
+        <polygon points="60,20 66,60 60,66 54,60" fill="#e6c375"/>
+        <polygon points="60,100 66,60 60,54 54,60" fill="#7d5a10"/>
+      </g>
+      <circle cx="60" cy="60" r="5" fill="#d9a94a"/>
+    </svg>
+  </div>
+  <h1>Präpositions-Kompass</h1>
+  <p class="subtitle">Dativ-Präpositionen richtig einsetzen — Niveau B2</p>
+  <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+  <div id="progress-label">Gesamtpunktzahl: <span id="score-display">0</span> / 36</div>
+</header>
+
+<main>
+
+  <!-- GRAMMATIK-REFERENZ -->
+  <div class="card">
+    <span class="station-badge">Referenz</span>
+    <h2>Die 12 Wegweiser: Präpositionen mit Dativ</h2>
+    <p>Alle folgenden Präpositionen verlangen den <strong>Dativ</strong> (dank auch gehoben mit Genitiv). Nutze diese Tabelle als Nachschlagewerk während der Übungen.</p>
+    <table class="ref-table">
+      <tr><th>Präposition</th><th>Bedeutung</th><th>Beispiel</th><th>UA</th></tr>
+      <tr><td><strong>mit</strong></td><td>Begleitung, Mittel</td><td>Sie fährt mit dem Fahrrad zur Arbeit.</td><td class="ru">з (кимось / чимось)</td></tr>
+      <tr><td><strong>nach</strong></td><td>Richtung zu Städten/Ländern (ohne Artikel); zeitliche Abfolge</td><td>Er fliegt nach Japan. / Nach dem Essen räumen wir auf.</td><td class="ru">в/до (про міста, країни); після</td></tr>
+      <tr><td><strong>aus</strong></td><td>Herkunft, Material</td><td>Sie kommt aus der Ukraine. Der Tisch ist aus Holz.</td><td class="ru">з (походження, матеріал)</td></tr>
+      <tr><td><strong>zu</strong></td><td>Richtung zu Personen/Orten (mit Artikel); Zweck</td><td>Ich gehe zum Arzt. Zum Geburtstag schenke ich Blumen.</td><td class="ru">до; на (з метою)</td></tr>
+      <tr><td><strong>von</strong></td><td>Ausgangspunkt, Urheber, Ersatz für Genitiv</td><td>Das Geschenk ist von meiner Schwester.</td><td class="ru">від; належність</td></tr>
+      <tr><td><strong>bei</strong></td><td>Aufenthaltsort in der Nähe/bei jemandem; Umstand</td><td>Er wohnt bei seinen Eltern. Bei Regen bleiben wir zu Hause.</td><td class="ru">у (когось); під час</td></tr>
+      <tr><td><strong>seit</strong></td><td>Zeitpunkt in der Vergangenheit, der bis jetzt andauert</td><td>Seit einem Jahr lernt sie Deutsch.</td><td class="ru">з (моменту в минулому, дія триває)</td></tr>
+      <tr><td><strong>ab</strong></td><td>Zeitpunkt/Ort, ab dem etwas beginnt (meist Zukunft)</td><td>Ab nächster Woche arbeite ich in Berlin.</td><td class="ru">з (моменту, зазвичай у майбутньому)</td></tr>
+      <tr><td><strong>dank</strong></td><td>Positiver Grund</td><td>Dank deiner Hilfe habe ich bestanden.</td><td class="ru">завдяки</td></tr>
+      <tr><td><strong>gegenüber</strong></td><td>Position gegenüberliegend; Haltung/Einstellung. Kann vor <em>oder</em> nach dem Nomen stehen (bei Pronomen immer danach).</td><td>Das Café liegt dem Bahnhof gegenüber. Mir gegenüber ist er sehr freundlich.</td><td class="ru">навпроти; по відношенню до</td></tr>
+      <tr><td><strong>außer</strong></td><td>Ausnahme</td><td>Außer meinem Bruder waren alle pünktlich.</td><td class="ru">крім</td></tr>
+      <tr><td><strong>entgegen</strong></td><td>Gegensatz zu einer Erwartung, Regel oder einem Rat (gehoben)</td><td>Entgegen den Erwartungen hat das Team gewonnen.</td><td class="ru">всупереч; назустріч</td></tr>
+    </table>
+    <div class="note-box">
+      <strong>Merke — Kontraktionen:</strong> Nur <strong>zu, bei</strong> und <strong>von</strong> verschmelzen mit dem Artikel: zu dem → <strong>zum</strong>, zu der → <strong>zur</strong>, bei dem → <strong>beim</strong>, von dem → <strong>vom</strong>. Die anderen Präpositionen (mit, nach, aus, seit, ab, dank, gegenüber, außer, entgegen) bilden <em>keine</em> Standardkontraktion.
+    </div>
+  </div>
+
+  <!-- STATION 1: LÜCKENTEXT -->
+  <div class="card">
+    <span class="station-badge">Station 1</span>
+    <h2>Lückentext — Setze die passende Präposition ein</h2>
+    <p>Wortschatzhilfe: mit · nach · aus · zu · von · bei · seit · ab · dank · gegenüber · außer · entgegen</p>
+    <div id="luecken-container"></div>
+    <button class="btn" onclick="checkLuecken()">Prüfen</button>
+    <div class="result-box" id="luecken-result"></div>
+  </div>
+
+  <!-- STATION 2: MULTIPLE CHOICE -->
+  <div class="card">
+    <span class="station-badge">Station 2</span>
+    <h2>Feine Unterschiede — Multiple Choice</h2>
+    <p>Manche Präpositionen sind sich sehr ähnlich. Wähle die Form, die im Kontext richtig ist.</p>
+    <div id="mc-container"></div>
+    <button class="btn" onclick="checkMC()">Prüfen</button>
+    <div class="result-box" id="mc-result"></div>
+  </div>
+
+  <!-- STATION 3: ÜBERSETZUNG UKRAINISCH -> DEUTSCH -->
+  <div class="card">
+    <span class="station-badge">Station 3</span>
+    <h2>Übersetzung — Українська → Deutsch</h2>
+    <p>Übersetze die Sätze ins Deutsche. Achte auf die richtige Präposition und den Dativ. Schreib deine Version ins Feld und klicke dann auf „Lösung zeigen“, um zu vergleichen.</p>
+    <div id="translation-container"></div>
+    <button class="btn" onclick="markTranslationDone()">Station abgeschlossen</button>
+  </div>
+
+  <!-- STATION 4: FEHLERKORREKTUR -->
+  <div class="card">
+    <span class="station-badge">Station 4</span>
+    <h2>Fehlerkorrektur — Finde den Fehler</h2>
+    <p>In jedem Satz ist genau <strong>ein</strong> unterstrichenes Wort falsch. Schreib die korrigierte Form in das Feld.</p>
+    <div id="error-container"></div>
+    <button class="btn" onclick="checkErrors()">Prüfen</button>
+    <div class="result-box" id="error-result"></div>
+  </div>
+
+  <!-- STATION 5: KONTRAKTIONEN -->
+  <div class="card">
+    <span class="station-badge">Station 5</span>
+    <h2>Kontraktionen — zum, zur, beim, vom</h2>
+    <p><strong>Teil A:</strong> Bilde die Kontraktion.</p>
+    <div id="contraction-basic"></div>
+    <p style="margin-top:18px;"><strong>Teil B:</strong> Setze die richtige Kontraktion in den Satz ein.</p>
+    <div id="contraction-sentences"></div>
+    <button class="btn" onclick="checkContractions()">Prüfen</button>
+    <div class="result-box" id="contraction-result"></div>
+  </div>
+
+  <!-- STATION 6: SPRECHKARTEN -->
+  <div class="card">
+    <span class="station-badge">Station 6 · Mündlich</span>
+    <h2>Sprechkarten — keine Bewertung, nur sprechen!</h2>
+    <p>Beantworte die Fragen frei und mündlich. Achte darauf, die genannte Präposition korrekt zu verwenden.</p>
+    <div id="speaking-container"></div>
+    <h3 style="margin-top:22px;">Steile Thesen — kommentiere spontan</h3>
+    <div id="thesis-container"></div>
+    <button class="btn" onclick="markSpeakingDone()">Station abgeschlossen</button>
+  </div>
+
+  <footer>
+    Präpositions-Kompass · B2 · für den 1:1-Deutschunterricht
+  </footer>
+
+</main>
+
+<script>
+  // ---------- STATE ----------
+  const state = { luecken:false, mc:false, translation:false, error:false, contraction:false, speaking:false };
+  const scores = { luecken:0, mc:0, error:0, contraction:0 };
+  const maxScores = { luecken:12, mc:8, error:8, contraction:8 };
+
+  function updateProgress(){
+    const totalScore = Object.values(scores).reduce((a,b)=>a+b,0);
+    const totalMax = Object.values(maxScores).reduce((a,b)=>a+b,0);
+    document.getElementById('score-display').textContent = totalScore;
+    const stationsDone = Object.values(state).filter(Boolean).length;
+    const pct = Math.round((stationsDone/6)*100);
+    document.getElementById('progress-bar-inner').style.width = pct + '%';
+    const angle = -90 + (totalScore/totalMax)*180;
+    document.getElementById('needle').setAttribute('transform', 'rotate(' + angle + ' 60 60)');
+  }
+
+  function showResult(id, correctCount, total, extraHtml){
+    const box = document.getElementById(id);
+    box.style.display = 'block';
+    box.innerHTML = '<span class="' + (correctCount===total ? 'correct' : 'incorrect') + '">' +
+      correctCount + ' von ' + total + ' richtig' + (correctCount===total ? ' — ausgezeichnet! 🧭' : '') + '</span>' +
+      (extraHtml || '');
+  }
+
+  // ---------- STATION 1: LÜCKENTEXT ----------
+  const lueckenData = [
+    { text: "___ dem Konzert gehen wir noch etwas essen.", answer: "nach" },
+    { text: "Meine Großmutter kommt ursprünglich ___ Polen.", answer: "aus" },
+    { text: "Er fährt jeden Tag ___ dem Bus zur Uni.", answer: "mit" },
+    { text: "Ich gehe heute Nachmittag ___ meiner Tante.", answer: "zu" },
+    { text: "Dieses Rezept ist ___ meiner Oma.", answer: "von" },
+    { text: "___ ihren Eltern fühlt sie sich immer wohl.", answer: "bei" },
+    { text: "___ zwei Jahren wohnt er in Hamburg.", answer: "seit" },
+    { text: "___ nächstem Montag gilt die neue Regelung.", answer: "ab" },
+    { text: "___ deiner Unterstützung habe ich das Projekt rechtzeitig fertig bekommen.", answer: "dank" },
+    { text: "Der Kindergarten liegt der Schule ___.", answer: "gegenüber" },
+    { text: "___ meinem Kollegen waren alle mit dem Ergebnis zufrieden.", answer: "außer" },
+    { text: "___ allen Warnungen sind sie losgefahren.", answer: "entgegen" }
+  ];
+
+  function renderLuecken(){
+    const c = document.getElementById('luecken-container');
+    lueckenData.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      const parts = item.text.split('___');
+      div.innerHTML = (i+1) + '. ' + parts[0] +
+        '<input type="text" id="luecke-' + i + '" autocomplete="off"> ' + parts[1];
+      c.appendChild(div);
+    });
+  }
+
+  function checkLuecken(){
+    let correct = 0;
+    lueckenData.forEach((item, i) => {
+      const input = document.getElementById('luecke-' + i);
+      const val = input.value.trim().toLowerCase();
+      const ok = val === item.answer;
+      input.style.background = ok ? '#e3f2e1' : '#fbe4e4';
+      if(ok){ correct++; } else { input.title = 'Richtig: ' + item.answer; }
+    });
+    scores.luecken = correct;
+    state.luecken = true;
+    showResult('luecken-result', correct, lueckenData.length, '<br><span style="font-size:0.85em;">Falsche Felder sind rot markiert — fahr mit der Maus über das Feld für die Lösung.</span>');
+    updateProgress();
+  }
+
+  // ---------- STATION 2: MULTIPLE CHOICE ----------
+  const mcData = [
+    { q: "Woher kommt dieser Käse? – Er kommt ___ der Schweiz.", options: ["aus","von","nach"], answer: "aus" },
+    { q: "Wer hat dir das gesagt? – Das habe ich ___ meinem Chef gehört.", options: ["aus","von","bei"], answer: "von" },
+    { q: "Ich fahre am Wochenende ___ meinen Eltern, um sie zu besuchen.", options: ["bei","zu","mit"], answer: "zu" },
+    { q: "Am Wochenende bin ich meistens ___ meinen Eltern, und wir kochen zusammen.", options: ["bei","zu","nach"], answer: "bei" },
+    { q: "___ letztem Jahr spreche ich fließend Spanisch.", options: ["Ab","Seit","Bei"], answer: "Seit" },
+    { q: "___ dem 1. Januar gelten die neuen Preise.", options: ["Seit","Ab","Dank"], answer: "Ab" },
+    { q: "Das Blumengeschäft ist genau ___ der Apotheke.", options: ["gegenüber","entgegen","außer"], answer: "gegenüber" },
+    { q: "___ dem Rat des Arztes hat er weiter geraucht.", options: ["gegenüber","entgegen","dank"], answer: "entgegen" }
+  ];
+
+  function renderMC(){
+    const c = document.getElementById('mc-container');
+    mcData.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      let optsHtml = '<div class="mc-options">';
+      item.options.forEach((opt, j) => {
+        optsHtml += '<label><input type="radio" name="mc-' + i + '" value="' + opt + '"> ' + opt + '</label>';
+      });
+      optsHtml += '</div>';
+      div.innerHTML = '<strong>' + (i+1) + '.</strong> ' + item.q + optsHtml;
+      c.appendChild(div);
+    });
+  }
+
+  function checkMC(){
+    let correct = 0;
+    mcData.forEach((item, i) => {
+      const radios = document.getElementsByName('mc-' + i);
+      let selected = null;
+      radios.forEach(r => { if(r.checked) selected = r.value; });
+      const label = radios[0].closest('.exercise-item');
+      if(selected === item.answer){
+        correct++;
+        label.style.background = '#e3f2e1';
+      } else {
+        label.style.background = '#fbe4e4';
+      }
+    });
+    scores.mc = correct;
+    state.mc = true;
+    showResult('mc-result', correct, mcData.length);
+    updateProgress();
+  }
+
+  // ---------- STATION 3: ÜBERSETZUNG UKRAINISCH -> DEUTSCH ----------
+  const translationData = [
+    { ua: "Він завжди подорожує з друзями.", de: "Er reist immer mit Freunden.", prep: "mit" },
+    { ua: "Після роботи я йду додому.", de: "Nach der Arbeit gehe ich nach Hause.", prep: "nach" },
+    { ua: "Ця сумка зроблена зі шкіри.", de: "Diese Tasche ist aus Leder gemacht.", prep: "aus" },
+    { ua: "У суботу я йду в гості до своєї бабусі.", de: "Am Samstag gehe ich zu meiner Großmutter.", prep: "zu" },
+    { ua: "Цей лист від мого брата.", de: "Dieser Brief ist von meinem Bruder.", prep: "von" },
+    { ua: "Коли на вулиці дощ, ми залишаємось удома.", de: "Bei Regen bleiben wir zu Hause.", prep: "bei" },
+    { ua: "Він живе в цьому місті вже три роки.", de: "Er wohnt seit drei Jahren in dieser Stadt.", prep: "seit" },
+    { ua: "З наступного тижня діють нові ціни.", de: "Ab nächster Woche gelten die neuen Preise.", prep: "ab" },
+    { ua: "Завдяки твоїй допомозі я склав іспит.", de: "Dank deiner Hilfe habe ich die Prüfung bestanden.", prep: "dank" },
+    { ua: "Аптека знаходиться навпроти вокзалу.", de: "Die Apotheke liegt dem Bahnhof gegenüber.", prep: "gegenüber" },
+    { ua: "Крім мого брата, усі прийшли вчасно.", de: "Außer meinem Bruder sind alle pünktlich gekommen.", prep: "außer" },
+    { ua: "Всупереч прогнозу погоди, почався дощ.", de: "Entgegen der Wettervorhersage hat es angefangen zu regnen.", prep: "entgegen" }
+  ];
+
+  function renderTranslation(){
+    const c = document.getElementById('translation-container');
+    translationData.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      div.innerHTML =
+        (i+1) + '. <em>' + item.ua + '</em><br>' +
+        '<input type="text" id="trans-' + i + '" autocomplete="off" style="width:100%; max-width:480px; margin-top:6px;" placeholder="Deine Übersetzung...">' +
+        ' <button class="btn" style="padding:6px 14px; font-size:0.85em; margin-left:6px;" onclick="toggleSolution(' + i + ')">Lösung zeigen</button>' +
+        '<div id="trans-solution-' + i + '" style="display:none; margin-top:6px; color:var(--teal); font-weight:bold;">' + item.de + '</div>';
+      c.appendChild(div);
+    });
+  }
+
+  function toggleSolution(i){
+    const box = document.getElementById('trans-solution-' + i);
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function markTranslationDone(){
+    state.translation = true;
+    updateProgress();
+  }
+
+  // ---------- STATION 4: FEHLERKORREKTUR ----------
+  const errorData = [
+    { before: "Er wohnt seit drei ", wrong: "Jahre", after: " in Berlin.", answer: "jahren" },
+    { before: "Nach der Schule gehe ich zu ", wrong: "meine", after: " Freundin.", answer: "meiner" },
+    { before: "Das Auto ist ", wrong: "aus", after: " meinem Vater.", answer: "von" },
+    { before: "Ab der ", wrong: "nächste", after: " Woche habe ich frei.", answer: "nächsten" },
+    { before: "Dank ", wrong: "sein", after: " Fleiß hat er die Prüfung bestanden.", answer: "seinem" },
+    { before: "Das Hotel liegt ", wrong: "der", after: " Bahnhof gegenüber.", answer: "dem" },
+    { before: "Entgegen ", wrong: "die", after: " Erwartungen hat das Team verloren.", answer: "den" },
+    { before: "Außer ", wrong: "mein", after: " Bruder kommen alle zur Party.", answer: "meinem" }
+  ];
+
+  function renderErrors(){
+    const c = document.getElementById('error-container');
+    errorData.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      div.innerHTML = (i+1) + '. ' + item.before +
+        '<span class="fill-blank-word">' + item.wrong + '</span>' + item.after +
+        '<br>Korrektur: <input type="text" id="error-' + i + '" autocomplete="off">';
+      c.appendChild(div);
+    });
+  }
+
+  function checkErrors(){
+    let correct = 0;
+    errorData.forEach((item, i) => {
+      const input = document.getElementById('error-' + i);
+      const val = input.value.trim().toLowerCase();
+      const ok = val === item.answer.toLowerCase();
+      input.style.background = ok ? '#e3f2e1' : '#fbe4e4';
+      if(ok) correct++;
+    });
+    scores.error = correct;
+    state.error = true;
+    showResult('error-result', correct, errorData.length, '<br><span style="font-size:0.85em;">Tipp: Achte auf Präposition <em>und</em> Dativ-Endung.</span>');
+    updateProgress();
+  }
+
+  // ---------- STATION 5: KONTRAKTIONEN ----------
+  const contractionBasic = [
+    { text: "zu + dem = ", answer: "zum" },
+    { text: "zu + der = ", answer: "zur" },
+    { text: "bei + dem = ", answer: "beim" },
+    { text: "von + dem = ", answer: "vom" }
+  ];
+  const contractionSentences = [
+    { before: "Ich gehe ", after: " Bäcker um die Ecke.", answer: "zum" },
+    { before: "Sie fährt jeden Morgen ", after: " Uni mit dem Rad.", answer: "zur" },
+    { before: "Er wohnt noch ", after: " Onkel.", answer: "beim" },
+    { before: "Das Buch ist ", after: " Lehrer.", answer: "vom" }
+  ];
+
+  function renderContractions(){
+    const basicC = document.getElementById('contraction-basic');
+    contractionBasic.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      div.innerHTML = (i+1) + '. ' + item.text + '<input type="text" id="contr-basic-' + i + '" autocomplete="off" style="width:80px;">';
+      basicC.appendChild(div);
+    });
+    const sentC = document.getElementById('contraction-sentences');
+    contractionSentences.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'exercise-item';
+      div.innerHTML = (i+1) + '. ' + item.before + '<input type="text" id="contr-sent-' + i + '" autocomplete="off" style="width:80px;">' + item.after;
+      sentC.appendChild(div);
+    });
+  }
+
+  function checkContractions(){
+    let correct = 0;
+    contractionBasic.forEach((item, i) => {
+      const input = document.getElementById('contr-basic-' + i);
+      const ok = input.value.trim().toLowerCase() === item.answer;
+      input.style.background = ok ? '#e3f2e1' : '#fbe4e4';
+      if(ok) correct++;
+    });
+    contractionSentences.forEach((item, i) => {
+      const input = document.getElementById('contr-sent-' + i);
+      const ok = input.value.trim().toLowerCase() === item.answer;
+      input.style.background = ok ? '#e3f2e1' : '#fbe4e4';
+      if(ok) correct++;
+    });
+    scores.contraction = correct;
+    state.contraction = true;
+    showResult('contraction-result', correct, contractionBasic.length + contractionSentences.length);
+    updateProgress();
+  }
+
+  // ---------- STATION 6: SPRECHKARTEN ----------
+  const speakingData = [
+    { prep: "mit", q: "Womit fährst du normalerweise zur Arbeit oder zur Schule?" },
+    { prep: "nach", q: "Was machst du normalerweise direkt nach dem Aufstehen?" },
+    { prep: "aus", q: "Woher kommst du ursprünglich, und was schätzt du an deiner Heimat?" },
+    { prep: "zu", q: "Zu wem gehst du, wenn du ein Problem hast?" },
+    { prep: "von", q: "Was war das schönste Geschenk, das du je von jemandem bekommen hast?" },
+    { prep: "bei", q: "Bei wem fühlst du dich immer besonders wohl?" },
+    { prep: "seit", q: "Seit wann wohnst oder arbeitest du an deinem jetzigen Ort?" },
+    { prep: "ab", q: "Was wirst du ab nächstem Jahr in deinem Leben anders machen?" },
+    { prep: "dank", q: "Wem oder was verdankst du deinen größten Erfolg?" },
+    { prep: "gegenüber", q: "Wie verhältst du dich Fremden gegenüber?" },
+    { prep: "außer", q: "Was würdest du niemals essen, außer du hättest wirklich keine andere Wahl?" },
+    { prep: "entgegen", q: "Hast du schon einmal etwas entgegen dem Rat anderer gemacht? Wie ist es ausgegangen?" }
+  ];
+  const thesisData = [
+    "Dank der sozialen Medien sind wir heute besser vernetzt als je zuvor.",
+    "Entgegen der landläufigen Meinung macht Geld doch glücklich."
+  ];
+
+  function renderSpeaking(){
+    const c = document.getElementById('speaking-container');
+    speakingData.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'speaking-card';
+      div.innerHTML = '<div class="prep">' + item.prep + '</div>' + item.q;
+      c.appendChild(div);
+    });
+    const t = document.getElementById('thesis-container');
+    thesisData.forEach(txt => {
+      const div = document.createElement('div');
+      div.className = 'thesis';
+      div.textContent = '„' + txt + '“';
+      t.appendChild(div);
+    });
+  }
+
+  function markSpeakingDone(){
+    state.speaking = true;
+    updateProgress();
+  }
+
+  // ---------- INIT ----------
+  renderLuecken();
+  renderMC();
+  renderTranslation();
+  renderErrors();
+  renderContractions();
+  renderSpeaking();
+  updateProgress();
+</script>
+
+</body>
+</html>
